@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import image_check from 'public/images/check.png';
 import React from 'react';
 
 function user_check() {
@@ -86,8 +87,10 @@ function user_check() {
                 className='h-[190px] w-[70%] rounded-full bg-[#85A547]'
               >
                 <Image
+                  width={24}
+                  height={24}
                   className='ml-10 h-24 w-24 align-middle'
-                  src='images/check.png'
+                  src={image_check}
                   alt='imagen de un check'
                 />
               </button>
