@@ -4,12 +4,11 @@ export default function Document() {
   return (
     <Html lang='en'>
       <Head>
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
         <link
-          rel='preload'
-          href='/fonts/inter-var-latin.woff2'
-          as='font'
-          type='font/woff2'
-          crossOrigin='anonymous'
+          href='https://fonts.googleapis.com/css2?family=Karla:wght@300&family=Playfair+Display&display=swap'
+          rel='stylesheet'
         />
       </Head>
       <body>
