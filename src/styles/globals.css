@@ -37,6 +37,24 @@
   }
 }
 
+@layer mainDiv {
+  .mainDiv {
+    @apply flex h-screen w-screen items-center justify-center bg-black;
+  }
+}
+
+@layer containerContact {
+  .containerContact {
+    @apply flex h-fit w-[360px] flex-col gap-4 rounded-3xl bg-white p-7;
+  }
+}
+
+@layer formContact {
+  .formContact {
+    @apply flex flex-col gap-4 font-secondary;
+  }
+}
+
 @layer base {
   /* inter var - latin */
   @font-face {
