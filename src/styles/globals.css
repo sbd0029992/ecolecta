@@ -45,13 +45,13 @@
 
 @layer containerContact {
   .containerContact {
-    @apply flex h-fit w-[360px] flex-col gap-4 rounded-3xl bg-white p-7;
+    @apply flex h-fit w-[360px] flex-col gap-4 rounded-[60px] bg-white p-7 sm:w-auto md:w-3/4 lg:flex lg:w-2/3 lg:flex-row lg:justify-evenly;
   }
 }
 
 @layer formContact {
   .formContact {
-    @apply flex flex-col gap-4 font-secondary;
+    @apply flex w-full flex-col gap-4 font-secondary;
   }
 }
 
