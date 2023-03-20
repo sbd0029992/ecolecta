@@ -2,7 +2,7 @@ import React from 'react';
 
 const CarritoCheck = () => {
   return (
-    <div className='h-screen bg-black'>
+    <div className='h-screen bg-black lg:h-full'>
       <div className='flex flex-col '>
         <div className='flex justify-end'>
           <div className='m-5 rounded-2xl bg-gray-300 p-2'>
@@ -10,8 +10,8 @@ const CarritoCheck = () => {
           </div>
         </div>
         <div>
-          <div className='flex justify-center text-white'>
-            <table className='table-auto'>
+          <div className='flex justify-center  text-white'>
+            <table className='w-3/4 table-auto  lg:w-[800px]'>
               <thead>
                 <tr>
                   <th className='px-4 py-2 text-center'></th>
@@ -22,10 +22,12 @@ const CarritoCheck = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td className='flex  border px-4 py-2 text-center'>
-                    <div className='flex flex-col gap-2'>
-                      <div className='h-20 w-14 bg-white'></div>
-                      <button className='rounded-lg bg-red-500'>Quitar</button>
+                  <td className='flex  place-content-center border px-4 py-2 text-center'>
+                    <div className='flex flex-col justify-center  gap-2'>
+                      <div className='h-20 w-14 bg-white sm:h-32 sm:w-20 lg:h-40 lg:w-32'></div>
+                      <button className='rounded-lg bg-red-500 lg:h-9'>
+                        Quitar
+                      </button>
                     </div>
                   </td>
                   <td className='border px-4 py-2 text-center'>Baldes</td>
@@ -33,10 +35,12 @@ const CarritoCheck = () => {
                   <td className='border px-4 py-2 text-center'>100</td>
                 </tr>
                 <tr>
-                  <td className='flex  border px-4 py-2 text-center'>
-                    <div className='flex flex-col gap-2'>
-                      <div className='h-20 w-14 bg-white'></div>
-                      <button className='rounded-lg bg-red-500'>Quitar</button>
+                  <td className='flex  place-content-center border px-4 py-2 text-center'>
+                    <div className='flex flex-col justify-center  gap-2'>
+                      <div className='h-20 w-14 bg-white sm:h-32 sm:w-20 lg:h-40 lg:w-32'></div>
+                      <button className='rounded-lg bg-red-500 lg:h-9 '>
+                        Quitar
+                      </button>
                     </div>
                   </td>
                   <td className='border px-4 py-2 text-center'>Botellas</td>
