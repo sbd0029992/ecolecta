@@ -32,7 +32,7 @@ function Profile() {
             <div className='flex flex-col items-center gap-5'>
               <label class='relative inline-flex cursor-pointer items-center self-center'>
                 <input type='checkbox' value='' class='peer sr-only' />
-                <div class="peer h-12 w-20 rounded-full bg-gray-200 after:absolute after:top-[2px] after:left-[2px] after:h-10 after:w-10 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
+                <div class="peer h-11 w-20 rounded-full bg-gray-200 after:absolute after:top-[2px] after:left-[2px] after:h-10 after:w-10 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
               </label>
               <h1 className='text-white'>Tabla Posicion</h1>
             </div>
