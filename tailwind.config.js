@@ -17,6 +17,7 @@ module.exports = {
         tertiary: '#2D2F19',
         subtitle: '#4A4A4A',
         dark: '#222222',
+        prymary: '#85A547',
       },
       keyframes: {
         flicker: {
