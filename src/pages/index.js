@@ -31,6 +31,12 @@ function Index() {
       image: '/images/juguete.jpg',
       points: '200',
     },
+    {
+      id: '4',
+      title: 'Juguete',
+      image: '/images/juguete.jpg',
+      points: '500',
+    },
   ];
   return (
     <div class='bg-secondary p-6'>
