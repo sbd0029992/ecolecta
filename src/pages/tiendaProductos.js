@@ -33,9 +33,9 @@ function TiendaProductos() {
     <div className='h-full min-h-screen bg-black'>
       <div className='flex flex-col p-3'>
         <div className='flex justify-end'>
-          <div className='m-5 rounded-2xl bg-gray-300 p-2'>
+          {/* <div className='m-5 rounded-2xl bg-gray-300 p-2'>
             <h1 className='text-lg'>MIS PUNTOS: 2000</h1>
-          </div>
+          </div> */}
         </div>
         <div className='grid grid-flow-row items-center justify-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {values.map((value) => (

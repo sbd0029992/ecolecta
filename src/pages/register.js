@@ -1,4 +1,5 @@
 import { GoogleMap, MarkerF, useLoadScript } from '@react-google-maps/api';
+import Link from 'next/link';
 import React, { useMemo, useRef } from 'react';
 
 function Register() {
@@ -20,17 +21,6 @@ function Register() {
   if (!isLoaded) {
     return <p>Loading...</p>;
   }
-
-  // const handleMarkerDragEnd = () => {
-  //   const pos = markerRef.marker.marker();
-  //   let lat = pos.lat();
-  //   let lng = pos.lng();
-
-  //   // Asignar la posición a las variables de ASP.NET
-  //   document.getElementById('latitudeMap').innerHTML = lat;
-  //   document.getElementById('longitudeMap').innerHTML = lng;
-  //   // Aquí puede agregar su código para actualizar los valores de latitud y longitud
-  // };
 
   return (
     <div className='flex justify-center bg-black'>
@@ -199,13 +189,13 @@ function Register() {
               />
             </div>
             <div>
-              <a
+              <Link
                 href='/login'
                 for='first_name'
                 class='mb-2 mt-2 block text-center text-sm font-bold dark:text-white'
               >
                 Tengo mi cuenta
-              </a>
+              </Link>
             </div>
             <div className='flex justify-center'>
               <button

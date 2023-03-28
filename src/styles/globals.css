@@ -39,7 +39,7 @@
 
 @layer mainDiv {
   .mainDiv {
-    @apply flex h-screen w-screen items-center justify-center bg-black;
+    @apply flex h-screen w-full items-center justify-center bg-black;
   }
 }
 
