@@ -1,4 +1,5 @@
 import { GoogleMap, MarkerF, useLoadScript } from '@react-google-maps/api';
+import Link from 'next/link';
 import React, { useMemo, useRef } from 'react';
 
 function Register() {
@@ -199,13 +200,13 @@ function Register() {
               />
             </div>
             <div>
-              <a
+              <Link
                 href='/login'
                 for='first_name'
                 class='mb-2 mt-2 block text-center text-sm font-bold dark:text-white'
               >
                 Tengo mi cuenta
-              </a>
+              </Link>
             </div>
             <div className='flex justify-center'>
               <button

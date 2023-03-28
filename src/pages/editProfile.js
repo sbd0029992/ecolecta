@@ -1,7 +1,8 @@
-import React from 'react';
+import { GoogleMap, MarkerF, useLoadScript } from '@react-google-maps/api';
+import React, { useMemo, useRef } from 'react';
 
-function editProfile() {
-  /*const markerRef = useRef();
+function EditProfile() {
+  const markerRef = useRef();
 
   var centerMap = {
     lat: -17.404357772400502,
@@ -18,7 +19,7 @@ function editProfile() {
 
   if (!isLoaded) {
     return <p>Loading...</p>;
-  }*/
+  }
 
   // const handleMarkerDragEnd = () => {
   //   const pos = markerRef.marker.marker();
@@ -134,11 +135,33 @@ function editProfile() {
               >
                 UBICACION
               </label>
-              <div class='h-[300px] w-[250px]'></div>
+              <div class='h-[300px] w-[250px]'>
+                <GoogleMap
+                  // eslint-disable-next-line no-undef
+                  mapTypeId={google.maps.MapTypeId.HYBRID}
+                  zoom={14}
+                  center={centerMap}
+                  mapContainerStyle={{
+                    width: '100%',
+                    height: '100%',
+                  }}
+                >
+                  <MarkerF
+                    id='markerComponent'
+                    ref={markerRef}
+                    position={centerMap}
+                    draggable={true}
+                    // onDragEnd={onPositionChanged}
+                    // onClick={() => {
+                    //   // console.log('marker position', markerRef);
+                    // }}
+                  />
+                </GoogleMap>
+              </div>
+              <div class='h-[50px] w-[250px]'></div>
               <input id='latitudeMap' value='-17,40005043784094' />
               <input id='longitudeMap' value='-66,15881707399646' />
             </div>
-
             <div className='flex justify-center'>
               <button
                 type='button'
@@ -154,4 +177,4 @@ function editProfile() {
   );
 }
 
-export default editProfile;
+export default EditProfile;
