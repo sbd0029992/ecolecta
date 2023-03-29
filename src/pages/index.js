@@ -63,7 +63,7 @@ function Index() {
         </div>
       </div>
       {/* Afiliados */}
-      <div class='flex  flex-col gap-5 md:flex md:h-auto md:flex-row md:items-center'>
+      <div class='flex h-full min-h-screen flex-col items-center justify-center gap-5 md:flex md:h-auto md:flex-row md:items-center'>
         <div className='flex flex-col gap-5 md:w-2/4'>
           <h1 class=' text-white md:mt-0 '>Afiliados</h1>
           <p className='text-base text-white'>
@@ -72,30 +72,30 @@ function Index() {
             totam harum
           </p>
         </div>
-        <div class=' grid grid-flow-row grid-cols-2 gap-5 md:w-3/4 '>
+        <div class='grid grid-flow-row grid-cols-2 items-center gap-5 self-center md:w-3/4 '>
           <Image
-            className='h-full w-full rounded-full p-1 md:h-72 md:w-72 '
+            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px] '
             src='/images/icon-kallpalla-color.png'
             width={100}
             height={100}
             alt='imagen de un check'
           />
           <Image
-            className='h-full w-full rounded-full p-1  md:h-72 md:w-72'
+            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px]'
             src='/images/icon-kallpalla-color.png'
             width={100}
             height={100}
             alt='imagen de un check'
           />
           <Image
-            className='h-full w-full rounded-full p-1 md:h-72 md:w-72 '
+            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px]'
             src='/images/icon-kallpalla-color.png'
             width={100}
             height={100}
             alt='imagen de un check'
           />
           <Image
-            className='h-full w-full rounded-full p-1  md:h-72 md:w-72'
+            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px]  lg:h-[300px] lg:w-[300px]'
             src='/images/icon-kallpalla-color.png'
             width={100}
             height={100}
@@ -104,34 +104,36 @@ function Index() {
         </div>
       </div>
       {/* Bonus */}
-      <div class='flex flex-col justify-center  gap-6 '>
-        <h1 class=' mt-5 text-white '>Inicia y Gana</h1>
-        <p className='text-base text-white'>
-          Por completar estas actividades gana puntos que podras intercambiar
-          por productos
-        </p>
-        <div class='grid grid-flow-row grid-cols-2 gap-5'>
+      <div class='flex h-screen flex-col items-center justify-center gap-6 '>
+        <div className='flex w-full flex-col items-start justify-start gap-5'>
+          <h1 class='  text-white '>Inicia y Gana</h1>
+          <p className='text-base text-white'>
+            Por completar estas actividades gana puntos que podras intercambiar
+            por productos
+          </p>
+        </div>
+        <div class='grid grid-flow-row grid-cols-2 gap-10 '>
           <div class='flex flex-col items-center justify-center gap-2'>
-            <FaBirthdayCake className='h-72 w-3/4' />
+            <FaBirthdayCake className='h-full w-full md:h-[200px] md:w-[300px]' />
             <p class='text-base text-white'> Por Cumpleaños</p>
           </div>
           <div class='flex flex-col items-center justify-center gap-2'>
-            <FaFacebook className='h-72 w-3/4' />
+            <FaFacebook className='h-full w-full md:h-[200px] md:w-[300px]' />
             <p class='text-base text-white'> Por Compartir</p>
           </div>
 
           <div class='flex flex-col items-center justify-center gap-2'>
-            <FaComment className='h-72 w-3/4' />
+            <FaComment className='h-full w-full md:h-[200px] md:w-[300px]' />
             <p class='text-base text-white'> Por Comentar</p>
           </div>
           <div class='flex flex-col items-center justify-center gap-2'>
-            <FaShare className='h-72 w-3/4' />
+            <FaShare className='h-full w-full md:h-[200px] md:w-[300px]' />
             <p class='text-base text-white'> Por Comparit</p>
           </div>
         </div>
       </div>
       {/* Cambio de productos */}
-      <div class='flex  flex-col justify-center gap-5 '>
+      <div class='flex h-full min-h-screen flex-col justify-center gap-5 '>
         <h1 class=' text-white'>Cambio de puntos</h1>
         <p className='text-base text-white'>
           Cambia los puntos por nuestros fabulosos productos
@@ -145,23 +147,25 @@ function Index() {
         </div>
       </div>
       {/* Mas sobre nosotros */}
-      <div class='flex  flex-col gap-5 '>
-        <h1 class=' text-white lg:ml-[70px] lg:mt-[100px] xl:ml-[500px]'>
-          Mas Sobre Nosotros{' '}
-        </h1>
-        <Image
-          class='h-52 w-full  md:h-[700px] md:w-[700px] lg:ml-[150px] xl:ml-[350px]'
-          src={imaimport}
-          alt='imagen de un check'
-        />
-        <Image
-          class='h-52 w-full  md:h-[700px] md:w-[700px] lg:ml-[150px] xl:ml-[350px]'
-          src={imaimport}
-          alt='imagen de un check'
-        />
+      <div class='mb-5 flex h-full min-h-screen flex-col  gap-5 '>
+        <div className='w-full text-start '>
+          <h1 class=' text-white'>Mas Sobre Nosotros </h1>
+        </div>
+        <div className='flex h-[85vh] w-full flex-col gap-5 md:flex-row'>
+          <Image
+            src={imaimport}
+            className='h-full w-full md:w-1/2 '
+            alt='imagen de un check'
+          />
+          <Image
+            src={imaimport}
+            className='h-full w-full md:w-1/2 '
+            alt='imagen de un check'
+          />
+        </div>
       </div>
       {/* Clubes */}
-      <div class='flex flex-col justify-center gap-5'>
+      <div class='flex h-full min-h-[75vh]  flex-col  gap-5'>
         <h1 class='text-white '>Club</h1>
         <div class='flex flex-col gap-5'>
           <p className='text-base text-white'>
@@ -169,15 +173,15 @@ function Index() {
           </p>
           <div className='grid grid-flow-row grid-cols-2 justify-around gap-3 md:flex md:flex-row'>
             <div className='flex flex-col gap-2'>
-              <FaMedal className='h-auto w-40 text-[#cd7f32]' />
+              <FaMedal className='h-auto w-40 text-[#cd7f32] lg:w-64' />
               <p className='text-center text-white'>Club Bronce</p>
             </div>
             <div className='flex flex-col gap-2'>
-              <FaMedal className='h-auto w-40 text-[#c0c0c0]' />
+              <FaMedal className='h-auto w-40 text-[#c0c0c0] lg:w-64' />
               <p className='text-center text-white'>Club Plata</p>
             </div>
             <div className='flex flex-col gap-2'>
-              <FaMedal className='h-auto w-40 text-[#ffd700]' />
+              <FaMedal className='h-auto w-40 text-[#ffd700] lg:w-64' />
               <p className='text-center text-white'>Club Oro</p>
             </div>
           </div>
