@@ -16,7 +16,7 @@ function Layout({ children }) {
           <Navbar />
         </div>
       )}
-      <main>{children}</main>
+      <main className='h-full'>{children}</main>
       {noFooter.includes(asPath) ? null : <Footer />}
     </React.Fragment>
   );

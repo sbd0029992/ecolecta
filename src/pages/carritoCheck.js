@@ -1,8 +1,29 @@
+import Image from 'next/image';
 import React from 'react';
 
 const CarritoCheck = () => {
+  const values = [
+    {
+      id: '1',
+      title: 'Peluche ',
+      image: '/images/juguete.jpg',
+      points: '300',
+      cantidad: 2,
+    },
+  ];
+
+  function sumarPuntos(array) {
+    let totalPuntos = 0;
+    for (let i = 0; i < array.length; i++) {
+      totalPuntos += parseInt(array[i].points) * array[i].cantidad;
+    }
+    return totalPuntos;
+  }
+
+  const totalPuntos = sumarPuntos(values);
+
   return (
-    <div className='h-screen bg-black lg:h-full'>
+    <div className='h-full min-h-[70vh] bg-black '>
       <div className='flex flex-col '>
         <div className='flex justify-end'>
           <div className='m-5 rounded-2xl bg-gray-300 p-2'>
@@ -21,40 +42,41 @@ const CarritoCheck = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className='flex  place-content-center border px-4 py-2 text-center'>
-                    <div className='flex flex-col justify-center  gap-2'>
-                      <div className='h-20 w-14 bg-white sm:h-32 sm:w-20 lg:h-40 lg:w-32'></div>
-                      <button className='rounded-lg bg-red-500 lg:h-9'>
-                        Quitar
-                      </button>
-                    </div>
-                  </td>
-                  <td className='border px-4 py-2 text-center'>Baldes</td>
-                  <td className='border px-4 py-2 text-center'>2</td>
-                  <td className='border px-4 py-2 text-center'>100</td>
-                </tr>
-                <tr>
-                  <td className='flex  place-content-center border px-4 py-2 text-center'>
-                    <div className='flex flex-col justify-center  gap-2'>
-                      <div className='h-20 w-14 bg-white sm:h-32 sm:w-20 lg:h-40 lg:w-32'></div>
-                      <button className='rounded-lg bg-red-500 lg:h-9 '>
-                        Quitar
-                      </button>
-                    </div>
-                  </td>
-                  <td className='border px-4 py-2 text-center'>Botellas</td>
-                  <td className='border px-4 py-2 text-center'>3</td>
-                  <td className='border px-4 py-2 text-center'>150</td>
-                </tr>
+                {values.map((value) => (
+                  <tr key={value.i}>
+                    <td className='flex  place-content-center border px-4 py-2 text-center'>
+                      <div className='flex flex-col justify-center  gap-2'>
+                        <Image
+                          src={value.image}
+                          className='h-20 w-14 sm:h-32 sm:w-20 lg:h-40 lg:w-32'
+                          width={100}
+                          height={100}
+                          alt='Product Iamge'
+                        />
+                        <button className='rounded-lg bg-red-500 lg:h-9'>
+                          Quitar
+                        </button>
+                      </div>
+                    </td>
+                    <td className='border px-4 py-2 text-center'>
+                      {value.title}
+                    </td>
+                    <td className='border px-4 py-2 text-center'>
+                      {value.cantidad}
+                    </td>
+                    <td className='border px-4 py-2 text-center'>
+                      {value.points}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
           <div className='mt-5 flex flex-col gap-4'>
             <div className='text-center text-white'>
-              <h2>Total Puntos: 250</h2>
+              <h2>Total Puntos: {totalPuntos} </h2>
             </div>
-            <div className='text-center'>
+            <div className='mb-[5%] text-center'>
               <button className='h-12 w-40 rounded-2xl bg-primary text-xl text-white'>
                 Confirmar
               </button>

@@ -24,13 +24,8 @@ function TiendaPuntos() {
     },
   ];
   return (
-    <div className='h-full min-h-screen bg-black'>
+    <div className='h-full min-h-[70vh] bg-black'>
       <div className='flex flex-col p-3'>
-        <div className='flex justify-end'>
-          <div className='m-5 rounded-2xl bg-gray-300 p-2'>
-            <h1 className='text-lg'>MIS PUNTOS: 2000</h1>
-          </div>
-        </div>
         <div className='grid grid-flow-row items-center justify-center sm:grid-cols-2 lg:grid-cols-3'>
           {values.map((value) => (
             <Point data={value} key={value.id} />

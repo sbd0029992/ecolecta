@@ -12,8 +12,8 @@ import { FaInstagram } from 'react-icons/fa';
 
 function Contact() {
   return (
-    <div className='mainDiv'>
-      <div className='containerContact'>
+    <div className='flex h-full w-full items-center justify-center bg-black py-14 sm:py-10 md:h-[70vh] '>
+      <div className='flex h-fit w-[360px] flex-col gap-4 rounded-[60px] bg-white p-7 sm:w-[500px] md:w-[600px] lg:flex lg:h-[400px] lg:w-[750px] lg:flex-row lg:justify-evenly'>
         <div className='lg:w-1/2 '>
           <h1 className=' mb-3 text-primary'>Contactanos</h1>
           <p className='mb-3'>
@@ -33,11 +33,11 @@ function Contact() {
               placeholder='Email'
             />
             <textarea
-              className='sm: rounded-md border-0 bg-gray-200  text-sm placeholder-secondary placeholder:tracking-wider'
+              className='border-0 bg-gray-200 text-sm placeholder-secondary placeholder:tracking-wider sm:rounded-md'
               name='escribe'
               id='escribe'
               cols='20'
-              rows='5'
+              rows='3'
               placeholder='Escribamos'
             ></textarea>
             <div className='lg:hidden'>
@@ -61,7 +61,7 @@ function Contact() {
             </div>
           </form>
         </div>
-        <div className='-col hidden  flex-col items-center justify-center gap-10 lg:flex lg:w-1/2 '>
+        <div className='hidden flex-col items-center justify-center gap-10 lg:flex lg:w-1/2 '>
           <div className='m-0 h-1/2 w-1/2  bg-black'></div>
           <div className='flex flex-col gap-3'>
             <div className='flex items-center'>
@@ -79,7 +79,7 @@ function Contact() {
           </div>
         </div>
       </div>
-      <div className='mt-[100px] hidden w-14 flex-col items-center gap-5 rounded-r-3xl rounded-br-full bg-primary text-center lg:flex'>
+      <div className='mt-[70px] hidden w-14 flex-col items-center gap-5 rounded-r-3xl rounded-br-full bg-primary text-center lg:flex'>
         <div className='h-1'></div>
         <FaFacebookF className='h-10 w-10 text-white' />
         <FaYoutube className='h-10 w-10 text-white' />

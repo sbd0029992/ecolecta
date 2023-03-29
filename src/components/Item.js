@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 function Item(props) {
@@ -11,7 +12,11 @@ function Item(props) {
         <h3 className='text-white'>{points} Puntos Unidad</h3>
       </div>
       <div className='ml-[5%] flex flex-col items-center gap-3'>
-        <button className='rounded-2xl bg-primary p-3 text-2xl'>Añadir</button>
+        <Link href='/carritoCheck'>
+          <button className='rounded-2xl bg-primary p-3 text-2xl'>
+            Añadir
+          </button>
+        </Link>
         <button className='rounded-2xl bg-red-500 p-3 text-2xl text-white'>
           Quitar
         </button>

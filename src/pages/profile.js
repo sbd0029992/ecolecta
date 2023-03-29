@@ -3,15 +3,15 @@ import { BsFillTriangleFill } from 'react-icons/bs';
 
 function Profile() {
   return (
-    <div className='h-screen bg-black'>
-      <div className='flex h-screen flex-col items-center justify-center gap-4 p-5'>
+    <div className='bg-black'>
+      <div className='flex h-full min-h-[70vh]  flex-col items-center justify-center gap-4 p-5 '>
         <BsFillTriangleFill className='h-10 w-10 text-red-500 md:hidden' />
         <div className='flex flex-col items-center gap-3 md:hidden'>
           <h1 className='text-primary'> Jhon Pool</h1>
           <div className='h-28 w-28 bg-white'></div>
           <h1 className='text-primary'>POOL@GMAIL.COM</h1>
         </div>
-        <div className='flex w-96 flex-col items-center gap-4 rounded-3xl bg-secondary pt-4 pb-4 sm:w-[400px] md:h-[400px] md:w-[800px] md:flex-row lg:w-[900px]'>
+        <div className='flex w-96 flex-col items-center gap-4 rounded-3xl bg-secondary pt-4 pb-4 sm:w-[400px] md:h-[370px] md:w-[800px] md:flex-row lg:w-[900px]'>
           <div className='flex w-96 flex-col items-center gap-5 sm:w-[400px] md:w-3/4'>
             <div className='flex h-full w-5/6 justify-between gap-5 rounded-3xl bg-gray-300 p-5'>
               <div className='mr-14 '>

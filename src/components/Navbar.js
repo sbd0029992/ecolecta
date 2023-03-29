@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 //import profile icon react-icons
 import { FaUserCircle } from 'react-icons/fa';
 //import product,check,contact,dashboard icons react-icons
@@ -11,6 +11,12 @@ import {
 } from 'react-icons/fa';
 
 function Navbar() {
+  const [isActive, setIsActive] = useState(false);
+  const user = 'John Doe';
+
+  const handleToggle = () => {
+    setIsActive(!isActive);
+  };
   return (
     <React.Fragment>
       <div>
@@ -59,10 +65,47 @@ function Navbar() {
             <FaChartLine className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
-        <div className='self-center'>
-          <Link href='/profile'>
+        <div className='relative self-center'>
+          <button
+            className='flex items-center text-gray-800 focus:outline-none'
+            onClick={handleToggle}
+          >
             <FaUserCircle className='h-6 w-6' />
-          </Link>
+          </button>
+          <div
+            className={`absolute right-0 z-10 mt-2 w-48 rounded-md bg-white py-2 shadow-lg ${
+              isActive ? '' : 'hidden'
+            }`}
+          >
+            <span className='block px-4 py-2 text-gray-800 hover:bg-gray-100'>
+              {user}
+            </span>
+            <hr className='mx-4' />
+            <Link
+              href='/profile'
+              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+            >
+              Perfil
+            </Link>
+            <Link
+              href='/register'
+              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+            >
+              Registrar
+            </Link>
+            <Link
+              href='/login'
+              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+            >
+              Login
+            </Link>
+            <Link
+              href='#'
+              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+            >
+              Logout
+            </Link>
+          </div>
         </div>
       </div>
     </React.Fragment>

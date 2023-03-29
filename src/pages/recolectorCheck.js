@@ -4,8 +4,8 @@ import { FaCheckCircle } from 'react-icons/fa';
 
 function RecolectorCheck() {
   return (
-    <div className='h-screen  bg-black '>
-      <div className='flex h-screen flex-col items-center justify-center gap-20 sm:flex-row sm:p-3 '>
+    <div className='flex h-full items-center justify-center bg-black py-5 md:min-h-[70vh] md:py-0'>
+      <div className='flex h-full flex-col items-center justify-center gap-6 sm:flex-row sm:p-3 lg:h-[65vh] lg:min-h-[65vh] '>
         <div className='flex w-[90vw] flex-col justify-center gap-5 rounded-xl bg-gray-200  p-4 sm:h-fit sm:w-[300px] sm:gap-10'>
           <div className='mb-5 flex'>
             <div className='w-[50vw]  self-center'>
