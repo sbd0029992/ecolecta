@@ -1,4 +1,5 @@
 import { GoogleMap, MarkerF, useLoadScript } from '@react-google-maps/api';
+import Link from 'next/link';
 import React, { useMemo, useRef } from 'react';
 
 function EditProfile() {
@@ -167,8 +168,8 @@ function EditProfile() {
                 type='button'
                 class='m-[0px] h-20 w-full rounded-lg bg-[#85A547] px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
               >
-                Modificar
-              </button>{' '}
+                <Link href='/profile'>Modificar</Link>
+              </button>
             </div>
           </div>
         </form>
