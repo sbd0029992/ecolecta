@@ -9,7 +9,6 @@ import {
 } from 'react-icons/fa';
 
 import Item from '../components/Item.js';
-import imaimport from '../../public/images/imagenfondo.jpg';
 
 function Index() {
   const values = [
@@ -153,12 +152,16 @@ function Index() {
         </div>
         <div className='flex h-[85vh] w-full flex-col gap-5 md:flex-row'>
           <Image
-            src={imaimport}
+            src='/images/bg-kallpalla.png'
+            height={1000}
+            width={1000}
             className='h-full w-full md:w-1/2 '
             alt='imagen de un check'
           />
           <Image
-            src={imaimport}
+            src='/images/bg-kallpalla.png'
+            height={1000}
+            width={1000}
             className='h-full w-full md:w-1/2 '
             alt='imagen de un check'
           />

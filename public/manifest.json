@@ -1,0 +1,17 @@
+{
+  "theme_color": "#061f2a",
+  "background_color": "#85A547",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "x",
+  "name": "Ecolecta",
+  "short_name": "Ecolecta",
+  "description": "Ecolecta web app for Android",
+  "icons": [
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
