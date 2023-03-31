@@ -1,14 +1,15 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import image_check from 'public/images/check.png';
 import user from 'public/images/User.png';
 import React from 'react';
 
 function user_check() {
   return (
-    <div className='flex w-full justify-center bg-blue-200 p-6 min-[320px]:h-[100vh] lg:w-full  min-[1250px]:h-full xl:h-[800px]'>
-      <div className=' h-full w-[650px] justify-center marker:flex lg:w-full xl:w-full'>
-        <section className='h-[min-content] w-[320px] items-center justify-center lg:flex lg:w-full lg:flex-nowrap xl:ml-10 xl:flex xl:w-full xl:flex-nowrap'>
-          <div className='mt-6 w-[350px] rounded-lg border-black bg-white p-5 xl:h-[600px]'>
+    <div className='flex h-auto w-auto justify-center bg-blue-200 min-[320px]:h-[100vh] lg:w-full  min-[1250px]:h-full  xl:pb-6'>
+      <div className=' h-auto w-[650px] justify-center marker:flex lg:w-full xl:h-auto xl:w-auto '>
+        <section className='ml-8 h-[min-content] w-[320px] items-center justify-center lg:flex lg:w-full lg:flex-nowrap xl:ml-10 xl:flex xl:w-full xl:flex-nowrap'>
+          <div className='mt-6 w-[350px] rounded-lg border-black bg-white p-5 xl:h-[500px]'>
             <div className='container flex flex-wrap'>
               <h3>Recolector: </h3>
               <label
@@ -76,7 +77,7 @@ function user_check() {
             </div>
           </div>
           <br />
-          <div className=' backdrop-saturate-125 mt-6 h-full w-[350px] rounded-lg bg-white/50 lg:ml-20 lg:h-[500px] lg:w-[350px] xl:ml-20 xl:h-[590px]'>
+          <div className=' backdrop-saturate-125 mt-6 h-auto w-[350px] rounded-lg bg-white/50 p-2 lg:ml-20 lg:h-[500px] lg:w-[350px] xl:ml-20 xl:h-[550px]'>
             <div>
               <h2 id='user_name' className='p-5 text-white'>
                 Braian Canelas
@@ -105,13 +106,15 @@ function user_check() {
                 type='submit'
                 className='h-[190px] w-[70%] rounded-full bg-[#85A547]'
               >
-                <Image
-                  width={24}
-                  height={24}
-                  className='ml-10 flex h-24 w-24 justify-center'
-                  src={image_check}
-                  alt='imagen de un check'
-                />
+                <Link href='/home'>
+                  <Image
+                    width={24}
+                    height={24}
+                    className='ml-10 flex h-24 w-24 justify-center'
+                    src={image_check}
+                    alt='imagen de un check'
+                  ></Image>
+                </Link>
               </button>
             </div>
           </div>

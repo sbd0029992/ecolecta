@@ -1,5 +1,7 @@
 import React from 'react';
 
+import ListComment from '../components/listComment';
+
 function blog() {
   const values = [
     {
@@ -23,7 +25,7 @@ function blog() {
   ];
 
   return (
-    <div className='h-[100vh] w-full bg-blue-300 '>
+    <div className='h-full min-h-[70vh] w-auto bg-blue-300 pb-5'>
       <div className='content items-center justify-center p-2 text-center'>
         <button className='mt-10 h-10 w-[200px] rounded-lg bg-prymary font-primary text-white no-underline xl:w-[200px] '>
           Publicar
@@ -36,7 +38,7 @@ function blog() {
       <br />
       <div className='content items-center text-center lg:ml-[160px] lg:w-[700px] xl:ml-[300px] xl:w-[800px]'>
         {values.map((value) => (
-          <listComment data={value} key={value.id} />
+          <ListComment data={value} key={value.id} />
         ))}
       </div>
     </div>

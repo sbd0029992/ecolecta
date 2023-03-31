@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 import List from '../components/list';
@@ -19,14 +20,44 @@ function recolector_page() {
       quantity: '20 L',
       user: 'Juan Perez',
     },
+    {
+      id: '3',
+      quantity: '20 L',
+      user: 'Juan Perez',
+    },
+    {
+      id: '3',
+      quantity: '20 L',
+      user: 'Juan Perez',
+    },
+    {
+      id: '3',
+      quantity: '20 L',
+      user: 'Juan Perez',
+    },
+    {
+      id: '3',
+      quantity: '20 L',
+      user: 'Juan Perez',
+    },
+    {
+      id: '3',
+      quantity: '20 L',
+      user: 'Juan Perez',
+    },
+    {
+      id: '3',
+      quantity: '20 L',
+      user: 'Juan Perez',
+    },
   ];
   return (
-    <div className='h-[100vh] justify-center bg-blue-200 marker:flex xl:flex xl:items-center'>
-      <section className='xl:content-flex flex-nowrap items-center justify-center p-2 text-center'>
+    <div className='h-full min-h-[70vh] justify-center bg-blue-200 marker:flex xl:flex '>
+      <section className='xl:content-flex flex-nowrap items-center justify-center p-2 text-center xl:h-full'>
         <div className=' -lg xl:content mt-6 rounded-t border-black bg-white p-5 xl:h-[100px] xl:w-[1000px]'>
           <div className='container flex flex-wrap min-[1250px]:text-left xl:w-[400px]'>
             <h1 className='text-left'>Lista de recojos listos</h1>
-            <div className=' items-right  ml-5 flex'>
+            <div className=' items-right  ml-10 flex'>
               <button
                 data-collapse-toggle='navbar-default'
                 type='button'
@@ -59,7 +90,7 @@ function recolector_page() {
           </div>
         </div>
         <br className='xl:hidden' />
-        <div className='flex flex-wrap bg-white  min-[320px]:rounded-lg xl:w-[1000px]  xl:rounded-none'>
+        <div className='flex flex-wrap bg-white  min-[320px]:rounded-lg xl:w-[1000px] xl:rounded-none'>
           <div className='content flex-left flex text-left min-[390px]:ml-12 lg:ml-40 min-[1250px]:ml-60 xl:ml-20'>
             <h4 className=''>Cantidad</h4>
           </div>
@@ -71,18 +102,18 @@ function recolector_page() {
           </div>
         </div>
         <br className='xl:hidden' />
-        <div className=' flex flex-wrap rounded-lg bg-white sm:h-[50px] xl:w-[1000px] '>
+        <div className='flex flex-wrap rounded-lg bg-white sm:h-[50px] xl:h-full xl:w-[1000px]'>
           {values.map((value) => (
             <List data={value} key={value.id} />
           ))}
         </div>
         <br />
-        <div className='content flex h-[50px] w-full flex-nowrap items-center justify-center rounded-lg bg-white'>
+        <div className='content flex h-[50px] w-full flex-nowrap items-center justify-center rounded-lg bg-white xl:mt-2'>
           <button className='h-10 w-[200px] rounded-lg bg-prymary font-primary text-white xl:w-[200px]'>
             Aceptar
           </button>
           <button className='ml-4 h-10 w-[200px] rounded-lg bg-[#FF7272] font-primary text-white xl:visible xl:w-[200px] '>
-            Regresar
+            <Link href='/home'>Regresar</Link>
           </button>
         </div>
       </section>

@@ -1,9 +1,10 @@
+import Link from 'next/link';
 import React from 'react';
 
 function login() {
   return (
     <div className='flex h-[100vh]  w-full items-center justify-center bg-blue-200'>
-      <section className='h-[min-content] justify-center bg-white p-2  min-[320px]:h-[600px] min-[320px]:w-[400px]'>
+      <section className='h-[min-content] justify-center bg-white p-1  font-secondary min-[320px]:h-auto min-[320px]:w-[420px] xl:h-[70vh] xl:w-[40vh] xl:rounded-lg'>
         <div className=' flex-justify-center h-auto w-full p-2'>
           <div className='display snap-center  p-1'>
             <br />
@@ -51,29 +52,32 @@ function login() {
                 />
 
                 <div className='mt-3 snap-center'>
-                  <a href='' className='rounded-lg underline decoration-black '>
+                  <Link
+                    href='/recuperar'
+                    className='rounded-lg underline decoration-black '
+                  >
                     Olvide mi contraseña
-                  </a>
+                  </Link>
                 </div>
               </div>
               <br />
               <div className='justify-center text-center'>
-                <a
-                  href='home'
+                <Link
+                  href='/register'
                   id='remember'
                   className=' text-sm font-medium text-black underline decoration-black hover:file:underline dark:text-black'
                 >
                   No tengo cuenta
-                </a>
+                </Link>
               </div>
               <br />
               <button
                 type='submit'
-                className=' h-[50px] w-full bg-[#85A547]  text-center
-              text-sm font-medium text-white hover:bg-green-500 hover:file:bg-green-200 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-[#85A547] dark:hover:bg-green-500
-                dark:focus:ring-green-500 '
+                className=' min-[320px]: h-[50px] w-full  bg-[#85A547]
+                p-2 text-center text-sm font-medium text-white hover:bg-green-500 hover:file:bg-green-200 focus:outline-none focus:ring-4 focus:ring-blue-300
+                dark:bg-[#85A547] dark:hover:bg-green-500 dark:focus:ring-green-500'
               >
-                Acceder
+                <Link href='/home'>Acceder</Link>
               </button>
             </form>
           </div>
