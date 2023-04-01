@@ -7,13 +7,18 @@ function Footer() {
       <div className='flex flex-row gap-5 md:gap-20'>
         <div className='flex flex-col gap-1'>
           <h4 className=' text-white md:text-sm'>Company</h4>
-          <a href='#' className='text-sm text-white md:text-[12px]'>
+          <Link href='/blog' className='text-sm text-white md:text-[12px]'>
             About
-          </a>
-          <a href='#' className='text-sm text-white md:text-[12px]'>
-            Careers
-          </a>
-          <p className='text-transparent'>Blog</p>
+          </Link>
+          <Link href='/contact' className='text-sm text-white md:text-[12px]'>
+            Contacto
+          </Link>
+          <Link
+            href='/recolectorQr'
+            className='text-sm text-white md:text-[12px]'
+          >
+            Qr Recolector
+          </Link>
         </div>
         <div className='flex flex-col gap-1'>
           <h4 className='text-white md:text-sm'>Product</h4>
@@ -40,6 +45,18 @@ function Footer() {
             className='text-sm text-white md:text-[12px]'
           >
             Tienda
+          </Link>
+
+          <p className='text-transparent'>Blog</p>
+          <p className='text-transparent'>Blog</p>
+        </div>
+        <div className='hidden flex-col gap-1 md:flex'>
+          <h4 className='text-white md:text-sm'>Admin</h4>
+          <Link
+            href='/user_list_verification'
+            className='text-sm text-white md:text-[12px]'
+          >
+            Verificar usuarios
           </Link>
 
           <p className='text-transparent'>Blog</p>

@@ -1,4 +1,3 @@
-/* eslint-disable unused-imports/no-unused-vars */
 /**
  * Copyright 2018 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +31,6 @@ if (!self.define) {
           document.head.appendChild(script);
         } else {
           nextDefineUri = uri;
-          // eslint-disable-next-line no-undef
           importScripts(uri);
           resolve();
         }
@@ -70,11 +68,9 @@ if (!self.define) {
     });
   };
 }
-// eslint-disable-next-line no-undef
 define(['./workbox-327c579b'], function (workbox) {
   'use strict';
 
-  // eslint-disable-next-line no-undef
   importScripts();
   self.skipWaiting();
   workbox.clientsClaim();

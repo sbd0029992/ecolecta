@@ -41,6 +41,8 @@ robots.txt
 sitemap.xml
 sitemap-*.xml
 
-# pwa files
+# pwa
 sw.js
+sw.js.map
 workbox-327c579b.js
+workbox-327c579b.map

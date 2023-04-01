@@ -73,7 +73,7 @@ function login() {
               <br />
               <button
                 type='submit'
-                className=' min-[320px]: h-[50px] w-full  bg-[#85A547]
+                className=' min-[320px]: h-[50px] w-full rounded-2xl  bg-[#85A547]
                 p-2 text-center text-sm font-medium text-white hover:bg-green-500 hover:file:bg-green-200 focus:outline-none focus:ring-4 focus:ring-blue-300
                 dark:bg-[#85A547] dark:hover:bg-green-500 dark:focus:ring-green-500'
               >

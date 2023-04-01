@@ -1,8 +1,3 @@
-/* eslint-disable no-constant-condition */
-/* eslint-disable no-console */
-/* eslint-disable no-empty */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable no-undef */
 define(['exports'], function (exports) {
   'use strict';
 

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link.js';
 import React from 'react';
 import {
   FaBirthdayCake,
@@ -48,17 +49,20 @@ function Index() {
           </h1>
         </div>
         <div class='mt-3 flex flex-col gap-4 md:items-center md:justify-center'>
-          <button class='h-10 w-1/2 rounded-lg bg-[#A3E635] pl-5 pr-5 text-base text-white md:hidden '>
-            Informate
-          </button>
+          <Link href='/blog' className='w-full'>
+            <button class='h-10 w-1/2 rounded-lg bg-[#A3E635] pl-5 pr-5 text-base text-white md:hidden '>
+              Informate
+            </button>
+          </Link>
           <p className='text-justify text-base md:text-xl'>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias
             accusamus, eius fugit magni quisquam nihil, tenetur facilis culpa
           </p>
-
-          <button class=' hidden h-10 w-1/2 rounded-lg bg-[#A3E635] pl-5 pr-5 text-base text-white md:block '>
-            Informate
-          </button>
+          <Link href='/blog' className='w-full'>
+            <button class=' hidden h-10 w-1/2 rounded-lg bg-[#A3E635] pl-5 pr-5 text-base text-white md:block '>
+              Informate
+            </button>
+          </Link>
         </div>
       </div>
       {/* Afiliados */}

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { BsFillTriangleFill } from 'react-icons/bs';
 
@@ -5,7 +6,9 @@ function Profile() {
   return (
     <div className='bg-black'>
       <div className='flex h-full min-h-[70vh]  flex-col items-center justify-center gap-4 p-5 '>
-        <BsFillTriangleFill className='h-10 w-10 text-red-500 md:hidden' />
+        <Link href='/verify_user'>
+          <BsFillTriangleFill className='h-10 w-10 text-red-500 md:hidden' />
+        </Link>
         <div className='flex flex-col items-center gap-3 md:hidden'>
           <h1 className='text-primary'> Jhon Pool</h1>
           <div className='h-28 w-28 bg-white'></div>
@@ -38,7 +41,9 @@ function Profile() {
             </div>
           </div>
           <div className='mr-5 hidden flex-col items-center md:flex'>
-            <BsFillTriangleFill className='mb-5 h-10 w-10 text-red-500' />
+            <Link href='/verify_user'>
+              <BsFillTriangleFill className='mb-5 h-10 w-10 text-red-500' />
+            </Link>
             <div className='flex flex-col items-center gap-8'>
               <h1 className='text-white'> Jhon Pool</h1>
               <div className='h-28 w-28 bg-white'></div>
