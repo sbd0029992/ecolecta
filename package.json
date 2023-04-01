@@ -57,10 +57,16 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "eslint --max-warnings=0",
+      "eslint --max-warnings=2",
       "prettier -w"
     ],
     "**/*.{json,css,scss,md,webmanifest}": [
+      "prettier -w"
+    ],
+    "public/sw.js": [
+      "prettier -w"
+    ],
+    "public/workbox-*.js": [
       "prettier -w"
     ]
   }

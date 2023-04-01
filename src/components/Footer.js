@@ -13,7 +13,12 @@ function Footer() {
           <Link href='/contact' className='text-sm text-white md:text-[12px]'>
             Contacto
           </Link>
-          <p className='text-transparent'>Blog</p>
+          <Link
+            href='/recolectorQr'
+            className='text-sm text-white md:text-[12px]'
+          >
+            Qr Recolector
+          </Link>
         </div>
         <div className='flex flex-col gap-1'>
           <h4 className='text-white md:text-sm'>Product</h4>
