@@ -4,11 +4,11 @@ import React from 'react';
 function Itemdashboard(props) {
   const { nombre, quees, puntos, imagen } = props.data;
   return (
-    <div class='ml-[30px] mt-[20px] mr-[30px] flex rounded-lg bg-[#b91c1c] bg-opacity-40 md:ml-[20%] md:w-[500px] lg:ml-[30%] xl:ml-[35%]'>
+    <div class='ml-[30px] mt-[20px] mr-[30px] flex rounded-lg bg-[#b91c1c] bg-opacity-40 md:ml-[20%] md:w-[400px] lg:ml-[30%] xl:ml-[35%]'>
       <div>
         <div class='ml-[20px] mt-[10px] flex'>
           <Image
-            class='mt-[10px] h-[70px] w-[70px] rounded-full  bg-black hover:w-[200px]'
+            class='mt-[10px] h-[70px] w-[70px] rounded-full  bg-black'
             src={imagen}
             alt='imagen de un check'
           />

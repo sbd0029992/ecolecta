@@ -30,7 +30,7 @@ function dashboard() {
   ];
   var puntos = 500;
   return (
-    <div class='h-full min-h-screen bg-[#4D7C0F]'>
+    <div class='h-full min-h-[70vh] bg-secondary pb-5 pt-5 md:pt-0'>
       <div class='w-auto md:w-auto lg:w-auto xl:w-auto'>
         <section>
           <div class='flex md:pt-5'>
@@ -44,7 +44,7 @@ function dashboard() {
               </div>
               <div class='ml-5 md:ml-[0px]'>
                 <Image
-                  class='h-[70px] w-[70px] rounded-full  bg-black hover:w-[200px] md:h-0 md:w-0'
+                  class='h-[70px] w-[70px] rounded-full  bg-black md:h-0 md:w-0'
                   src={imaimport}
                   alt='imagen de un check'
                 />

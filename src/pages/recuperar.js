@@ -1,17 +1,17 @@
+import Link from 'next/link';
 import React from 'react';
 
 function recuperar() {
   return (
     <div className='flex h-[100vh]  w-full items-center justify-center bg-blue-200'>
-      <section className='h-[min-content] justify-center bg-white p-2  min-[320px]:h-[600px] min-[320px]:w-[400px]'>
+      <section className='h-[min-content] justify-center bg-white p-2  min-[320px]:h-auto min-[320px]:w-auto'>
         <div className=' flex-justify-center h-auto w-full p-2'>
           <div className='display snap-center  p-1'>
             <br />
             <h1 className='text-2xl font-extrabold text-black'>
-              Inicio de sesion
+              Recupere su cuenta
             </h1>
             <br />
-            <h5>Recupere su cuenta</h5>
           </div>
           <br />
           <div className='mb-2 p-1'>
@@ -34,14 +34,15 @@ function recuperar() {
                 />
               </div>
               <br />
-              <button
-                type='submit'
-                className=' h-[50px] w-full bg-[#85A547]  text-center
+              <Link href='/login'>
+                <button
+                  className=' h-[50px] w-full bg-[#85A547]  text-center
               text-sm font-medium text-white hover:bg-green-500 hover:file:bg-green-200 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-[#85A547] dark:hover:bg-green-500
                 dark:focus:ring-green-500 '
-              >
-                Mandar mensaje
-              </button>
+                >
+                  Mandar mensaje
+                </button>
+              </Link>
             </form>
           </div>
         </div>
