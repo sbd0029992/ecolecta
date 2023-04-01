@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import qr from 'public/images/qr.jpg';
-import user from 'public/images/User.png';
+import user from 'public/images/user.png';
 import verify from 'public/images/verify.png';
 import React from 'react';
 
