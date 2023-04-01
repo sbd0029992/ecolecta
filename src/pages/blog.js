@@ -36,7 +36,7 @@ function blog() {
         <h2 className='ml-4 text-white xl:ml-20'>Noticias y Comentarios</h2>
       </div>
       <br />
-      <div className='content items-center text-center lg:ml-[160px] lg:w-[700px] xl:ml-[300px] xl:w-[800px]'>
+      <div className='content flex flex-col items-center text-center lg:ml-[160px] lg:w-[700px] xl:ml-[300px] xl:w-[800px]'>
         {values.map((value) => (
           <ListComment data={value} key={value.id} />
         ))}

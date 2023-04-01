@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import image_check from 'public/images/check.png';
-import user from 'public/images/User.png';
 import React from 'react';
 
 function user_check() {
@@ -69,7 +68,7 @@ function user_check() {
             <div className='ml-[10px] flex w-[300px] justify-center rounded-full bg-green-400 p-5 min-[320px]:invisible min-[320px]:h-[0px]  lg:visible lg:h-[300px]  xl:visible xl:h-[300px]'>
               <Image
                 className='justify-center min-[320px]:invisible lg:visible xl:visible'
-                src={user}
+                src='/images/user.png'
                 width={500}
                 height={500}
                 alt='Image Recolector'
@@ -106,7 +105,7 @@ function user_check() {
                 type='submit'
                 className='h-[190px] w-[70%] rounded-full bg-[#85A547]'
               >
-                <Link href='/home'>
+                <Link href='/'>
                   <Image
                     width={24}
                     height={24}
