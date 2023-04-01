@@ -4,16 +4,14 @@ import React from 'react';
 function Itemuserlist(props) {
   const { valdes, nombre, image } = props.data;
   return (
-    <div class='mb-[20px] flex items-center rounded-xl bg-white p-[10px] md:mr-[10%] md:w-screen md:bg-opacity-0 md:pl-[10%]'>
+    <div class='mt-[20px] flex items-center rounded-xl bg-white p-[10px] md:ml-[-3%] md:w-full md:bg-opacity-0 '>
       <Image
         class=' h-[0px] w-[0px] rounded-full bg-black hover:h-full hover:w-full hover:rounded-none md:mr-[5%] md:h-[30px] md:w-[50px]'
         src={image}
         alt='imagen de un check'
       />
       <label class='text-2xl md:text-[0px]'>{valdes} </label>
-      <label class='ml-[5px] mr-[5px] text-2xl md:ml-[0px] md:mr-[0px] md:text-[0px]'>
-        |
-      </label>
+      <label class='ml-[5px] mr-[5px] text-2xl md:ml-[0px] md:mr-[0px] md:text-[0px]'></label>
       <label class='mr-[5px] rounded-lg text-2xl md:mr-[5%] md:w-[200px] md:bg-white md:pl-[2%] md:text-[15px]'>
         {nombre}{' '}
       </label>
