@@ -1,4 +1,8 @@
 /* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable no-constant-condition */
+/* eslint-disable no-empty */
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-undef */
 /**
  * Copyright 2018 Google Inc. All Rights Reserved.
