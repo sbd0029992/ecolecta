@@ -11,7 +11,6 @@ function Register() {
   };
 
   const libraries = useMemo(() => ['places'], []);
-  // const mapCenter = useMemo(() => ({ lat: lat, lng: lng }), [lat, lng]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
@@ -21,6 +20,13 @@ function Register() {
   if (!isLoaded) {
     return <p>Loading...</p>;
   }
+
+  const handleDragEnd = (event) => {
+    const lat = event.latLng.lat();
+    const lng = event.latLng.lng();
+    document.getElementById('latitudeMap').value = lat;
+    document.getElementById('longitudeMap').value = lng;
+  };
 
   return (
     <div className='flex justify-center bg-black'>
@@ -149,15 +155,12 @@ function Register() {
                     ref={markerRef}
                     position={centerMap}
                     draggable={true}
-                    // onDragEnd={onPositionChanged}
-                    // onClick={() => {
-                    //   // console.log('marker position', markerRef);
-                    // }}
+                    onDragEnd={handleDragEnd}
                   />
                 </GoogleMap>
               </div>
-              <input id='latitudeMap' value='-17,40005043784094' />
-              <input id='longitudeMap' value='-66,15881707399646' />
+              <input hidden id='latitudeMap' value='-17,40005043784094' />
+              <input hidden id='longitudeMap' value='-66,15881707399646' />
             </div>
             <div>
               <label
