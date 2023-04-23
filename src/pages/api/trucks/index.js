@@ -1,5 +1,4 @@
-import bcrypt from 'bcryptjs';
-import User from 'models/User';
+import Truck from 'models/Truck';
 import { dbConnect } from 'utils/mongosee';
 
 dbConnect();
@@ -10,17 +9,14 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const tasks = await User.find({});
+        const tasks = await Truck.find({});
         return res.status(200).json(tasks);
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }
     case 'POST':
       try {
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(body.password, saltRounds);
-        body.password = hashedPassword;
-        const newTask = new User(body);
+        const newTask = new Truck(body);
         const savedTask = await newTask.save();
         return res.status(201).json(savedTask);
       } catch (error) {

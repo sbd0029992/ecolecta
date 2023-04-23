@@ -5,11 +5,16 @@ export default function ListUsers({ users }) {
 
   if (!users) {
     return (
-      <div>
+      <div className='flex min-h-screen flex-col items-center justify-center'>
         <div>
-          <h1>No hay usuarios</h1>
+          <h1 className='mb-4 text-2xl font-bold'>No hay usuarios</h1>
           <div>
-            <button color='blue'>Create Task</button>
+            <button
+              className='rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600'
+              onClick={() => router.push('/register')}
+            >
+              Crear usuario
+            </button>
           </div>
         </div>
       </div>
@@ -17,21 +22,20 @@ export default function ListUsers({ users }) {
   }
 
   return (
-    <div>
-      <div style={{ display: 'flex', gap: '5px' }}>
+    <div className='container mx-auto py-8'>
+      <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {users.map((user) => (
           <div
-            style={{ background: 'black', color: 'white', width: '150px' }}
+            className='rounded bg-gray-800 p-4 text-white shadow'
             key={user._id}
           >
             <div>
-              <h4>{user.firstName}</h4>
-              <h4>{user.type}</h4>
-              <p>
-                Latitud: {user.location.latitude}, Longitud:{' '}
-                {user.location.longitude}
-              </p>
+              <h4 className='text-lg font-semibold'>
+                {user.firstName} {user.lastName}
+              </h4>
+              <h4 className='text-sm font-medium'>{user.type}</h4>
               <a
+                className='text-blue-400 hover:text-blue-600'
                 href={`https://www.google.com/maps?q=${user.location.latitude},${user.location.longitude}`}
                 target='_blank'
                 rel='noopener noreferrer'
@@ -39,20 +43,14 @@ export default function ListUsers({ users }) {
                 Ver en Google Maps
               </a>
             </div>
-            <div>
+            <div className='mt-4 flex justify-between'>
               <button
-                color='blue'
-                onClick={() => router.push(`/users/${user._id}`)}
-              >
-                View
-              </button>
-              <button
-                color='yellow'
+                className='rounded bg-yellow-500 px-3 py-2 font-semibold text-white hover:bg-yellow-600'
                 onClick={() =>
                   router.push(`/register/registerUser/${user._id}/edit`)
                 }
               >
-                Edit
+                Editar
               </button>
             </div>
           </div>

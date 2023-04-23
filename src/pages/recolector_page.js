@@ -113,7 +113,7 @@ function recolector_page() {
             Aceptar
           </button>
           <button className='ml-4 h-10 w-[200px] rounded-lg bg-[#FF7272] font-primary text-white xl:visible xl:w-[200px] '>
-            <Link href='/home'>Regresar</Link>
+            <Link href='/'>Regresar</Link>
           </button>
         </div>
       </section>

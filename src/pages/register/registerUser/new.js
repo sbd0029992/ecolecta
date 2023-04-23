@@ -6,6 +6,11 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 export default function UserRegister() {
   const { query, push } = useRouter();
+  const [showPasswordField, setShowPasswordField] = useState(true);
+  const [centerMap, setCenterMap] = useState({
+    lat: -17.404357772400502,
+    lng: -66.14837526944187,
+  });
   const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
@@ -20,7 +25,7 @@ export default function UserRegister() {
     email: '',
     password: '',
     status: 'active',
-    type: '',
+    type: 'user_normal',
   });
 
   const formatDate = (dateString) => {
@@ -49,10 +54,14 @@ export default function UserRegister() {
           longitude: user.location.longitude,
         },
         email: user.email,
-        password: user.password,
         status: user.status,
         type: user.type,
       });
+      setCenterMap({
+        lat: parseFloat(user.location.latitude),
+        lng: parseFloat(user.location.longitude),
+      });
+      setShowPasswordField(false);
     } catch (error) {
       console.log(error);
     }
@@ -66,11 +75,6 @@ export default function UserRegister() {
   }, [query.id]);
 
   const markerRef = useRef();
-
-  var centerMap = {
-    lat: -17.404357772400502,
-    lng: -66.14837526944187,
-  };
 
   const libraries = useMemo(() => ['places'], []);
 
@@ -127,13 +131,16 @@ export default function UserRegister() {
   };
 
   const updateUser = async () => {
+    const updatedUser = { ...newUser };
+    delete updatedUser.password;
+
     try {
       await fetch(`http://localhost:3000/api/users/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newUser),
+        body: JSON.stringify(updatedUser),
       });
     } catch (error) {
       console.log(error);
@@ -144,11 +151,16 @@ export default function UserRegister() {
     e.preventDefault();
     if (query.id) {
       await updateUser();
-      await push('/listUsers');
+      // await push('/');
     } else {
       await createUser(newUser);
+      console.log(newUser);
       await push('/login');
     }
+    console.log(
+      '🚀 ~ file: new.js:157 ~ handleSubmit ~ updateUser:',
+      updateUser
+    );
   };
 
   return (
@@ -207,7 +219,6 @@ export default function UserRegister() {
                 onChange={handleChange}
                 class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
                 placeholder='John'
-                required
               />
             </div>
             <div>
@@ -310,20 +321,22 @@ export default function UserRegister() {
                 required
               />
             </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                PASSWORD
-              </label>
-              <input
-                type='password'
-                id='password'
-                minLength={6}
-                value={newUser.password}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                required
-              />
-            </div>
+            {showPasswordField && (
+              <div>
+                <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                  PASSWORD
+                </label>
+                <input
+                  type='password'
+                  id='password'
+                  minLength={6}
+                  value={newUser.password}
+                  onChange={handleChange}
+                  class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                  required
+                />
+              </div>
+            )}
 
             <div className='flex justify-center'>
               <button

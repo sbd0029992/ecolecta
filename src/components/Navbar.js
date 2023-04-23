@@ -1,8 +1,6 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
-//import profile icon react-icons
+import React, { useContext, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
-//import product,check,contact,dashboard icons react-icons
 import {
   FaChartLine,
   FaCheck,
@@ -10,9 +8,23 @@ import {
   FaShoppingCart,
 } from 'react-icons/fa';
 
+import { AuthContext } from '../context/authContext';
+
 function Navbar() {
   const [isActive, setIsActive] = useState(false);
-  const user = 'John Doe';
+  const { isLoggedIn, userData } = useContext(AuthContext); // Accede al contexto de autenticación
+  const displayName = isLoggedIn
+    ? `${userData.firstName} ${userData.lastName}`
+    : 'Guest';
+
+  //type user
+  var typeUser = isLoggedIn ? userData.type : 'Guest';
+
+  if (typeUser === 'user_superior') {
+    typeUser = 'Superior';
+  } else if (typeUser === 'user_normal') {
+    typeUser = 'Normal';
+  }
 
   const handleToggle = () => {
     setIsActive(!isActive);
@@ -78,8 +90,12 @@ function Navbar() {
             }`}
           >
             <span className='block px-4 py-2 text-gray-800 hover:bg-gray-100'>
-              {user}
+              {displayName}
             </span>
+            <span className='block px-4 py-2  text-gray-800 hover:bg-gray-100'>
+              Usuario: <strong>{typeUser}</strong>
+            </span>
+
             <hr className='mx-4' />
             <Link
               href='/profile'
@@ -100,7 +116,7 @@ function Navbar() {
               Login
             </Link>
             <Link
-              href='#'
+              href='/api/auth/logout'
               className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
             >
               Logout

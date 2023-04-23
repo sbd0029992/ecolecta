@@ -74,6 +74,20 @@
       U+2215, U+FEFF, U+FFFD;
   }
 
+  @font-face {
+    font-family: 'Karla';
+    src: url('/fonts/Karla-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Playfair Display';
+    src: url('/fonts/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
   .cursor-newtab {
     cursor: url('/images/new-tab.png') 10 10, pointer;
   }

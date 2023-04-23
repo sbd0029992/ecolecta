@@ -10,13 +10,12 @@ const userSchema = new Schema(
     },
     lastName: {
       type: String,
-      required: [true, 'Please add a first last name'],
+      required: [true, 'Please add a last name'],
       trim: true,
       maxlength: [50, 'First last name cannot be more than 50 characters'],
     },
     secondLastName: {
       type: String,
-      required: [true, 'Please add a second last name'],
       trim: true,
       maxlength: [50, 'Second last name cannot be more than 50 characters'],
     },
@@ -28,6 +27,7 @@ const userSchema = new Schema(
     phone: {
       type: Number,
       required: [true, 'Please add a phone number'],
+      unique: true,
     },
     birthdate: {
       type: Date,
@@ -54,8 +54,8 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, 'Please add a password'],
       minlength: [6, 'Password must be at least 6 characters long'],
+      optional: true,
     },
     status: {
       type: String,
