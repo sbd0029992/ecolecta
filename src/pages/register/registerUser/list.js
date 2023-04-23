@@ -61,7 +61,8 @@ export default function ListUsers({ users }) {
 }
 
 export const getServerSideProps = async () => {
-  const res = await fetch('http://localhost:3000/api/users');
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${apiUrl}/api/users`);
   const users = await res.json();
   return {
     props: {

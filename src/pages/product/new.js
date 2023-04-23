@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Switch from 'react-switch';
 
 export default function NewProduct({ env }) {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,7 +24,7 @@ export default function NewProduct({ env }) {
 
   const getProduct = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/products/${query.id}`);
+      const res = await fetch(`${apiUrl}/api/products/${query.id}`);
       const product = await res.json();
       setIdProduct({ id: product._id });
       setProductImages(product.images);
@@ -91,7 +92,7 @@ export default function NewProduct({ env }) {
 
   const createProduct = async () => {
     try {
-      await fetch('http://localhost:3000/api/products', {
+      await fetch(`${apiUrl}/api/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ export default function NewProduct({ env }) {
 
   const updateProduct = async (product) => {
     try {
-      await fetch(`http://localhost:3000/api/products/${query.id}`, {
+      await fetch(`${apiUrl}/api/products/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -9,14 +9,11 @@ const nextConfig = {
   eslint: {
     dirs: ['src'],
   },
-  // env: {
-  //   NEXT_PUBLIC_API_URL: 'http://localhost:3000',
-  // },
   output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['ecolecta.s3.sa-east-1.amazonaws.com'],
+    domains: [process.env.AWS_DOMAIN],
   },
   // SVGR
   webpack(config) {

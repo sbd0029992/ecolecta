@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 export default function UserRegister() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
   const [showPasswordField, setShowPasswordField] = useState(true);
   const [centerMap, setCenterMap] = useState({
@@ -40,7 +41,7 @@ export default function UserRegister() {
 
   const getUser = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/users/${query.id}`);
+      const res = await fetch(`${apiUrl}/api/users/${query.id}`);
       const { user } = await res.json();
       setNewUser({
         firstName: user.firstName,
@@ -118,7 +119,7 @@ export default function UserRegister() {
 
   const createUser = async () => {
     try {
-      await fetch('http://localhost:3000/api/users', {
+      await fetch(`${apiUrl}/api/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -135,7 +136,7 @@ export default function UserRegister() {
     delete updatedUser.password;
 
     try {
-      await fetch(`http://localhost:3000/api/users/${query.id}`, {
+      await fetch(`${apiUrl}/api/users/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -157,10 +158,6 @@ export default function UserRegister() {
       console.log(newUser);
       await push('/login');
     }
-    console.log(
-      '🚀 ~ file: new.js:157 ~ handleSubmit ~ updateUser:',
-      updateUser
-    );
   };
 
   return (

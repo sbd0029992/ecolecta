@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Switch from 'react-switch';
 
 export default function Newaffiliate({ env }) {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,9 +22,7 @@ export default function Newaffiliate({ env }) {
 
   const getAffiliate = async () => {
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/affiliates/${query.id}`
-      );
+      const res = await fetch(`${apiUrl}/api/affiliates/${query.id}`);
       const affiliate = await res.json();
       setIdAffiliate({ id: affiliate._id });
       setAffiliateImages(affiliate.images);
@@ -91,7 +90,7 @@ export default function Newaffiliate({ env }) {
 
   const createAffiliate = async () => {
     try {
-      await fetch('http://localhost:3000/api/affiliates', {
+      await fetch(`${apiUrl}/api/affiliates`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +104,7 @@ export default function Newaffiliate({ env }) {
 
   const updateAffiliate = async (affiliate) => {
     try {
-      await fetch(`http://localhost:3000/api/affiliates/${query.id}`, {
+      await fetch(`${apiUrl}/api/affiliates/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -209,7 +208,7 @@ export default function Newaffiliate({ env }) {
   }
 
   return (
-    <div className='flex justify-center bg-black'>
+    <div className='flex h-full min-h-[70vh] items-center justify-center bg-black'>
       <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
         <h1>{query.id ? 'Edit Affiliate' : 'New Affiliate'}</h1>
         <form onSubmit={handleSubmit}>

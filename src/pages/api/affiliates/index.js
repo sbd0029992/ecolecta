@@ -17,16 +17,7 @@ export default async function handler(req, res) {
     case 'POST':
       try {
         const newAffiliate = new Affiliate(body);
-        console.log(
-          '🚀 ~ file: index.js:20 ~ handler ~ newAffiliate:',
-          newAffiliate
-        );
         const savedAffiliate = await newAffiliate.save();
-        console.log(
-          '🚀 ~ file: index.js:21 ~ handler ~ savedAffiliate:',
-          savedAffiliate
-        );
-
         return res.status(201).json(savedAffiliate);
       } catch (error) {
         return res.status(400).json({ error: error.message });
