@@ -1,17 +1,17 @@
 if (!self.define) {
   let e,
-    a = {};
-  const s = (s, i) => (
-    (s = new URL(s + '.js', i).href),
-    a[s] ||
-      new Promise((a) => {
+    s = {};
+  const a = (a, i) => (
+    (a = new URL(a + '.js', i).href),
+    s[a] ||
+      new Promise((s) => {
         if ('document' in self) {
           const e = document.createElement('script');
-          (e.src = s), (e.onload = a), document.head.appendChild(e);
-        } else (e = s), importScripts(s), a();
+          (e.src = a), (e.onload = s), document.head.appendChild(e);
+        } else (e = a), importScripts(a), s();
       }).then(() => {
-        let e = a[s];
-        if (!e) throw new Error(`Module ${s} didn’t register its module`);
+        let e = s[a];
+        if (!e) throw new Error(`Module ${a} didn’t register its module`);
         return e;
       })
   );
@@ -20,11 +20,11 @@ if (!self.define) {
       e ||
       ('document' in self ? document.currentScript.src : '') ||
       location.href;
-    if (a[n]) return;
+    if (s[n]) return;
     let t = {};
-    const r = (e) => s(e, n),
+    const r = (e) => a(e, n),
       f = { module: { uri: n }, exports: t, require: r };
-    a[n] = Promise.all(i.map((e) => f[e] || r(e))).then((e) => (c(...e), t));
+    s[n] = Promise.all(i.map((e) => f[e] || r(e))).then((e) => (c(...e), t));
   };
 }
 define(['./workbox-588899ac'], function (e) {
@@ -34,14 +34,6 @@ define(['./workbox-588899ac'], function (e) {
     e.clientsClaim(),
     e.precacheAndRoute(
       [
-        {
-          url: '/_next/static/Vu3gGFrKQ68kRaBrBmVQf/_buildManifest.js',
-          revision: 'a39f599271681a0b87c0165512e9b54d',
-        },
-        {
-          url: '/_next/static/Vu3gGFrKQ68kRaBrBmVQf/_ssgManifest.js',
-          revision: 'b6652df95db52feb4daf4eca35380933',
-        },
         {
           url: '/_next/static/chunks/0c428ae2-be22bac0ba170513.js',
           revision: 'be22bac0ba170513',
@@ -262,6 +254,14 @@ define(['./workbox-588899ac'], function (e) {
           url: '/_next/static/media/imagenfondo.2883c06e.jpg',
           revision: 'db7c406ede650bdff0b5d43eac587310',
         },
+        {
+          url: '/_next/static/rTguCfk60ELe5NgyvsdmE/_buildManifest.js',
+          revision: 'a39f599271681a0b87c0165512e9b54d',
+        },
+        {
+          url: '/_next/static/rTguCfk60ELe5NgyvsdmE/_ssgManifest.js',
+          revision: 'b6652df95db52feb4daf4eca35380933',
+        },
         { url: '/favicon.ico', revision: 'ad9466b5973e1742d2c698b4da68b30c' },
         {
           url: '/favicon/android-chrome-192x192.png',
@@ -378,7 +378,7 @@ define(['./workbox-588899ac'], function (e) {
         },
         { url: '/manifest.json', revision: 'a523e8fef9353c8a87ddc56d901838bf' },
         { url: '/robots.txt', revision: '12c1b30978435c5968e8475c0693af6d' },
-        { url: '/sitemap-0.xml', revision: '689228d0e56c1dcd0f8624da9055710c' },
+        { url: '/sitemap-0.xml', revision: 'b031680a194294b589dd5a391bedcbd6' },
         { url: '/sitemap.xml', revision: 'cc3697158d8075fd190419683a1b74e5' },
         {
           url: '/svg/Vercel.svg',
@@ -396,17 +396,17 @@ define(['./workbox-588899ac'], function (e) {
           {
             cacheWillUpdate: async ({
               request: e,
-              response: a,
-              event: s,
+              response: s,
+              event: a,
               state: i,
             }) =>
-              a && 'opaqueredirect' === a.type
-                ? new Response(a.body, {
+              s && 'opaqueredirect' === s.type
+                ? new Response(s.body, {
                     status: 200,
                     statusText: 'OK',
-                    headers: a.headers,
+                    headers: s.headers,
                   })
-                : a,
+                : s,
           },
         ],
       }),
@@ -527,8 +527,8 @@ define(['./workbox-588899ac'], function (e) {
     e.registerRoute(
       ({ url: e }) => {
         if (!(self.origin === e.origin)) return !1;
-        const a = e.pathname;
-        return !a.startsWith('/api/auth/') && !!a.startsWith('/api/');
+        const s = e.pathname;
+        return !s.startsWith('/api/auth/') && !!s.startsWith('/api/');
       },
       new e.NetworkFirst({
         cacheName: 'apis',
