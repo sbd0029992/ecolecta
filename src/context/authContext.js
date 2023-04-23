@@ -3,14 +3,15 @@ import { createContext, useEffect, useState } from 'react';
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/auth/user`);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/user`
+        );
         const data = await response.json();
 
         setIsLoggedIn(data.isLoggedIn);

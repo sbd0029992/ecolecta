@@ -1,9 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import image_check from 'public/images/check.png';
 import React from 'react';
 
-function user_check() {
+function UserCheck() {
   return (
     <div className='flex h-auto w-auto items-center justify-center bg-blue-200 min-[320px]:h-[100vh] lg:w-full  min-[1250px]:h-full  xl:pb-[11vh]'>
       <div className=' h-auto w-[650px] justify-center marker:flex lg:w-full xl:h-auto xl:w-auto '>
@@ -110,7 +109,7 @@ function user_check() {
                     width={24}
                     height={24}
                     className='ml-10 flex h-24 w-24 justify-center'
-                    src={image_check}
+                    src='/images/check.png'
                     alt='imagen de un check'
                   ></Image>
                 </Link>
@@ -122,4 +121,4 @@ function user_check() {
     </div>
   );
 }
-export default user_check;
+export default UserCheck;
