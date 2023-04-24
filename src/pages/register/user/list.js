@@ -3,7 +3,11 @@ import { useRouter } from 'next/router';
 export default function ListUsers({ users }) {
   const router = useRouter();
 
-  if (!users) {
+  const normal = users.filter(
+    (user) => user.type === 'user_normal' || user.type === 'user_superior'
+  );
+
+  if (!normal) {
     return (
       <div className='flex min-h-screen flex-col items-center justify-center'>
         <div>
@@ -24,7 +28,7 @@ export default function ListUsers({ users }) {
   return (
     <div className='container mx-auto py-8'>
       <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-        {users.map((user) => (
+        {normal.map((user) => (
           <div
             className='rounded bg-gray-800 p-4 text-white shadow'
             key={user._id}
@@ -46,9 +50,7 @@ export default function ListUsers({ users }) {
             <div className='mt-4 flex justify-between'>
               <button
                 className='rounded bg-yellow-500 px-3 py-2 font-semibold text-white hover:bg-yellow-600'
-                onClick={() =>
-                  router.push(`/register/registerUser/${user._id}/edit`)
-                }
+                onClick={() => router.push(`/register/user/${user._id}/edit`)}
               >
                 Editar
               </button>

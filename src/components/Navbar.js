@@ -104,7 +104,7 @@ function Navbar() {
               Perfil
             </Link>
             <Link
-              href='/register'
+              href='/register/user/new'
               className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
             >
               Registrar

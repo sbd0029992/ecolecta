@@ -20,7 +20,7 @@ const userSchema = new Schema(
       maxlength: [50, 'Second last name cannot be more than 50 characters'],
     },
     ci: {
-      type: Number,
+      type: String,
       required: [true, 'Please add a CI'],
       unique: true,
     },
@@ -33,13 +33,18 @@ const userSchema = new Schema(
       type: Date,
       required: [true, 'Please add a birthdate'],
     },
+    gender: {
+      type: String,
+      enum: ['M', 'F', 'O'], // Assuming M for Male, F for Female, and O for Other
+      required: [false, 'Please add a gender'],
+    },
     location: {
       type: {
         latitude: Number,
         longitude: Number,
       },
       _id: false,
-      required: [true, 'Please add a location'],
+      required: [false, 'Please add a location'],
     },
     email: {
       type: String,
@@ -52,6 +57,30 @@ const userSchema = new Schema(
         'Please add a valid email',
       ],
     },
+    license: {
+      type: String,
+      maxlength: [30, 'License cannot be more than 30 characters'],
+    },
+    photos: {
+      type: [String],
+      required: [false, 'Please add at least one image URL'],
+    },
+    truck: {
+      type: Schema.Types.ObjectId,
+      ref: 'Truck',
+    },
+    points: {
+      type: Number,
+      default: 0,
+    },
+    buckets: {
+      type: Number,
+      default: 0,
+    },
+    type: {
+      type: String,
+      default: 'user_normal',
+    },
     password: {
       type: String,
       minlength: [6, 'Password must be at least 6 characters long'],
@@ -59,13 +88,7 @@ const userSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['active', 'inactive'],
-      default: 'active',
-    },
-    type: {
-      type: String,
-      enum: ['user_normal', 'user_superior'],
-      default: 'user_normal',
+      default: '1',
     },
   },
   {

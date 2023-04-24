@@ -27,7 +27,6 @@ export default async (req, res) => {
         const updateTask = await User.findByIdAndUpdate(id, body, {
           new: true,
         });
-
         if (!updateTask) return res.status(404).end(`User not found`);
         return res.status(200).json({ updateTask });
       } catch (error) {

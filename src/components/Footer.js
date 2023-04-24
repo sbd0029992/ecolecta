@@ -4,7 +4,7 @@ import React from 'react';
 function Footer() {
   return (
     <div className='flex h-[20vh] flex-row  items-center justify-evenly gap-5 bg-tertiary pl-5 pr-5 md:h-[20vh] md:max-h-[25vh] '>
-      <div className='flex flex-row gap-5 md:gap-20'>
+      <div className='flex h-[20vh] flex-row gap-5 md:gap-20'>
         <div className='flex flex-col gap-1'>
           <h4 className=' text-white md:text-sm'>Company</h4>
           <Link href='/blog' className='text-sm text-white md:text-[12px]'>
@@ -41,10 +41,10 @@ function Footer() {
         <div className='hidden flex-col gap-1 md:flex'>
           <h4 className='text-white md:text-sm'>Admin</h4>
           <Link
-            href='/user_list_verification'
+            href='/register/collector/list'
             className='text-sm text-white md:text-[12px]'
           >
-            Verificar usuarios
+            Recolectores
           </Link>
           <Link
             href='/affiliate/list'

@@ -23,6 +23,7 @@ export default function UserRegister() {
       latitude: '',
       longitude: '',
     },
+    gender: '',
     email: '',
     password: '',
     status: 'active',
@@ -57,6 +58,7 @@ export default function UserRegister() {
         email: user.email,
         status: user.status,
         type: user.type,
+        gender: user.gender,
       });
       setCenterMap({
         lat: parseFloat(user.location.latitude),
@@ -152,7 +154,7 @@ export default function UserRegister() {
     e.preventDefault();
     if (query.id) {
       await updateUser();
-      // await push('/');
+      await push('/');
     } else {
       await createUser(newUser);
       console.log(newUser);
@@ -217,6 +219,22 @@ export default function UserRegister() {
                 class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
                 placeholder='John'
               />
+            </div>
+            <div className='flex justify-between'>
+              <label class='mb-2 mt-2 block self-center text-sm font-medium text-gray-500 dark:text-white'>
+                Genero:
+              </label>
+              <select
+                id='gender'
+                value={newUser.gender}
+                onChange={handleChange}
+                class='mt-3 block w-36 rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-secondary text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
+              >
+                <option className='text-sm' value='M' selected>
+                  Masculino
+                </option>
+                <option value='F'>Femenino</option>
+              </select>
             </div>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>

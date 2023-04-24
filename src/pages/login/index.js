@@ -99,7 +99,7 @@ function LoginPage() {
                     <br />
                     <div className='justify-center text-center'>
                       <Link
-                        href='/register/registerUser/new'
+                        href='/register/user/new'
                         id='remember'
                         className=' text-sm font-medium text-black underline decoration-black hover:file:underline dark:text-black'
                       >

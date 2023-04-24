@@ -40,10 +40,10 @@ export default function ListTrucks({ trucks }) {
             >
               <div className='p-4'>
                 <h4 className='text-center text-xl font-semibold'>Camion</h4>
-                <p className='text-gray-600'>{truck.plate}</p>
-                <p className='text-gray-600'>{truck.chasis}</p>
-                <p className='text-gray-600'>{truck.model}</p>
-                <p className='text-gray-600'>{truck.brand}</p>
+                <p className='text-gray-600'>Placa: {truck.plate}</p>
+                <p className='text-gray-600'>Chasis: {truck.chasis}</p>
+                <p className='text-gray-600'>Año: {truck.model}</p>
+                <p className='text-gray-600'>Modelo: {truck.brand}</p>
                 <p className='text-gray-600'>
                   Estado:{' '}
                   <strong
