@@ -15,7 +15,7 @@ const nextConfig = withPWA({
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [`${process.env.AWS_DOMAIN}`, 'example.com'],
+    domains: [`${process.env.AWS_DOMAIN}`, 'scontent.fvvi1-2.fna.fbcdn.net'],
   },
 
   webpack(config) {
