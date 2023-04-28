@@ -115,6 +115,18 @@ function Navbar() {
               Registrar
             </Link>
             <Link
+              href='/register/user/list'
+              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+            >
+              List user
+            </Link>
+            <Link
+              href='/product/list'
+              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+            >
+              List product
+            </Link>
+            <Link
               href='/login'
               className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
             >
