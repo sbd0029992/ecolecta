@@ -44,25 +44,25 @@ function Footer() {
             href='/register/collector/list'
             className='text-sm text-white md:text-[12px]'
           >
-            Recolectores
+            <a>Recolectores</a>
           </Link>
           <Link
             href='/affiliate/list'
             className='text-sm text-white md:text-[12px]'
           >
-            Afiliados
+            <a>Afiliados</a>
           </Link>
           <Link
             href='/product/list'
             className='text-sm text-white md:text-[12px]'
           >
-            Productos
+            <a>Productos</a>
           </Link>
           <Link
             href='/register/truck/list'
             className='text-sm text-white md:text-[12px]'
           >
-            Camiones
+            <a>Camiones</a>
           </Link>
 
           <p className='text-transparent'>Blog</p>
