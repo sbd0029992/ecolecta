@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import {
   FaChartLine,
@@ -12,7 +12,12 @@ import { AuthContext } from '../context/authContext';
 
 function Navbar() {
   const [isActive, setIsActive] = useState(false);
-  const { isLoggedIn, userData } = useContext(AuthContext); // Accede al contexto de autenticación
+  const { isLoggedIn, userData, subscribe } = useContext(AuthContext);
+
+  useEffect(() => {
+    return subscribe(() => setIsActive((prev) => !prev));
+  }, [subscribe]);
+
   const displayName = isLoggedIn
     ? `${userData.firstName} ${userData.lastName}`
     : 'Guest';

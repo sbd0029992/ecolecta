@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { userServiceFactory } from '../../clientServices/userService';
@@ -7,6 +8,7 @@ import useUser from '../../lib/useUser';
 const userService = userServiceFactory();
 
 function LoginPage() {
+  const { push } = useRouter();
   const { user, mutateUser } = useUser({
     redirectTo: '/',
     redirectIfFound: true,
@@ -26,6 +28,7 @@ function LoginPage() {
     e.preventDefault();
     try {
       mutateUser(await userService.login(email, password));
+      push('/');
     } catch (error) {
       alert(error.response.data.error);
     }
