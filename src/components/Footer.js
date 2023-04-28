@@ -8,13 +8,14 @@ function Footer() {
         <div className='flex flex-col gap-1'>
           <h4 className=' text-white md:text-sm'>Company</h4>
           <Link href='/blog' className='text-sm text-white md:text-[12px]'>
-            About
+            passHref About
           </Link>
           <Link href='/contact' className='text-sm text-white md:text-[12px]'>
-            Contacto
+            passHref Contacto
           </Link>
           <Link
             href='/recolectorQr'
+            passHref
             className='text-sm text-white md:text-[12px]'
           >
             Qr Recolector
@@ -24,12 +25,14 @@ function Footer() {
           <h4 className='text-white md:text-sm'>Product</h4>
           <Link
             href='tiendaProductos'
+            passHref
             className='text-sm text-white md:text-[12px]'
           >
             Tienda
           </Link>
           <Link
             href='carritoCheck'
+            passHref
             className='text-sm text-white md:text-[12px]'
           >
             Carrito
@@ -42,27 +45,31 @@ function Footer() {
           <h4 className='text-white md:text-sm'>Admin</h4>
           <Link
             href='/register/collector/list'
+            passHref
             className='text-sm text-white md:text-[12px]'
           >
-            <a>Recolectores</a>
+            Recolectores
           </Link>
           <Link
             href='/affiliate/list'
+            passHref
             className='text-sm text-white md:text-[12px]'
           >
-            <a>Afiliados</a>
+            Afiliados
           </Link>
           <Link
             href='/product/list'
+            passHref
             className='text-sm text-white md:text-[12px]'
           >
-            <a>Productos</a>
+            Productos
           </Link>
           <Link
             href='/register/truck/list'
+            passHref
             className='text-sm text-white md:text-[12px]'
           >
-            <a>Camiones</a>
+            Camiones
           </Link>
 
           <p className='text-transparent'>Blog</p>
