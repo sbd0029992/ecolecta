@@ -51,10 +51,10 @@ function Navbar() {
           </Link>
         </div>
         <div>
-          <Link href='/userCheck' className='hidden lg:block'>
+          <Link href='/collect/list' className='hidden lg:block'>
             Check Page
           </Link>
-          <Link href='/userCheck'>
+          <Link href='/collect/list'>
             <FaCheck className='h-6 w-6 lg:hidden' />
           </Link>
         </div>

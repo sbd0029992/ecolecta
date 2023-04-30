@@ -1,7 +1,7 @@
-import NewCollect from '../new';
+import NewProduct from '../new';
 
-const EditCollect = (props) => {
-  return <NewCollect {...props} />;
+const EditProduct = (props) => {
+  return <NewProduct {...props} />;
 };
 
 export async function getServerSideProps() {
@@ -15,4 +15,4 @@ export async function getServerSideProps() {
   };
 }
 
-export default EditCollect;
+export default EditProduct;

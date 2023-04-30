@@ -4,7 +4,7 @@ import React from 'react';
 
 function UserCheck() {
   return (
-    <div className='flex h-auto w-auto items-center justify-center bg-blue-200 min-[320px]:h-[100vh] lg:w-full  min-[1250px]:h-full  xl:pb-[11vh]'>
+    <div className='flex h-auto w-auto items-center justify-center bg-blue-200 min-[320px]:h-[100vh] lg:w-full  min-[1250px]:h-full xl:pb-[11vh]'>
       <div className=' h-auto w-[650px] justify-center marker:flex lg:w-full xl:h-auto xl:w-auto '>
         <section className='ml-8 h-[min-content] w-[320px] items-center justify-center lg:flex lg:w-full lg:flex-nowrap xl:ml-10 xl:flex xl:w-full xl:flex-nowrap'>
           <div className='mt-6 w-[350px] rounded-lg border-black bg-white p-5 xl:h-[500px]'>

@@ -16,20 +16,14 @@ export default withSession(async (req, res) => {
 
   try {
     const user = await dbService.getUser(email);
-    const firstName = user.firstName;
-    const lastName = user.lastName;
     const status = user.status;
     const type = user.type;
     const idUser = user._id;
+    const fullName = `${user.firstName} ${user.lastName} ${user.secondLastName}`;
     const passwordMatches = await authService.validate(password, user.password);
     if (passwordMatches) {
-      await saveSession(
-        { firstName, lastName, status, type, idUser, email },
-        req
-      );
-      res
-        .status(200)
-        .json({ firstName, lastName, status, type, idUser, email });
+      await saveSession({ fullName, status, type, idUser, email }, req);
+      res.status(200).json({ fullName, status, type, idUser, email });
       return;
     }
   } catch (error) {

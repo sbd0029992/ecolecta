@@ -2,8 +2,14 @@ import { model, models, Schema } from 'mongoose';
 
 const collectSchema = new Schema(
   {
-    recolector: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    collector: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: [false, 'Please add a collector'],
+      },
+    ],
+    user: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     status: {
       type: Number,
       required: [false, 'Please add a status'],
@@ -31,7 +37,7 @@ const collectSchema = new Schema(
       type: Number,
       default: 0,
     },
-    imagecheck: [{ type: String }],
+    images: [{ type: String }],
   },
   {
     timestamps: false,
