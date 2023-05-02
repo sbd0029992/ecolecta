@@ -3,10 +3,13 @@ import mongoose from 'mongoose';
 import { dbConnect } from 'utils/mongosee';
 
 import Collect from '/src/models/Collect';
+import Truck from '/src/models/Truck';
 import User from '/src/models/User';
 dbConnect();
 
-export default async function handler(req, res) {
+import authMiddleware from '/src/middlewares/authMiddleware';
+
+async function handler(req, res) {
   const {
     query: { id },
     method,
@@ -17,7 +20,11 @@ export default async function handler(req, res) {
     case 'GET':
       try {
         const collects = await Collect.find({})
-          .populate({ path: 'collector', model: User })
+          .populate({
+            path: 'collector',
+            model: User,
+            populate: { path: 'truck', model: Truck },
+          })
           .populate({ path: 'user', model: User });
 
         if (!collects) {
@@ -116,3 +123,5 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Method not allowed' });
   }
 }
+
+export default authMiddleware(handler);

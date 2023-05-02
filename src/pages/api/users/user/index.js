@@ -13,23 +13,10 @@ async function handler(req, res) {
     case 'GET':
       try {
         const allUsers = await User.find({});
-        const collectorUsers = allUsers.filter(
-          (user) => user.type === 'collector'
+        const users = allUsers.filter(
+          (user) => user.type === 'user_normal' || user.type === 'user_superior'
         );
-        const populatedCollectorUsers = await User.populate(collectorUsers, {
-          path: 'truck',
-        });
-        const allUsersWithPopulatedTrucks = allUsers.map((user) => {
-          if (user.type === 'collector') {
-            const populatedUser = populatedCollectorUsers.find(
-              (collectorUser) =>
-                collectorUser._id.toString() === user._id.toString()
-            );
-            return populatedUser;
-          }
-          return user;
-        });
-        return res.status(200).json(allUsersWithPopulatedTrucks);
+        return res.status(200).json(users);
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }

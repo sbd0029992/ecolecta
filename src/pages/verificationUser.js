@@ -12,15 +12,17 @@ function VerificationPageUser() {
             <Image
               src='/images/verify.png'
               className='z-0 rounded-full'
+              width={200}
+              height={200}
               alt='image user '
             />
-            <Image
+            {/* <Image
               src='/images/verify.png'
               className='z-5 absolute top-[160px] right-14 rounded-full'
               width={50}
               height={50}
               alt='verify'
-            />
+            /> */}
           </div>
           <div className='content items-center justify-center p-10 text-[25px]  '>
             <button className=' ml-4 h-10 w-[200px] rounded-lg bg-[#00FF0A] font-primary text-white xl:w-[200px]'>

@@ -19,11 +19,24 @@ export default withSession(async (req, res) => {
     const status = user.status;
     const type = user.type;
     const idUser = user._id;
-    const fullName = `${user.firstName} ${user.lastName} ${user.secondLastName}`;
+    const firstName = user.firstName;
+    const lastName = user.lastName;
+    const secondLastName = user.secondLastName;
     const passwordMatches = await authService.validate(password, user.password);
     if (passwordMatches) {
-      await saveSession({ fullName, status, type, idUser, email }, req);
-      res.status(200).json({ fullName, status, type, idUser, email });
+      await saveSession(
+        { firstName, lastName, secondLastName, status, type, idUser, email },
+        req
+      );
+      res.status(200).json({
+        firstName,
+        lastName,
+        secondLastName,
+        status,
+        type,
+        idUser,
+        email,
+      });
       return;
     }
   } catch (error) {

@@ -1,33 +1,36 @@
 import { dbConnect } from 'utils/mongosee';
 
+import authMiddleware from '/src/middlewares/authMiddleware';
 import Collect from '/src/models/Collect';
+import Truck from '/src/models/Truck';
 import User from '/src/models/User';
 
 dbConnect();
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   const { method, body } = req;
 
   switch (method) {
     case 'GET':
       try {
-        const userId = req.query.userId; // Obtén el userId desde la consulta
-        const user = await User.findById(userId); // Encuentra al usuario con el ID proporcionado
-
+        const userId = req.query.userId;
+        const user = await User.findById(userId);
         let collects;
 
-        // Si el usuario es un recolector, devuelve todas las recolecciones
         if (user.type === 'collector') {
-          collects = await Collect.find({});
+          collects = await Collect.find({}).populate({
+            path: 'user',
+            populate: {
+              path: 'truck',
+              model: Truck,
+            },
+          });
         } else {
-          // Si el usuario no es un recolector, filtra las recolecciones según el ID del usuario y el estado
           collects = await Collect.find({
             user: userId,
             status: { $in: [1, 2] },
-          });
+          }).populate('user');
         }
-        console.log('🚀 ~ file: index.js:22 ~ handler ~ collects:', collects);
-
         return res.status(200).json(collects);
       } catch (error) {
         return res.status(400).json({ error: error.message });
@@ -36,7 +39,7 @@ export default async function handler(req, res) {
       try {
         const newCollect = new Collect(body);
         const savedCollect = await newCollect.save();
-        await savedCollect.save();
+        await savedCollect.populate('user').execPopulate();
 
         return res.status(201).json(savedCollect);
       } catch (error) {
@@ -48,3 +51,5 @@ export default async function handler(req, res) {
       return res.status(400).json({ msg: 'This method is not supported' });
   }
 }
+
+export default authMiddleware(handler);

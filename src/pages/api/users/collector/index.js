@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import Truck from 'models/Truck';
 import User from 'models/User';
 import { dbConnect } from 'utils/mongosee';
 
@@ -16,20 +17,14 @@ async function handler(req, res) {
         const collectorUsers = allUsers.filter(
           (user) => user.type === 'collector'
         );
-        const populatedCollectorUsers = await User.populate(collectorUsers, {
+
+        const collectors = await User.populate(collectorUsers, {
           path: 'truck',
+          model: Truck,
         });
-        const allUsersWithPopulatedTrucks = allUsers.map((user) => {
-          if (user.type === 'collector') {
-            const populatedUser = populatedCollectorUsers.find(
-              (collectorUser) =>
-                collectorUser._id.toString() === user._id.toString()
-            );
-            return populatedUser;
-          }
-          return user;
-        });
-        return res.status(200).json(allUsersWithPopulatedTrucks);
+
+        console.log('collectors:', collectors);
+        return res.status(200).json(collectors);
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }

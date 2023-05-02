@@ -2,15 +2,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
 
-// eslint-disable-next-line unused-imports/no-unused-imports
-// import Truck from '/src/models/Truck';
-import User from '/src/models/User';
-import { dbConnect } from '/src/utils/mongosee';
-
-export default function ListUsers({ users }) {
+export default function ListUsers({ collectors }) {
   const router = useRouter();
-
-  const collectors = users.filter((user) => user.type === 'collector');
 
   const sliderRefs = useRef([]);
 
@@ -132,30 +125,12 @@ export default function ListUsers({ users }) {
 }
 
 export const getServerSideProps = async () => {
-  dbConnect();
-
-  const users = await User.find({}).populate('truck').lean().exec();
-  const usersWithConvertedIds = users.map((user) => {
-    return {
-      ...user,
-      _id: user._id.toString(),
-      birthdate: user.birthdate.toISOString(),
-      createdAt: user.createdAt.toISOString(),
-      updatedAt: user.updatedAt.toISOString(),
-      truck: user.truck
-        ? {
-            _id: user.truck._id.toString(),
-            plate: user.truck.plate,
-            createdAt: user.truck.createdAt.toISOString(),
-            updatedAt: user.truck.updatedAt.toISOString(),
-          }
-        : null,
-    };
-  });
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${apiUrl}/api/users/collector`);
+  const collectors = await res.json();
   return {
     props: {
-      users: usersWithConvertedIds,
+      collectors,
     },
   };
 };

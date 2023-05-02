@@ -1,9 +1,11 @@
 import Truck from 'models/Truck';
 import { dbConnect } from 'utils/mongosee';
 
+import authMiddleware from '/src/middlewares/authMiddleware';
+
 dbConnect();
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   const { method, body } = req;
 
   switch (method) {
@@ -28,3 +30,5 @@ export default async function handler(req, res) {
       return res.status(400).json({ msg: 'This method is not supported' });
   }
 }
+
+export default authMiddleware(handler);

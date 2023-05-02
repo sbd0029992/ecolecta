@@ -2,9 +2,11 @@
 import User from 'models/User';
 import { dbConnect } from 'utils/mongosee';
 
+import authMiddleware from '/src/middlewares/authMiddleware';
+
 dbConnect();
 
-export default async (req, res) => {
+async function handler(req, res) {
   const {
     method,
     body,
@@ -43,4 +45,6 @@ export default async (req, res) => {
     default:
       return res.status(405).end(`Method ${method} Not Allowed`);
   }
-};
+}
+
+export default authMiddleware(handler);

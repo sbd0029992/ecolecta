@@ -2,12 +2,7 @@ import { useRouter } from 'next/router';
 
 export default function ListUsers({ users }) {
   const router = useRouter();
-
-  const normal = users.filter(
-    (user) => user.type === 'user_normal' || user.type === 'user_superior'
-  );
-
-  if (!normal) {
+  if (!users) {
     return (
       <div className='flex min-h-screen flex-col items-center justify-center'>
         <div>
@@ -28,7 +23,7 @@ export default function ListUsers({ users }) {
   return (
     <div className='container mx-auto py-8'>
       <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-        {normal.map((user) => (
+        {users.map((user) => (
           <div
             className='rounded bg-gray-800 p-4 text-white shadow'
             key={user._id}
@@ -64,7 +59,7 @@ export default function ListUsers({ users }) {
 
 export const getServerSideProps = async () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/users`);
+  const res = await fetch(`${apiUrl}/api/users/user`);
   const users = await res.json();
   return {
     props: {

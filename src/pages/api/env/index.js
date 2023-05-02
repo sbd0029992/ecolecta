@@ -1,4 +1,6 @@
-export default function handler(req, res) {
+import authMiddleware from '/src/middlewares/authMiddleware';
+
+function handler(req, res) {
   res.status(200).json({
     awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
     awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -6,3 +8,5 @@ export default function handler(req, res) {
     awsBucket: process.env.AWS_BUCKET_NAME,
   });
 }
+
+export default authMiddleware(handler);

@@ -28,7 +28,6 @@ export default function NewCollect({ env }) {
     fault: 0,
     images: query.id ? [''] : [],
   });
-  console.log('🚀 ~ file: new.js:30 ~ NewCollect ~ newCollect:', newCollect);
   const getCollect = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/collects/${query.id}`);
@@ -157,10 +156,10 @@ export default function NewCollect({ env }) {
       await updateCollect(updatedProduct);
 
       setNewCollect(updatedProduct);
-      await push('/collect/list');
+      await push('/collect/user/list');
     } else {
       await createCollect(newCollect);
-      await push('/collect/list');
+      await push('/collect/user/list');
     }
   };
 
@@ -168,7 +167,7 @@ export default function NewCollect({ env }) {
     const updateCollectWithImages = async () => {
       await updateCollect();
       setIsSubmitting(false);
-      push('/collect/list');
+      push('/collect/user/list');
     };
 
     if (
@@ -226,7 +225,7 @@ export default function NewCollect({ env }) {
 
         // Actualiza los datos en la base de datos con el producto actualizado
         await updateCollect({ ...newCollect, images: updatedImageUrls });
-        push('/collect/list');
+        push('/collect/user/list');
       }
     });
   }
@@ -240,36 +239,61 @@ export default function NewCollect({ env }) {
             <div className='flex min-h-[375px] min-w-[340px] flex-col justify-center gap-2 bg-gray-600 p-4 text-white'>
               <div className='flex flex-row justify-between '>
                 <h4>Recolector: </h4>
-                <label id='collector' className='text-md'>
-                  Juan Perez
+                <label id='collector' className='text-sm'>
+                  {newCollect.collector[0].firstName +
+                    ' ' +
+                    newCollect.collector[0].lastName +
+                    ' ' +
+                    newCollect.collector[0].secondLastName}
                 </label>
               </div>
               <div className='flex flex-row justify-between'>
                 <h4>Placa:</h4>
                 <label id='plate' className='text-md'>
-                  1240DFK
+                  {newCollect.collector[0].truck.plate}
                 </label>
               </div>
               <div className='flex flex-row justify-between'>
                 <h4>Estado del vehiculo:</h4>
                 <label id='status' className='text-md'>
-                  EN CAMINO
+                  {newCollect.collector[0].status == 1 ? 'En camino' : 'Visto'}
                 </label>
               </div>
               <div className='flex flex-row justify-between'>
                 <h4>Tiempo estimado llegada</h4>
                 <label id='time' className='text-md'>
-                  2horas
+                  {/* split time que lelga con 1600 a 16:00 */}
+
+                  {newCollect.time
+                    ? newCollect.time
+                        .toString()
+                        .split('')
+                        .splice(0, 2)
+                        .join('')
+                        .concat(
+                          ':',
+                          newCollect.time
+                            .toString()
+                            .split('')
+                            .splice(2, 2)
+                            .join('')
+                        )
+                    : '00:00'}
                 </label>
               </div>
-              <div className='flex justify-center '>
-                <Image
-                  className='justify-center  '
-                  src='/images/user.png'
-                  width={200}
-                  height={200}
-                  alt='Image Recolector'
-                />
+              <div className='flex w-full flex-col items-center justify-center'>
+                <h3>Foto del Recolector</h3>
+                {newCollect.collector[0].photos.map((image) => (
+                  <div key={image} className='mr-4' style={{ width: '100px' }}>
+                    <Image
+                      src={image}
+                      alt={image}
+                      className='h-full w-full rounded-md object-cover shadow-md'
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           )}

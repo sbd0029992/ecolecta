@@ -13,17 +13,16 @@ import { AuthContext } from '../context/authContext';
 function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const { isLoggedIn, userData, subscribe } = useContext(AuthContext);
-
   useEffect(() => {
     return subscribe(() => setIsActive((prev) => !prev));
   }, [subscribe]);
 
   const displayName = isLoggedIn
-    ? `${userData.firstName} ${userData.lastName}`
-    : 'Guest';
+    ? `${userData.firstName} ${userData.lastName} ${userData.lastName}`
+    : 'Invitado';
 
   //type user
-  var typeUser = isLoggedIn ? userData.type : 'Guest';
+  var typeUser = isLoggedIn ? userData.type : 'Invitado';
 
   if (typeUser === 'user_superior') {
     typeUser = 'Superior';
@@ -50,35 +49,60 @@ function Navbar() {
             <FaShoppingCart className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
-        <div>
-          <Link href='/collect/list' className='hidden lg:block'>
-            Check Page
-          </Link>
-          <Link href='/collect/list'>
-            <FaCheck className='h-6 w-6 lg:hidden' />
-          </Link>
-        </div>
-        <div>
-          <Link href='/recolectorCheck' className='hidden lg:block'>
-            Check Recolector
-          </Link>
-          <Link href='/recolectorCheck'>
-            <FaCheck className='h-6 w-6 lg:hidden' />
-          </Link>
-        </div>
+        {isLoggedIn ? (
+          <>
+            {userData.type === 'collector' ? (
+              <div className='flex flex-row gap-4 sm:gap-6 '>
+                <div>
+                  <Link
+                    href='/collect/collector/list'
+                    className='hidden lg:block'
+                  >
+                    List Collect
+                  </Link>
+                  <Link href='/collect/collector/list'>
+                    <FaCheck className='h-6 w-6 lg:hidden' />
+                  </Link>
+                </div>
+                <div>
+                  <Link
+                    href='/collect/collector/listCollector'
+                    className='hidden lg:block'
+                  >
+                    Check Collector
+                  </Link>
+
+                  <Link href='/collect/collector/listCollector'>
+                    <FaPhoneAlt className='h-6 w-6 lg:hidden' />
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className='flex flex-row gap-4 sm:gap-6 '>
+                <Link href='/collect/user/list' className='hidden lg:block'>
+                  Check Page
+                </Link>
+                <Link href='/collect/user/list'>
+                  <FaCheck className='h-6 w-6 lg:hidden' />
+                </Link>
+              </div>
+            )}
+          </>
+        ) : null}
+
         <div>
           <Link href='/contact' className='hidden lg:block'>
             Contactos
           </Link>
           <Link href='/contact'>
-            <FaPhoneAlt className='h-6 w-6 lg:hidden' />
+            <FaChartLine className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
         <div>
-          <Link href='dashboard' className='hidden lg:block'>
-            Dashboard
+          <Link href='/dashboard' className='hidden lg:block'>
+            Tablero Posiciones
           </Link>
-          <Link href='dashboard'>
+          <Link href='/dashboard'>
             <FaChartLine className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
@@ -102,42 +126,37 @@ function Navbar() {
             </span>
 
             <hr className='mx-4' />
-            <Link
-              href='/profile'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-            >
-              Perfil
-            </Link>
-            <Link
-              href='/register/user/new'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-            >
-              Registrar
-            </Link>
-            <Link
-              href='/register/user/list'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-            >
-              List user
-            </Link>
-            <Link
-              href='/product/list'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-            >
-              List product
-            </Link>
-            <Link
-              href='/login'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-            >
-              Login
-            </Link>
-            <Link
-              href='/api/auth/logout'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-            >
-              Logout
-            </Link>
+            {isLoggedIn ? (
+              <div>
+                <Link
+                  href='/profile'
+                  className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                >
+                  Perfil
+                </Link>
+                <Link
+                  href='/api/auth/logout'
+                  className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                >
+                  Logout
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <Link
+                  href='/login'
+                  className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                >
+                  Iniciar Sesión
+                </Link>
+                <Link
+                  href='/register/user/new'
+                  className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                >
+                  Registrarse
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
