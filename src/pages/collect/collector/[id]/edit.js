@@ -4,7 +4,7 @@ const EditProduct = (props) => {
   return <NewProduct {...props} />;
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(`${apiUrl}/api/env`);
   const env = await res.json();

@@ -19,14 +19,13 @@ async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const collects = await Collect.find({})
+        const collects = await Collect.findById(id)
           .populate({
             path: 'collector',
             model: User,
             populate: { path: 'truck', model: Truck },
           })
           .populate({ path: 'user', model: User });
-
         if (!collects) {
           return res.status(404).json({ error: 'Collect not found' });
         }

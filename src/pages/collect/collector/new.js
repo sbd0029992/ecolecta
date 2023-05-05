@@ -9,6 +9,7 @@ export default function NewCollect({ env }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { userData } = useContext(AuthContext);
   const { query, push } = useRouter();
+  console.log('🚀 ~ file: new.js:12 ~ NewCollect ~ query:', query.id);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
@@ -30,7 +31,8 @@ export default function NewCollect({ env }) {
   const getCollect = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/collects/${query.id}`);
-      const [apiCollect] = await res.json();
+      const apiCollect = await res.json();
+      console.log('🚀 ~ file: new.js:34 ~ getCollect ~ res:', res);
       setIdCollect({ id: apiCollect._id });
       setCollectImages(apiCollect.images);
       setNewCollect((prevCollect) => ({
@@ -169,7 +171,7 @@ export default function NewCollect({ env }) {
     const updateCollectWithImages = async () => {
       await updateCollect();
       setIsSubmitting(false);
-      push('/collect/collector/list');
+      // push('/collect/collector/list');
     };
 
     if (
@@ -225,7 +227,7 @@ export default function NewCollect({ env }) {
       } else {
         console.log('Image deleted from S3:', data);
         await updateCollect({ ...newCollect, images: updatedImageUrls });
-        // push('/collect/user/list');
+        push('/collect/user/list');
       }
     });
   }
@@ -314,10 +316,10 @@ export default function NewCollect({ env }) {
               <div className='flex flex-row justify-between gap-1'>
                 <p className='flex h-14 w-32 items-center justify-center rounded-xl bg-blue-400 text-2xl font-semibold text-white '>
                   {newCollect.status == 1
-                    ? 'Listo'
+                    ? 'Mandado'
                     : newCollect.status == 2
-                    ? 'Finalizado'
-                    : 'Cancelado'}
+                    ? 'En camino'
+                    : 'Finalizado'}
                 </p>
                 {query.id &&
                 newCollect.user &&
@@ -360,28 +362,10 @@ export default function NewCollect({ env }) {
                   <button
                     type='submit'
                     onClick={() => {
-                      if (newCollect.status == 1) {
-                        const hour = document.getElementById('hour').value;
-                        const minutes =
-                          document.getElementById('minutes').value;
-                        const time = `${hour}:${minutes}`;
-                        const timeNumber = Number(time.replace(':', ''));
-                        setNewCollect((prevCollect) => ({
-                          ...prevCollect,
-                          status: 2,
-                          time: timeNumber,
-                        }));
-                      } else if (newCollect.status == 2) {
-                        setNewCollect((prevCollect) => ({
-                          ...prevCollect,
-                          status: 3,
-                        }));
-                      } else {
-                        setNewCollect((prevCollect) => ({
-                          ...prevCollect,
-                          status: 1,
-                        }));
-                      }
+                      setNewCollect((prevCollect) => ({
+                        ...prevCollect,
+                        status: 2,
+                      }));
                     }}
                     className='h-14 w-full rounded-xl bg-primary text-3xl font-bold text-white'
                   >

@@ -60,7 +60,7 @@ function ListCollects({ user }) {
                         Ubicacion
                       </a>
                     </td>
-                    <td className='w-[100px] border px-4 py-2 text-center text-center'>
+                    <td className='w-[100px] border px-4 py-2  text-center'>
                       {collect.description}
                     </td>
                     <td

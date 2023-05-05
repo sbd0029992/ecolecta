@@ -32,7 +32,7 @@ export default function NewCollect({ env }) {
   const getCollect = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/collects/${query.id}`);
-      const [apiCollect] = await res.json();
+      const apiCollect = await res.json();
       setIdCollect({ id: apiCollect._id });
       setCollectImages(apiCollect.images);
       setNewCollect({
@@ -263,23 +263,7 @@ export default function NewCollect({ env }) {
               <div className='flex flex-row justify-between'>
                 <h4>Tiempo estimado llegada</h4>
                 <label id='time' className='text-md'>
-                  {/* split time que lelga con 1600 a 16:00 */}
-
-                  {newCollect.time
-                    ? newCollect.time
-                        .toString()
-                        .split('')
-                        .splice(0, 2)
-                        .join('')
-                        .concat(
-                          ':',
-                          newCollect.time
-                            .toString()
-                            .split('')
-                            .splice(2, 2)
-                            .join('')
-                        )
-                    : '00:00'}
+                  {newCollect.time} hrs
                 </label>
               </div>
               <div className='flex w-full flex-col items-center justify-center'>
