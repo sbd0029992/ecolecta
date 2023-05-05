@@ -344,19 +344,14 @@ export default function NewCollect({ env }) {
                 </div>
                 <div className='flex justify-center'>
                   <input
-                    className='h-14 w-16 text-center text-2xl sm:w-20'
+                    className='h-14 w-32  text-center text-2xl sm:w-32'
                     type='number'
-                    id='hour'
-                    placeholder='HH'
-                  />
-                  <div className='mr-5 ml-5 self-center'>
-                    <h1 className='m text-white'>:</h1>
-                  </div>
-                  <input
-                    className='h-14 w-16 text-center text-2xl sm:w-20'
-                    type='number'
-                    id='minutes'
-                    placeholder='MM'
+                    id='time'
+                    min='0'
+                    max='2359'
+                    placeholder='HH:MM'
+                    value={newCollect.time}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -391,6 +386,18 @@ export default function NewCollect({ env }) {
                     className='h-14 w-full rounded-xl bg-primary text-3xl font-bold text-white'
                   >
                     VAMOS
+                  </button>
+                  <button
+                    type='submit'
+                    className='mt-5 h-14 w-full rounded-xl bg-primary text-3xl font-bold text-white'
+                    onClick={() => {
+                      setNewCollect((prevCollect) => ({
+                        ...prevCollect,
+                        status: 3,
+                      }));
+                    }}
+                  >
+                    FINALIZADO
                   </button>
                 </div>
                 {/* <div>

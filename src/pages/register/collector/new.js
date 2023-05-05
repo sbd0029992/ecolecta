@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { S3 } from 'aws-sdk';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -31,6 +32,7 @@ export default function UserRegister({ env }) {
     photos: query.id ? [''] : [],
     truck: query.id ? null : null,
   });
+  console.log('🚀 ~ file: new.js:35 ~ UserRegister ~ newUser:', newUser);
 
   async function fetchTrucks() {
     const response = await fetch(`${apiUrl}/api/trucks`);
@@ -405,9 +407,10 @@ export default function UserRegister({ env }) {
                   type='file'
                   id='photos'
                   accept='image/*'
-                  onChange={(e) =>
-                    setSelectedImages([...selectedImages, ...e.target.files])
-                  }
+                  onChange={(e) => {
+                    const filesArray = Array.from(e.target.files);
+                    setSelectedImages([...selectedImages, ...filesArray]);
+                  }}
                   class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
                   max='5145728' // 5MB en bytes
                 />
@@ -416,8 +419,8 @@ export default function UserRegister({ env }) {
                     key={index}
                     class='relative mr-2 mb-2 inline-block w-full'
                   >
-                    <img
-                      src={image}
+                    <Image
+                      src={URL.createObjectURL(image)}
                       alt={image}
                       class='h-30 w-full rounded-lg shadow-md'
                       height={100}
@@ -443,7 +446,7 @@ export default function UserRegister({ env }) {
                           class='relative mr-2 mb-2 inline-block w-full'
                         >
                           <img
-                            src={image}
+                            src={image.name}
                             alt={image}
                             class='h-30 w-full rounded-lg shadow-md'
                             height={100}
