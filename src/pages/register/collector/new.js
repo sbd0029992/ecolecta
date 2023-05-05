@@ -417,8 +417,8 @@ export default function UserRegister({ env }) {
                     class='relative mr-2 mb-2 inline-block w-full'
                   >
                     <img
-                      src={URL.createObjectURL(image)}
-                      alt={image.name}
+                      src={image}
+                      alt={image}
                       class='h-30 w-full rounded-lg shadow-md'
                       height={100}
                       width={100}
