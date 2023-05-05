@@ -8,6 +8,8 @@ export default function UserRegister() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
   const [showPasswordField, setShowPasswordField] = useState(true);
+  const [markerPosition, setMarkerPosition] = useState(null);
+  const [userLocation, setUserLocation] = useState(null);
   const [centerMap, setCenterMap] = useState({
     lat: -17.404357772400502,
     lng: -66.14837526944187,
@@ -77,6 +79,36 @@ export default function UserRegister() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.id]);
 
+  const getCurrentLocation = () => {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            resolve({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      } else {
+        reject(new Error('Geolocation not supported by this browser'));
+      }
+    });
+  };
+
+  useEffect(() => {
+    getCurrentLocation()
+      .then((location) => {
+        setUserLocation(location);
+      })
+      .catch((error) => {
+        console.error('Error obtaining user location:', error);
+      });
+  }, []);
+
   const markerRef = useRef();
 
   const libraries = useMemo(() => ['places'], []);
@@ -109,6 +141,7 @@ export default function UserRegister() {
   const handleDragEnd = (event) => {
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
+    setMarkerPosition({ lat, lng });
     setNewUser((prevNewUser) => ({
       ...prevNewUser,
       location: {
@@ -160,6 +193,56 @@ export default function UserRegister() {
       console.log(newUser);
       await push('/login');
     }
+  };
+
+  const CustomLocationButton = ({ onClick }) => (
+    <button
+      onClick={onClick}
+      type='button'
+      className='rounded-lg bg-blue-300  px-3'
+    >
+      Tu Ubicacion
+    </button>
+  );
+
+  const handleUpdateLocation = (lat, lng) => {
+    setNewUser((prevUser) => ({
+      ...prevUser,
+      location: {
+        latitude: lat,
+        longitude: lng,
+      },
+    }));
+  };
+
+  const handleLocationButtonClick = async () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        // Actualiza la ubicación en el estado de newUser
+        handleUpdateLocation(latitude, longitude);
+
+        setUserLocation({
+          lat: latitude,
+          lng: longitude,
+        });
+
+        setMarkerPosition({
+          lat: latitude,
+          lng: longitude,
+        });
+      },
+      () => {
+        alert('Unable to retrieve your location');
+      }
+    );
   };
 
   return (
@@ -281,15 +364,18 @@ export default function UserRegister() {
               />
             </div>
             <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                UBICACION
-              </label>
+              <div className='flex flex-row justify-between'>
+                <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                  UBICACION
+                </label>
+                <CustomLocationButton onClick={handleLocationButtonClick} />
+              </div>
               <div class='h-[300px] w-[250px]'>
                 <GoogleMap
                   // eslint-disable-next-line no-undef
                   mapTypeId={google.maps.MapTypeId.HYBRID}
                   zoom={14}
-                  center={centerMap}
+                  center={userLocation || centerMap}
                   mapContainerStyle={{
                     width: '100%',
                     height: '100%',
@@ -299,10 +385,8 @@ export default function UserRegister() {
                     id='markerComponent'
                     ref={markerRef}
                     position={{
-                      lat:
-                        parseFloat(newUser.location.latitude) || centerMap.lat,
-                      lng:
-                        parseFloat(newUser.location.longitude) || centerMap.lng,
+                      lat: parseFloat(markerPosition?.lat) || centerMap.lat,
+                      lng: parseFloat(markerPosition?.lng) || centerMap.lng,
                     }}
                     draggable={true}
                     onDragEnd={handleDragEnd}
@@ -361,14 +445,16 @@ export default function UserRegister() {
                 {query.id ? 'Actualizar' : 'Registrar'}
               </button>
             </div>
-            <div>
-              <Link
-                href='/login'
-                class='block text-right text-sm font-bold dark:text-white'
-              >
-                Tienes una cuenta? Inicia sesion
-              </Link>
-            </div>
+            {query.id ? null : (
+              <div>
+                <Link
+                  href='/login'
+                  class='block text-right text-sm font-bold dark:text-white'
+                >
+                  Tienes una cuenta? Inicia sesion
+                </Link>
+              </div>
+            )}
           </div>
         </form>
       </div>
