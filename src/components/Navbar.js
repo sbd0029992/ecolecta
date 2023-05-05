@@ -62,10 +62,10 @@ export default function Navbar() {
       </div>
       <div className='flex flex-row gap-4 sm:gap-6 '>
         <div>
-          <Link href='/tiendaProductos' className='hidden lg:block'>
+          <Link href='/product/tienda' className='hidden lg:block'>
             Productos
           </Link>
-          <Link href='/tiendaProductos'>
+          <Link href='/product/tienda'>
             <FaShoppingCart className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
@@ -148,12 +148,22 @@ export default function Navbar() {
             <hr className='mx-4' />
             {dataUser.isLoggedIn ? (
               <div>
-                <Link
-                  href='/profile'
-                  className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-                >
-                  Perfil
-                </Link>
+                {dataUser.type === 'collector' ? (
+                  <Link
+                    href='/register/collector/profile'
+                    className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                  >
+                    Perfil
+                  </Link>
+                ) : (
+                  <Link
+                    href='/register/user/profile'
+                    className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                  >
+                    Perfil
+                  </Link>
+                )}
+
                 <Link
                   href='/api/auth/logout'
                   className='block px-4 py-2 text-gray-800 hover:bg-gray-100'

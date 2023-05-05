@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { S3 } from 'aws-sdk';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -445,9 +444,9 @@ export default function UserRegister({ env }) {
                           key={index}
                           class='relative mr-2 mb-2 inline-block w-full'
                         >
-                          <img
-                            src={image.name}
-                            alt={image}
+                          <Image
+                            src={image}
+                            alt={image.name}
                             class='h-30 w-full rounded-lg shadow-md'
                             height={100}
                             width={100}
@@ -503,14 +502,6 @@ export default function UserRegister({ env }) {
               >
                 {query.id ? 'Actualizar' : 'Registrar'}
               </button>
-            </div>
-            <div>
-              <Link
-                href='/login'
-                class='block text-right text-sm font-bold dark:text-white'
-              >
-                Tienes una cuenta? Inicia sesion
-              </Link>
             </div>
           </div>
         </form>

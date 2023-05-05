@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image';
 import Link from 'next/link.js';
 import React from 'react';
@@ -11,33 +12,7 @@ import {
 
 import Item from '../components/Item.js';
 
-function Index() {
-  const values = [
-    {
-      id: '1',
-      title: 'Qr de 100',
-      image: '/images/juguete.jpg',
-      points: '50',
-    },
-    {
-      id: '2',
-      title: 'Qr de 300',
-      image: '/images/qr.jpg',
-      points: '100',
-    },
-    {
-      id: '3',
-      title: 'Qr de 500',
-      image: '/images/juguete.jpg',
-      points: '200',
-    },
-    {
-      id: '4',
-      title: 'Juguete',
-      image: '/images/juguete.jpg',
-      points: '500',
-    },
-  ];
+export default function Index({ products, affiliates }) {
   return (
     <div class='bg-secondary p-6'>
       {/* First Part */}
@@ -76,34 +51,21 @@ function Index() {
           </p>
         </div>
         <div class='grid grid-flow-row grid-cols-2 items-center gap-5 self-center md:w-3/4 '>
-          <Image
-            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px] '
-            src='/images/icon-kallpalla-color.png'
-            width={100}
-            height={100}
-            alt='imagen de un check'
-          />
-          <Image
-            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px]'
-            src='/images/icon-kallpalla-color.png'
-            width={100}
-            height={100}
-            alt='imagen de un check'
-          />
-          <Image
-            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px]'
-            src='/images/icon-kallpalla-color.png'
-            width={100}
-            height={100}
-            alt='imagen de un check'
-          />
-          <Image
-            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px]  lg:h-[300px] lg:w-[300px]'
-            src='/images/icon-kallpalla-color.png'
-            width={100}
-            height={100}
-            alt='imagen de un check'
-          />
+          {affiliates.map((item) => (
+            <div
+              className='flex flex-col items-center justify-center gap-2'
+              key={item.id}
+            >
+              <img
+                className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px] '
+                src={item.images}
+                width={100}
+                height={100}
+                alt={item.name}
+              />
+              <h3 className='text-white'>{item.name}</h3>
+            </div>
+          ))}
         </div>
       </div>
       {/* Bonus */}
@@ -142,7 +104,7 @@ function Index() {
           Cambia los puntos por nuestros fabulosos productos
         </p>
         <div className='grid grid-flow-col grid-rows-1 overflow-x-auto'>
-          {values.map((value) => (
+          {products.map((value) => (
             <div className='h-full w-96' key={value.id}>
               <Item data={value} key={value.id} />
             </div>
@@ -198,4 +160,15 @@ function Index() {
   );
 }
 
-export default Index;
+export const getServerSideProps = async () => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
+  const res2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/affiliates`);
+  const products = await res.json();
+  const affiliates = await res2.json();
+  return {
+    props: {
+      products,
+      affiliates,
+    },
+  };
+};
