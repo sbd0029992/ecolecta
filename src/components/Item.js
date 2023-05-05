@@ -1,4 +1,4 @@
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import React from 'react';
 
@@ -8,7 +8,7 @@ function Item(props) {
     <div className='flex flex-row items-center justify-center'>
       <div className='flex flex-col items-center gap-3'>
         <h3 className='text-white'>{title}</h3>
-        <Image src={image} alt='juguete' height={200} width={200} />
+        <img src={image} alt='juguete' height={200} width={200} />
         <h3 className='text-white'>{points} Puntos Unidad</h3>
       </div>
       <div className='ml-[5%] flex flex-col items-center gap-3'>

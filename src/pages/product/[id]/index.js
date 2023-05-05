@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import Error from 'next/error';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import useSWR from 'swr';
@@ -97,7 +97,7 @@ export default function ProductDetail() {
                     className='mr-4 flex-none'
                     style={{ width: '200px' }}
                   >
-                    <Image
+                    <img
                       src={image}
                       alt={product.name}
                       className='h-full w-full rounded-md object-cover shadow-md'

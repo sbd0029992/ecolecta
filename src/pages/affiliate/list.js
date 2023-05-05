@@ -1,4 +1,4 @@
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
 
@@ -83,7 +83,7 @@ export default function ListAffiliates({ affiliates }) {
                         className='mr-4 flex-none '
                         style={{ width: '100px' }}
                       >
-                        <Image
+                        <img
                           src={image}
                           alt={affiliate.name}
                           className='h-full w-full rounded-md object-cover shadow-md'

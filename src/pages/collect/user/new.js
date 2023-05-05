@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable unused-imports/no-unused-vars */
 import { S3 } from 'aws-sdk';
 import Image from 'next/image';
@@ -285,7 +286,7 @@ export default function NewCollect({ env }) {
                 <h3>Foto del Recolector</h3>
                 {newCollect.collector[0].photos.map((image) => (
                   <div key={image} className='mr-4' style={{ width: '100px' }}>
-                    <Image
+                    <img
                       src={image}
                       alt={image}
                       className='h-full w-full rounded-md object-cover shadow-md'
