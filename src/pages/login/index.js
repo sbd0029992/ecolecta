@@ -1,20 +1,31 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { userServiceFactory } from '../../clientServices/userService';
 import useUser from '../../lib/useUser';
+
+import { AuthContext } from '/src/context/authContext';
 
 const userService = userServiceFactory();
 
 function LoginPage() {
   const { push } = useRouter();
+  const { isLoggedIn } = useContext(AuthContext);
   const { user, mutateUser } = useUser({
     redirectTo: '/',
     redirectIfFound: true,
   });
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Redireccionar si el usuario está logueado
+    if (isLoggedIn) {
+      push('/');
+    }
+  }, [isLoggedIn, push]);
 
   const emailHandler = (e) => {
     setEmail(e.target.value);
@@ -23,16 +34,23 @@ function LoginPage() {
   const passwordHandler = (e) => {
     setPassword(e.target.value);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       mutateUser(await userService.login(email, password));
-      push('/');
     } catch (error) {
       alert(error.response.data.error);
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (user && user.isLoggedIn) {
+      push('/');
+    }
+  }, [user, push]);
+
   return (
     <div className='flex h-[100vh]  w-full items-center justify-center bg-blue-200'>
       <section className='h-[min-content] justify-center bg-white p-1  font-secondary min-[320px]:h-auto min-[320px]:w-[420px] xl:h-[70vh] xl:w-[40vh] xl:rounded-lg'>
@@ -112,11 +130,12 @@ function LoginPage() {
                     <br />
                     <button
                       type='submit'
+                      disabled={loading}
                       className=' min-[320px]: h-[50px] w-full rounded-2xl  bg-[#85A547]
                 p-2 text-center text-sm font-medium text-white hover:bg-green-500 hover:file:bg-green-200 focus:outline-none focus:ring-4 focus:ring-blue-300
                 dark:bg-[#85A547] dark:hover:bg-green-500 dark:focus:ring-green-500'
                     >
-                      <Link href='/'>Acceder</Link>
+                      {loading ? 'Cargando...' : <Link href='/'>Acceder</Link>}
                     </button>
                   </form>
                 )}

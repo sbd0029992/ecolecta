@@ -6,7 +6,6 @@ const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const subscribers = new Set();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,21 +32,8 @@ const AuthProvider = ({ children }) => {
     fetchData();
   }, []);
 
-  const subscribe = (listener) => {
-    const subscribers = new Set();
-    subscribers.add(listener);
-
-    return () => {
-      subscribers.delete(listener);
-    };
-  };
-
-  useEffect(() => {
-    subscribers.forEach((listener) => listener());
-  }, [isLoggedIn, subscribers, userData]);
-
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userData, subscribe }}>
+    <AuthContext.Provider value={{ isLoggedIn, userData }}>
       {children}
     </AuthContext.Provider>
   );

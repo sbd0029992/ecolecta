@@ -1,5 +1,6 @@
+import axios from 'axios';
 import Link from 'next/link';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import {
   FaChartLine,
@@ -8,21 +9,31 @@ import {
   FaShoppingCart,
 } from 'react-icons/fa';
 
-import { AuthContext } from '../context/authContext';
-
-function Navbar() {
+export default function Navbar() {
   const [isActive, setIsActive] = useState(false);
-  const { isLoggedIn, userData, subscribe } = useContext(AuthContext);
-  useEffect(() => {
-    return subscribe(() => setIsActive((prev) => !prev));
-  }, [subscribe]);
+  const [loading, setLoading] = useState(true);
 
-  const displayName = isLoggedIn
-    ? `${userData.firstName} ${userData.lastName} ${userData.lastName}`
+  const [dataUser, setdataUser] = useState([]);
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await axios.get('/api/auth/user');
+      setdataUser(data);
+    };
+    getUser();
+  }, []);
+
+  useEffect(() => {
+    if (dataUser !== null) {
+      setLoading(false);
+    }
+  }, [dataUser]);
+
+  const displayName = dataUser.isLoggedIn
+    ? `${dataUser.firstName} ${dataUser.lastName} ${dataUser.lastName}`
     : 'Invitado';
 
   //type user
-  var typeUser = isLoggedIn ? userData.type : 'Invitado';
+  var typeUser = dataUser.isLoggedIn ? dataUser.type : 'Invitado';
 
   if (typeUser === 'user_superior') {
     typeUser = 'Superior';
@@ -33,6 +44,15 @@ function Navbar() {
   const handleToggle = () => {
     setIsActive(!isActive);
   };
+
+  if (loading) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <span>Loading...</span>
+      </div>
+    );
+  }
+
   return (
     <React.Fragment>
       <div>
@@ -49,9 +69,9 @@ function Navbar() {
             <FaShoppingCart className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
-        {isLoggedIn ? (
+        {dataUser.isLoggedIn ? (
           <>
-            {userData.type === 'collector' ? (
+            {dataUser.type === 'collector' ? (
               <div className='flex flex-row gap-4 sm:gap-6 '>
                 <div>
                   <Link
@@ -126,7 +146,7 @@ function Navbar() {
             </span>
 
             <hr className='mx-4' />
-            {isLoggedIn ? (
+            {dataUser.isLoggedIn ? (
               <div>
                 <Link
                   href='/profile'
@@ -163,5 +183,3 @@ function Navbar() {
     </React.Fragment>
   );
 }
-
-export default Navbar;
