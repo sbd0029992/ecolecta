@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 
@@ -7,21 +8,26 @@ export default function ListCollects() {
   const router = useRouter();
   const { userData } = useContext(AuthContext);
   const [collects, setCollects] = useState([]);
+  const [loading, setLoading] = useState(true); // Nuevo estado para el indicador de carga
 
   useEffect(() => {
-    const fetchCollects = async () => {
-      const response = await fetch(
+    const getCollects = async () => {
+      const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/collects?userId=${userData.idUser}`
       );
-      const data = await response.json();
       setCollects(data);
+      setLoading(false);
     };
-    fetchCollects();
+    getCollects();
   }, [userData.idUser]);
 
   return (
     <div className='h-full min-h-[70vh] px-6'>
-      {collects.length > 0 ? (
+      {loading ? ( // Comprueba si la aplicación está cargando los datos
+        <div className='flex h-full min-h-[70vh] items-center justify-center'>
+          <div className='loader'></div>
+        </div>
+      ) : collects.length > 0 ? (
         <div className='container mx-auto h-full min-h-[70vh] py-8'>
           <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
             {collects.map((collect) => (
