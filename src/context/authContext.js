@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
@@ -5,16 +6,12 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const [userLoaded, setUserLoaded] = useState(false); // Nueva variable de estado
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/user`
-        );
-        const data = await response.json();
-
+        const { data } = await axios.get('/api/auth/user');
         setIsLoggedIn(data.isLoggedIn);
         setUserData({
           firstName: data.firstName,
@@ -24,6 +21,7 @@ const AuthProvider = ({ children }) => {
           idUser: data.idUser,
           email: data.email,
         });
+        setUserLoaded(true); // Establecer userLoaded en verdadero una vez que se carguen los datos
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -33,7 +31,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userData }}>
+    <AuthContext.Provider value={{ isLoggedIn, userData, userLoaded }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,17 +1,16 @@
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { AuthContext } from '/src/context/authContext';
+import withSession from '../../../lib/session';
 
-export default function ListCollects() {
+function ListCollects({ user }) {
   const router = useRouter();
-  const { userData } = useContext(AuthContext);
   const [collects, setCollects] = useState([]);
   useEffect(() => {
     const fetchCollects = async () => {
-      if (userData.idUser) {
+      if (user.idUser) {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/collects/?userId=${userData.idUser}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/collects/?userId=${user.idUser}`
         );
         const data = await response.json();
         const filteredData = data.filter((collect) => collect.status === 1);
@@ -19,7 +18,7 @@ export default function ListCollects() {
       }
     };
     fetchCollects();
-  }, [userData.idUser]);
+  }, [user.idUser]);
 
   return (
     <div className='flex h-full min-h-[70vh] flex-col bg-blue-200 py-5 '>
@@ -93,3 +92,13 @@ export default function ListCollects() {
     </div>
   );
 }
+
+export const getServerSideProps = withSession(async function ({ req }) {
+  return {
+    props: {
+      user: req.session.get('user'),
+    },
+  };
+});
+
+export default ListCollects;

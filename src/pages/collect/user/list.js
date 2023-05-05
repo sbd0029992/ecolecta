@@ -1,25 +1,25 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { AuthContext } from '/src/context/authContext';
+import withSession from '../../../lib/session';
 
-export default function ListCollects() {
+function ListCollects({ user }) {
+  console.log('🚀 ~ file: list.js:8 ~ ListCollects ~ user:', user);
   const router = useRouter();
-  const { userData } = useContext(AuthContext);
   const [collects, setCollects] = useState([]);
   const [loading, setLoading] = useState(true); // Nuevo estado para el indicador de carga
 
   useEffect(() => {
     const getCollects = async () => {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/collects?userId=${userData.idUser}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/collects?userId=${user.idUser}`
       );
       setCollects(data);
       setLoading(false);
     };
     getCollects();
-  }, [userData.idUser]);
+  }, [router, user.idUser]);
 
   return (
     <div className='h-full min-h-[70vh] px-6'>
@@ -76,3 +76,13 @@ export default function ListCollects() {
     </div>
   );
 }
+
+export const getServerSideProps = withSession(async function ({ req }) {
+  return {
+    props: {
+      user: req.session.get('user'),
+    },
+  };
+});
+
+export default ListCollects;
