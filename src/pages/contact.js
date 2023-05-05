@@ -6,19 +6,15 @@ import { FaPhoneAlt } from 'react-icons/fa';
 //import icon email react-icons
 import { FaEnvelope } from 'react-icons/fa';
 //import facebook, youtube, instagram react-icons
-import { FaFacebookF } from 'react-icons/fa';
-import { FaYoutube } from 'react-icons/fa';
-import { FaInstagram } from 'react-icons/fa';
 
 function Contact() {
   return (
     <div className='flex h-full w-full items-center justify-center bg-black py-14 sm:py-10 md:h-[70vh] '>
       <div className='flex h-fit w-[360px] flex-col gap-4 rounded-[60px] bg-white p-7 sm:w-[500px] md:w-[600px] lg:flex lg:h-[400px] lg:w-[750px] lg:flex-row lg:justify-evenly'>
         <div className='lg:w-1/2 '>
-          <h1 className=' mb-3 text-primary'>Contactanos</h1>
-          <p className='mb-3'>
-            Contactenos por este medio para cualquier consulta{' '}
-          </p>
+          <h1 className=' mb-3 text-center text-green-800'>
+            PARA RECIBIR INFORMACION
+          </h1>
           <form action='post' className='formContact'>
             <input
               className='rounded-md border-0 bg-gray-200 text-sm placeholder-secondary placeholder:tracking-wider'
@@ -41,50 +37,43 @@ function Contact() {
               placeholder='Escribamos'
             ></textarea>
             <div className='lg:hidden'>
-              <div className='flex items-center'>
-                <FaMapMarkerAlt className='h-7 w-5 text-primary' />
-                <p className='ml-2'>8888 Cantt Sialkot, Cochabamba</p>
+              <div className='m-2 flex h-[50px] w-full items-center justify-center rounded-lg bg-green-500 text-center'>
+                <p>Av. Santa Cruz</p>
+                <FaMapMarkerAlt className='ml-20 h-7 w-10 rounded-full bg-white p-1 text-black' />
               </div>
-              <div className='flex items-center'>
-                <FaPhoneAlt className='h-7 w-5 text-primary' />
+              <div className='text-centerr m-2 flex h-[50px] w-full items-center justify-center rounded-lg bg-green-500'>
                 <p className='ml-2'>+591 7707070</p>
+                <FaPhoneAlt className='ml-20 h-7 w-10 rounded-full bg-white p-1 text-black' />
               </div>
-              <div className='flex items-center'>
-                <FaEnvelope className='h-7 w-5 text-primary' />
+              <div className='m-2 flex h-[50px] w-full items-center justify-center rounded-lg bg-green-500 text-center'>
                 <p className='ml-2'>ecoleta@gmail.com</p>
+                <FaEnvelope className='ml-10 h-7 w-10 rounded-full bg-white p-1 text-black' />
               </div>
             </div>
             <div className='flex justify-center'>
-              <button className='h-12 w-60 bg-primary text-xl font-semibold text-white'>
+              <button className='h-12 w-60 rounded-full bg-green-500 text-xl font-semibold text-black'>
                 Enviar
               </button>
             </div>
           </form>
         </div>
-        <div className='hidden flex-col items-center justify-center gap-10 lg:flex lg:w-1/2 '>
-          <div className='m-0 h-1/2 w-1/2  bg-black'></div>
-          <div className='flex flex-col gap-3'>
-            <div className='flex items-center'>
-              <FaMapMarkerAlt className='h-7 w-5 text-primary' />
-              <p className='ml-2'>8888 Cantt Sialkot, Cochabamba</p>
+        <div className='hidden flex-col items-center justify-center gap-5  lg:flex lg:w-1/2 '>
+          <h1 className='mb-3 text-center text-black underline'>CONTACTANOS</h1>
+          <div className='flex w-full flex-col items-center justify-center gap-4 text-center'>
+            <div className='flex h-[50px] w-full items-center justify-center rounded-lg bg-green-500 text-center'>
+              <p>Av. Santa Cruz</p>
+              <FaMapMarkerAlt className='ml-20 h-7 w-10 rounded-full bg-white p-1 text-black' />
             </div>
-            <div className='flex items-center'>
-              <FaPhoneAlt className='h-7 w-5 text-primary' />
+            <div className='text-centerr flex h-[50px] w-full items-center justify-center rounded-lg bg-green-500'>
               <p className='ml-2'>+591 7707070</p>
+              <FaPhoneAlt className='ml-20 h-7 w-10 rounded-full bg-white p-1 text-black' />
             </div>
-            <div className='flex items-center'>
-              <FaEnvelope className='h-7 w-5 text-primary' />
+            <div className='flex h-[50px] w-full items-center justify-center rounded-lg bg-green-500 text-center'>
               <p className='ml-2'>ecoleta@gmail.com</p>
+              <FaEnvelope className='ml-10 h-7 w-10 rounded-full bg-white p-1 text-black' />
             </div>
           </div>
         </div>
-      </div>
-      <div className='mt-[70px] hidden w-14 flex-col items-center gap-5 rounded-r-3xl rounded-br-full bg-primary text-center lg:flex'>
-        <div className='h-1'></div>
-        <FaFacebookF className='h-10 w-10 text-white' />
-        <FaYoutube className='h-10 w-10 text-white' />
-        <FaInstagram className='h-10 w-10 text-white' />
-        <div className='h-5'></div>
       </div>
     </div>
   );

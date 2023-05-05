@@ -1,48 +1,46 @@
+import Image from 'next/image';
 import React from 'react';
-import { BsFillTriangleFill } from 'react-icons/bs';
 
+import user from '/public/images/User.png';
 function Profile() {
   return (
-    <div className='bg-black'>
-      <div className='flex h-full min-h-[70vh]  flex-col items-center justify-center gap-4 p-5 '>
-        <BsFillTriangleFill className='h-10 w-10 text-red-500 md:hidden' />
-        <div className='flex flex-col items-center gap-3 md:hidden'>
-          <h1 className='text-primary'> Jhon Pool</h1>
-          <div className='h-28 w-28 bg-white'></div>
-          <h1 className='text-primary'>POOL@GMAIL.COM</h1>
+    <div className='background-image1  flex h-auto w-auto items-center justify-center  bg-center bg-no-repeat bg-blend-multiply  lg:h-[70vh]'>
+      <div className='m-10 flex h-auto w-[40vh] flex-col items-center justify-center rounded-lg bg-black p-4 md:w-[50vh] lg:h-[60vh] lg:w-[100vh] lg:flex-row xl:w-[110vh]'>
+        <div>
+          <div className='m-6'>
+            <h3 className='text-center text-amber-300'>MARCELA PEREZ</h3>
+          </div>
+          <Image
+            className='roudend-full p-2'
+            src={user}
+            alt='Image user'
+            width={200}
+            height={200}
+          />
+
+          <div className='flex flex-col text-center '>
+            <div class='w-50 h-2 rounded-full bg-gradient-to-r from-amber-500 to-green-500'></div>
+            <h4 className=' text-center text-white'>marcale@gmail.com</h4>
+            <h4 className=' text-center text-white'>787866543</h4>
+          </div>
         </div>
-        <div className='flex w-96 flex-col items-center gap-4 rounded-3xl bg-secondary pt-4 pb-4 sm:w-[400px] md:h-[370px] md:w-[800px] md:flex-row lg:w-[900px]'>
-          <div className='flex w-96 flex-col items-center gap-5 sm:w-[400px] md:w-3/4'>
-            <div className='flex h-full w-5/6 justify-between gap-5 rounded-3xl bg-gray-300 p-5'>
-              <div className='mr-14 '>
-                <h2>PUNTOS</h2>
-              </div>
-              <div>
-                <h2>2000</h2>
-              </div>
-            </div>
-            <div className='flex w-5/6 justify-between rounded-3xl bg-gray-300 p-5'>
-              <div className='mr-14 '>
-                <h2>BALDES</h2>
-              </div>
-              <div>
-                <h2>20</h2>
-              </div>
-            </div>
-            <div className='flex flex-col items-center gap-5'>
-              <label class='relative inline-flex cursor-pointer items-center self-center'>
-                <input type='checkbox' value='' class='peer sr-only' />
-                <div class="peer h-11 w-20 rounded-full bg-gray-200 after:absolute after:top-[2px] after:left-[2px] after:h-10 after:w-10 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
-              </label>
-              <h1 className='text-white'>Tabla Posicion</h1>
+        <div className='mt-6 p-6 lg:ml-20'>
+          <div class='h-2 w-[35vh] rounded-full bg-gradient-to-r from-amber-500 to-green-500'>
+            ...
+          </div>
+          <div className=' mt-10 flex h-10 flex-wrap items-center rounded-full bg-white text-center'>
+            <h2 className=' ml-10'>PUNTOS</h2>
+            <div className='ml-[95px] flex h-full w-20 items-center justify-center rounded-r-full bg-green-500'>
+              <h2>200</h2>
             </div>
           </div>
-          <div className='mr-5 hidden flex-col items-center md:flex'>
-            <BsFillTriangleFill className='mb-5 h-10 w-10 text-red-500' />
-            <div className='flex flex-col items-center gap-8'>
-              <h1 className='text-white'> Jhon Pool</h1>
-              <div className='h-28 w-28 bg-white'></div>
-              <h1 className='text-white'>POOL@GMAIL.COM</h1>
+          <div class=' invisible mt-6 h-[1vh] w-[35vh] rounded-full bg-gradient-to-r from-amber-500 to-green-500 first-letter:h-2 lg:visible xl:visible'>
+            ...
+          </div>
+          <div className=' mt-10 flex h-10 flex-wrap items-center rounded-full bg-white text-center'>
+            <h2 className=' ml-10'>BALDES</h2>
+            <div className='ml-[97px] flex h-full w-20 items-center justify-center rounded-r-full bg-green-500'>
+              <h2>2</h2>
             </div>
           </div>
         </div>

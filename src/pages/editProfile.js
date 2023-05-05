@@ -11,7 +11,6 @@ function EditProfile() {
   };
 
   const libraries = useMemo(() => ['places'], []);
-  // const mapCenter = useMemo(() => ({ lat: lat, lng: lng }), [lat, lng]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: 'AIzaSyC3llKmj59uUvV35g4136lCA0oUwA6I-WE',
@@ -22,35 +21,26 @@ function EditProfile() {
     return <p>Loading...</p>;
   }
 
-  // const handleMarkerDragEnd = () => {
-  //   const pos = markerRef.marker.marker();
-  //   let lat = pos.lat();
-  //   let lng = pos.lng();
-
-  //   // Asignar la posición a las variables de ASP.NET
-  //   document.getElementById('latitudeMap').innerHTML = lat;
-  //   document.getElementById('longitudeMap').innerHTML = lng;
-  //   // Aquí puede agregar su código para actualizar los valores de latitud y longitud
-  // };
-
   return (
-    <div className='flex justify-center bg-black'>
-      <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
-        <h1>Editar Informacion</h1>
+    <div className='background-plantas flex justify-center '>
+      <div className=' mt-[5%] mb-[5%] h-auto w-[330px] bg-white p-4 pb-[0px] '>
+        <h1 className='rounded-lg bg-green-500 text-center'>
+          Editar Informacion
+        </h1>
 
         <form class='formulary'>
           <div class='mb-6 grid gap-3 '>
             <div>
               <label
                 for='first_name'
-                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'
+                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-black'
               >
                 NOMBRES
               </label>
               <input
                 type='text'
                 id='first_name'
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-black bg-green-200 p-2.5 text-sm text-gray-900'
                 placeholder='John'
                 required
               />
@@ -58,14 +48,14 @@ function EditProfile() {
             <div>
               <label
                 for='first_name'
-                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'
+                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-black'
               >
                 PRIMER APELLIDO
               </label>
               <input
                 type='text'
                 id='first_name'
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-black bg-green-200  p-2.5 text-sm text-gray-900'
                 placeholder='PEPE'
                 required
               />
@@ -73,14 +63,14 @@ function EditProfile() {
             <div>
               <label
                 for='first_name'
-                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'
+                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-black'
               >
                 SEGUNDO APELLIDO
               </label>
               <input
                 type='text'
                 id='first_name'
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-black bg-green-200 p-2.5 text-sm text-gray-900'
                 placeholder='John'
                 required
               />
@@ -88,14 +78,14 @@ function EditProfile() {
             <div>
               <label
                 for='first_name'
-                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'
+                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-black'
               >
                 CI
               </label>
               <input
                 type='number'
                 id='first_name'
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-black bg-green-200  p-2.5 text-sm text-gray-900'
                 placeholder='10101010'
                 required
               />
@@ -103,14 +93,14 @@ function EditProfile() {
             <div>
               <label
                 for='first_name'
-                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'
+                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-black'
               >
                 TELEFONO
               </label>
               <input
                 type='number'
                 id='first_name'
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-black bg-green-200 p-2.5 text-sm text-gray-900'
                 placeholder='70707070'
                 required
               />
@@ -118,25 +108,25 @@ function EditProfile() {
             <div>
               <label
                 for='first_name'
-                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'
+                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-black'
               >
                 FECHA DE NACIMIENTO
               </label>
               <input
                 type='date'
                 id='first_name'
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-black bg-green-200  p-2.5 text-sm text-gray-900'
                 required
               />
             </div>
             <div>
               <label
                 for='first_name'
-                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'
+                class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-black'
               >
                 UBICACION
               </label>
-              <div class='h-[300px] w-[250px]'>
+              <div class='ml-6 h-[300px] w-[250px]'>
                 <GoogleMap
                   // eslint-disable-next-line no-undef
                   mapTypeId={google.maps.MapTypeId.HYBRID}
@@ -160,8 +150,6 @@ function EditProfile() {
                 </GoogleMap>
               </div>
               <div class='h-[50px] w-[250px]'></div>
-              <input id='latitudeMap' value='-17,40005043784094' />
-              <input id='longitudeMap' value='-66,15881707399646' />
             </div>
             <div className='flex justify-center'>
               <button

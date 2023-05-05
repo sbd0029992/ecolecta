@@ -33,9 +33,5 @@ const nextConfig = {
     return config;
   },
 };
-module.exports = {
-  images: {
-    domains: ['scontent.fvvi1-2.fna.fbcdn.net'],
-  },
-};
+
 module.exports = nextConfig;

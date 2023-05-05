@@ -54,33 +54,9 @@ function recolector_page() {
   return (
     <div className='h-full min-h-[70vh] justify-center bg-blue-200 marker:flex xl:flex '>
       <section className='xl:content-flex flex-nowrap items-center justify-center p-2 text-center xl:h-full'>
-        <div className=' -lg xl:content mt-6 rounded-t border-black bg-white p-5 xl:h-[100px] xl:w-[1000px]'>
-          <div className='container flex flex-wrap min-[1250px]:text-left xl:w-[400px]'>
-            <h1 className='text-left'>Lista de recojos listos</h1>
-            <div className=' items-right  ml-10 flex'>
-              <button
-                data-collapse-toggle='navbar-default'
-                type='button'
-                className=' inline-flex items-center rounded-lg text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden'
-                aria-controls='navbar-default'
-                aria-expanded='false'
-              >
-                <span className='sr-only'>Open main menu</span>
-                <svg
-                  className='h-6 w-6'
-                  aria-hidden='true'
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z'
-                    clipRule='evenodd'
-                  ></path>
-                </svg>
-              </button>
-            </div>
+        <div className=' xl:content mt-6 flex-col rounded-t border-black bg-white p-5 xl:h-[100px] xl:w-[1000px]'>
+          <div className='justify -center container flex  flex-wrap min-[1250px]:text-left xl:w-[400px]'>
+            <h1 className='text-center'>Lista de recojos listos</h1>
           </div>
           <br></br>
           <div className='justify-center  text-center'>
@@ -91,13 +67,13 @@ function recolector_page() {
         </div>
         <br className='xl:hidden' />
         <div className='flex flex-wrap bg-white  min-[320px]:rounded-lg xl:w-[1000px] xl:rounded-none'>
-          <div className='content flex-left flex text-left min-[390px]:ml-12 lg:ml-40 min-[1250px]:ml-60 xl:ml-20'>
+          <div className='content flex-left flex text-left min-[320px]:ml-8 lg:ml-40 min-[1250px]:ml-60 xl:ml-20'>
             <h4 className=''>Cantidad</h4>
           </div>
-          <div className='text-center min-[390px]:ml-12 lg:ml-60 min-[1250px]:ml-80 xl:ml-60'>
+          <div className='text-center min-[320px]:ml-12 lg:ml-60 min-[1250px]:ml-80 xl:ml-60'>
             <h4 className=''>Usuario</h4>
           </div>
-          <div className='text-right min-[390px]:ml-12 lg:ml-60 min-[1250px]:ml-80'>
+          <div className='text-right min-[320px]:ml-12 lg:ml-60 min-[1250px]:ml-80'>
             <h4 className=''>Estado</h4>
           </div>
         </div>

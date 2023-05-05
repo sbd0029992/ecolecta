@@ -8,9 +8,9 @@ function verify_user() {
   const warning =
     'Para completar su registromande el recibo del pago,se le verificara la cuenta y mandara un bade a su ubicacion';
   return (
-    <div className='content h-[100vh] w-full items-center justify-center bg-prymary p-10 xl:h-[70vh] '>
+    <div className='content background-image1 h-[100vh] w-full items-center justify-center p-10 xl:h-[70vh] '>
       <div className='xl:content lg:content lg:flex lg:flex-nowrap lg:justify-center xl:flex xl:flex-nowrap xl:justify-center'>
-        <div className='content bg-green/150 h-[400px] w-[320px] items-center  justify-center rounded-lg p-[10px] backdrop-saturate-200 lg:p-4 xl:p-4 '>
+        <div className='content h-[400px] w-[320px] items-center justify-center  rounded-lg bg-green-900 p-[10px] backdrop-saturate-200 lg:p-4 xl:p-4 '>
           <div className='ml-[50px] h-[200px] w-[200px] rounded-full bg-white '>
             <Image src={user} className='z-0 rounded-full' alt='image user ' />
             <Image
@@ -33,8 +33,10 @@ function verify_user() {
             </button>
           </div>
         </div>
-        <div className='h-[350px] w-[320px] bg-white/50 text-center text-[22px] lg:h-[400px] lg:p-4 xl:h-[400px] xl:w-[320px] xl:p-4'>
-          {warning}kuy
+
+        <div className=' h-[350px] w-[320px] bg-black text-center text-[20px] text-white lg:h-[400px] lg:p-4 xl:h-[400px] xl:w-[320px] xl:p-4'>
+          <div class='mt-2 mb-2 ml-2 h-2 w-[30vh] rounded-full bg-gradient-to-r from-amber-500 to-green-500'></div>
+          {warning}
           <Image
             src={qr}
             className='ml-[70px] p-2'
