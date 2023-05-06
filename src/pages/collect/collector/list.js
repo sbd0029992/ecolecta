@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -6,19 +7,31 @@ import withSession from '../../../lib/session';
 function ListCollects({ user }) {
   const router = useRouter();
   const [collects, setCollects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  console.log('🚀 ~ file: list.js:9 ~ ListCollects ~ collects:', collects);
   useEffect(() => {
     const fetchCollects = async () => {
       if (user.idUser) {
-        const response = await fetch(
+        const { data } = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/collects/?userId=${user.idUser}`
         );
-        const data = await response.json();
         const filteredData = data.filter((collect) => collect.status === 1);
         setCollects(filteredData);
+        setLoading(false);
       }
     };
     fetchCollects();
   }, [user.idUser]);
+
+  if (loading) {
+    return (
+      <div className='flex h-full min-h-[70vh] flex-col bg-blue-200 py-5 '>
+        <div className='flex flex-col items-center justify-center p-2'>
+          <h1>Cargando...</h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='flex h-full min-h-[70vh] flex-col bg-blue-200 py-5 '>

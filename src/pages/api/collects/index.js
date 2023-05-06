@@ -39,14 +39,14 @@ async function handler(req, res) {
       try {
         const newCollect = new Collect(body);
         const savedCollect = await newCollect.save();
-        await savedCollect.populate('user').execPopulate();
-
-        return res.status(201).json(savedCollect);
+        const populatedCollect = await Collect.populate(savedCollect, {
+          path: 'user',
+        });
+        return res.status(201).json(populatedCollect);
       } catch (error) {
         console.log(error.message);
         return res.status(400).json({ error: error.message });
       }
-
     default:
       return res.status(400).json({ msg: 'This method is not supported' });
   }

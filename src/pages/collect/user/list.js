@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import withSession from '../../../lib/session';
 
 function ListCollects({ user }) {
-  console.log('🚀 ~ file: list.js:8 ~ ListCollects ~ user:', user);
   const router = useRouter();
   const [collects, setCollects] = useState([]);
   const [loading, setLoading] = useState(true); // Nuevo estado para el indicador de carga
