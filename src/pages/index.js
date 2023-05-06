@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image';
+import Link from 'next/link.js';
 import React from 'react';
 import {
   FaBirthdayCake,
@@ -9,35 +11,8 @@ import {
 } from 'react-icons/fa';
 
 import Item from '../components/Item.js';
-import imaimport from '../../public/images/imagenfondo.jpg';
 
-function Index() {
-  const values = [
-    {
-      id: '1',
-      title: 'Qr de 100',
-      image: '/images/juguete.jpg',
-      points: '50',
-    },
-    {
-      id: '2',
-      title: 'Qr de 300',
-      image: '/images/qr.jpg',
-      points: '100',
-    },
-    {
-      id: '3',
-      title: 'Qr de 500',
-      image: '/images/juguete.jpg',
-      points: '200',
-    },
-    {
-      id: '4',
-      title: 'Juguete',
-      image: '/images/juguete.jpg',
-      points: '500',
-    },
-  ];
+export default function Index({ products, affiliates }) {
   return (
     <div class='bg-secondary p-6'>
       {/* First Part */}
@@ -49,17 +24,20 @@ function Index() {
           </h1>
         </div>
         <div class='mt-3 flex flex-col gap-4 md:items-center md:justify-center'>
-          <button class='h-10 w-1/2 rounded-lg bg-[#A3E635] pl-5 pr-5 text-base text-white md:hidden '>
-            Informate
-          </button>
+          <Link href='/blog' className='w-full'>
+            <button class='h-10 w-1/2 rounded-lg bg-[#A3E635] pl-5 pr-5 text-base text-white md:hidden '>
+              Informate
+            </button>
+          </Link>
           <p className='text-justify text-base md:text-xl'>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias
             accusamus, eius fugit magni quisquam nihil, tenetur facilis culpa
           </p>
-
-          <button class=' hidden h-10 w-1/2 rounded-lg bg-[#A3E635] pl-5 pr-5 text-base text-white md:block '>
-            Informate
-          </button>
+          <Link href='/blog' className='w-full'>
+            <button class=' hidden h-10 w-1/2 rounded-lg bg-[#A3E635] pl-5 pr-5 text-base text-white md:block '>
+              Informate
+            </button>
+          </Link>
         </div>
       </div>
       {/* Afiliados */}
@@ -73,34 +51,21 @@ function Index() {
           </p>
         </div>
         <div class='grid grid-flow-row grid-cols-2 items-center gap-5 self-center md:w-3/4 '>
-          <Image
-            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px] '
-            src='/images/icon-kallpalla-color.png'
-            width={100}
-            height={100}
-            alt='imagen de un check'
-          />
-          <Image
-            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px]'
-            src='/images/icon-kallpalla-color.png'
-            width={100}
-            height={100}
-            alt='imagen de un check'
-          />
-          <Image
-            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px]'
-            src='/images/icon-kallpalla-color.png'
-            width={100}
-            height={100}
-            alt='imagen de un check'
-          />
-          <Image
-            className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px]  lg:h-[300px] lg:w-[300px]'
-            src='/images/icon-kallpalla-color.png'
-            width={100}
-            height={100}
-            alt='imagen de un check'
-          />
+          {affiliates.map((item) => (
+            <div
+              className='flex flex-col items-center justify-center gap-2'
+              key={item.id}
+            >
+              <img
+                className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px] '
+                src={item.images}
+                width={100}
+                height={100}
+                alt={item.name}
+              />
+              <h3 className='text-white'>{item.name}</h3>
+            </div>
+          ))}
         </div>
       </div>
       {/* Bonus */}
@@ -139,7 +104,7 @@ function Index() {
           Cambia los puntos por nuestros fabulosos productos
         </p>
         <div className='grid grid-flow-col grid-rows-1 overflow-x-auto'>
-          {values.map((value) => (
+          {products.map((value) => (
             <div className='h-full w-96' key={value.id}>
               <Item data={value} key={value.id} />
             </div>
@@ -153,12 +118,16 @@ function Index() {
         </div>
         <div className='flex h-[85vh] w-full flex-col gap-5 md:flex-row'>
           <Image
-            src={imaimport}
+            src='/images/bg-kallpalla.png'
+            height={1000}
+            width={1000}
             className='h-full w-full md:w-1/2 '
             alt='imagen de un check'
           />
           <Image
-            src={imaimport}
+            src='/images/bg-kallpalla.png'
+            height={1000}
+            width={1000}
             className='h-full w-full md:w-1/2 '
             alt='imagen de un check'
           />
@@ -191,4 +160,15 @@ function Index() {
   );
 }
 
-export default Index;
+export const getServerSideProps = async () => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
+  const res2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/affiliates`);
+  const products = await res.json();
+  const affiliates = await res2.json();
+  return {
+    props: {
+      products,
+      affiliates,
+    },
+  };
+};

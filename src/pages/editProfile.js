@@ -13,7 +13,7 @@ function EditProfile() {
   const libraries = useMemo(() => ['places'], []);
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyC3llKmj59uUvV35g4136lCA0oUwA6I-WE',
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
     libraries: libraries,
   });
 

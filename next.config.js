@@ -1,20 +1,23 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+});
+
+const nextConfig = withPWA({
   eslint: {
     dirs: ['src'],
   },
-
+  output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: [`${process.env.AWS_DOMAIN}`, 'scontent.fvvi1-2.fna.fbcdn.net'],
+  },
 
-  // Uncoment to add domain whitelist
-  // images: {
-  //   domains: [
-  //     'res.cloudinary.com',
-  //   ],
-  // },
-
-  // SVGR
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
@@ -32,6 +35,6 @@ const nextConfig = {
 
     return config;
   },
-};
+});
 
 module.exports = nextConfig;

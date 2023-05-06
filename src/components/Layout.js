@@ -7,8 +7,8 @@ import Navbar from './Navbar';
 function Layout({ children }) {
   const router = useRouter();
   const { asPath } = router;
-  const noNav = ['/login', '/register'];
-  const noFooter = ['/login', '/register'];
+  const noNav = ['/login', '/register/user/new', '/recuperar'];
+  const noFooter = ['/login', '/register/user/new', '/recuperar'];
   return (
     <React.Fragment>
       {noNav.includes(asPath) ? null : (

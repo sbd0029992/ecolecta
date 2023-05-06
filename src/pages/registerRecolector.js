@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 function RegisterRecolector() {
@@ -141,13 +142,13 @@ function RegisterRecolector() {
               />
             </div>
             <div>
-              <a
+              <Link
                 href='/login'
                 for='first_name'
                 class='mb-2 mt-2 block text-center text-sm font-bold dark:text-white'
               >
                 Tengo mi cuenta
-              </a>
+              </Link>
             </div>
             <div className='flex justify-center'>
               <button

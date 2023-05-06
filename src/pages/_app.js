@@ -1,13 +1,16 @@
-import '@/styles/globals.css';
-import '@/styles/colors.css';
+import '/src/styles/globals.css';
+import '/src/styles/colors.css';
 
 import Layout from '../components/Layout';
+import { AuthProvider } from '../context/authContext';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <AuthProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </AuthProvider>
   );
 }
 

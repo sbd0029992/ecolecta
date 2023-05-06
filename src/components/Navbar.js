@@ -1,8 +1,7 @@
+import axios from 'axios';
 import Link from 'next/link';
-import React, { useState } from 'react';
-//import profile icon react-icons
+import React, { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
-//import product,check,contact,dashboard icons react-icons
 import {
   FaChartLine,
   FaCheck,
@@ -10,13 +9,50 @@ import {
   FaShoppingCart,
 } from 'react-icons/fa';
 
-function Navbar() {
+export default function Navbar() {
   const [isActive, setIsActive] = useState(false);
-  const user = 'John Doe';
+  const [loading, setLoading] = useState(true);
+
+  const [dataUser, setdataUser] = useState([]);
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await axios.get('/api/auth/user');
+      setdataUser(data);
+    };
+    getUser();
+  }, []);
+
+  useEffect(() => {
+    if (dataUser !== null) {
+      setLoading(false);
+    }
+  }, [dataUser]);
+
+  const displayName = dataUser.isLoggedIn
+    ? `${dataUser.firstName} ${dataUser.lastName} ${dataUser.lastName}`
+    : 'Invitado';
+
+  //type user
+  var typeUser = dataUser.isLoggedIn ? dataUser.type : 'Invitado';
+
+  if (typeUser === 'user_superior') {
+    typeUser = 'Superior';
+  } else if (typeUser === 'user_normal') {
+    typeUser = 'Normal';
+  }
 
   const handleToggle = () => {
     setIsActive(!isActive);
   };
+
+  if (loading) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <span>Loading...</span>
+      </div>
+    );
+  }
+
   return (
     <React.Fragment>
       <div>
@@ -26,42 +62,67 @@ function Navbar() {
       </div>
       <div className='flex flex-row gap-4 sm:gap-6 '>
         <div>
-          <Link href='/tiendaProductos' className='hidden lg:block'>
+          <Link href='/product/tienda' className='hidden lg:block'>
             Productos
           </Link>
-          <Link href='/tiendaProductos'>
+          <Link href='/product/tienda'>
             <FaShoppingCart className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
-        <div>
-          <Link href='/user_check' className='hidden lg:block'>
-            Check Page
-          </Link>
-          <Link href='/user_check'>
-            <FaCheck className='h-6 w-6 lg:hidden' />
-          </Link>
-        </div>
-        <div>
-          <Link href='/recolectorCheck' className='hidden lg:block'>
-            Check Recolector
-          </Link>
-          <Link href='/recolectorCheck'>
-            <FaCheck className='h-6 w-6 lg:hidden' />
-          </Link>
-        </div>
+        {dataUser.isLoggedIn ? (
+          <>
+            {dataUser.type === 'collector' ? (
+              <div className='flex flex-row gap-4 sm:gap-6 '>
+                <div>
+                  <Link
+                    href='/collect/collector/list'
+                    className='hidden lg:block'
+                  >
+                    List Collect
+                  </Link>
+                  <Link href='/collect/collector/list'>
+                    <FaCheck className='h-6 w-6 lg:hidden' />
+                  </Link>
+                </div>
+                <div>
+                  <Link
+                    href='/collect/collector/listCollector'
+                    className='hidden lg:block'
+                  >
+                    Check Collector
+                  </Link>
+
+                  <Link href='/collect/collector/listCollector'>
+                    <FaPhoneAlt className='h-6 w-6 lg:hidden' />
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className='flex flex-row gap-4 sm:gap-6 '>
+                <Link href='/collect/user/list' className='hidden lg:block'>
+                  Check Page
+                </Link>
+                <Link href='/collect/user/list'>
+                  <FaCheck className='h-6 w-6 lg:hidden' />
+                </Link>
+              </div>
+            )}
+          </>
+        ) : null}
+
         <div>
           <Link href='/contact' className='hidden lg:block'>
             Contactos
           </Link>
           <Link href='/contact'>
-            <FaPhoneAlt className='h-6 w-6 lg:hidden' />
+            <FaChartLine className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
         <div>
-          <Link href='dashboard' className='hidden lg:block'>
-            Dashboard
+          <Link href='/dashboard' className='hidden lg:block'>
+            Tablero Posiciones
           </Link>
-          <Link href='dashboard'>
+          <Link href='/dashboard'>
             <FaChartLine className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
@@ -78,38 +139,57 @@ function Navbar() {
             }`}
           >
             <span className='block px-4 py-2 text-gray-800 hover:bg-gray-100'>
-              {user}
+              {displayName}
             </span>
+            <span className='block px-4 py-2  text-gray-800 hover:bg-gray-100'>
+              Usuario: <strong>{typeUser}</strong>
+            </span>
+
             <hr className='mx-4' />
-            <Link
-              href='/profile'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-            >
-              Perfil
-            </Link>
-            <Link
-              href='/register'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-            >
-              Registrar
-            </Link>
-            <Link
-              href='/login'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-            >
-              Login
-            </Link>
-            <Link
-              href='#'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
-            >
-              Logout
-            </Link>
+            {dataUser.isLoggedIn ? (
+              <div>
+                {dataUser.type === 'collector' ? (
+                  <Link
+                    href='/register/collector/profile'
+                    className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                  >
+                    Perfil
+                  </Link>
+                ) : (
+                  <Link
+                    href='/register/user/profile'
+                    className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                  >
+                    Perfil
+                  </Link>
+                )}
+
+                <Link
+                  href='/api/auth/logout'
+                  className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                >
+                  Logout
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <Link
+                  href='/login'
+                  className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                >
+                  Iniciar Sesión
+                </Link>
+                <Link
+                  href='/register/user/new'
+                  className='block px-4 py-2 text-gray-800 hover:bg-gray-100'
+                >
+                  Registrarse
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </React.Fragment>
   );
 }
-
-export default Navbar;

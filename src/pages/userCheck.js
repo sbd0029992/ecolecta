@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import user from 'public/images/User.png';
+import Link from 'next/link';
 import React from 'react';
 
-function user_check() {
+function UserCheck() {
   return (
-    <div className='background-image2 justify-cente flex h-auto w-auto items-center min-[320px]:h-[100vh] lg:w-full  min-[1250px]:h-full  xl:h-full xl:w-full xl:pb-[11vh]'>
+    <div className='flex h-auto w-auto items-center justify-center bg-blue-200 min-[320px]:h-[100vh] lg:w-full  min-[1250px]:h-full xl:pb-[11vh]'>
       <div className=' h-auto w-[650px] justify-center marker:flex lg:w-full xl:h-auto xl:w-auto '>
         <section className='ml-10 h-[min-content] w-[320px] items-center justify-center lg:flex lg:w-full lg:flex-nowrap xl:ml-10 xl:flex xl:w-full xl:flex-nowrap'>
           <div className='mt-6 w-[350px] rounded-lg border-black bg-gradient-to-b from-black to-lime-400 p-5 lg:h-[500px] xl:h-[500px]'>
@@ -71,7 +71,7 @@ function user_check() {
             <div className='ml-[10px] flex w-[300px] justify-center rounded-full bg-green-400  min-[320px]:invisible min-[320px]:h-[0px]  lg:visible lg:ml-[6vh] lg:h-[250px] lg:w-[250px]  xl:visible xl:h-[300px]'>
               <Image
                 className='justify-center min-[320px]:invisible lg:visible xl:visible'
-                src={user}
+                src='/images/user.png'
                 width={500}
                 height={500}
                 alt='Image Recolector'
@@ -100,7 +100,15 @@ function user_check() {
                 type='submit'
                 className='h-[6vh] w-[70%] rounded-full bg-green-400 text-white'
               >
-                ENVIAR
+                <Link href='/'>
+                  <Image
+                    width={24}
+                    height={24}
+                    className='ml-10 flex h-24 w-24 justify-center'
+                    src='/images/check.png'
+                    alt='imagen de un check'
+                  ></Image>
+                </Link>
               </button>
             </div>
           </div>
@@ -109,4 +117,4 @@ function user_check() {
     </div>
   );
 }
-export default user_check;
+export default UserCheck;

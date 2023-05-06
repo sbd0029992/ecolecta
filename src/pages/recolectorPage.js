@@ -3,7 +3,7 @@ import React from 'react';
 
 import List from '../components/list';
 
-function recolector_page() {
+function RecolectorPage() {
   const values = [
     {
       id: '1',
@@ -12,41 +12,6 @@ function recolector_page() {
     },
     {
       id: '2',
-      quantity: '20 L',
-      user: 'Juan Perez',
-    },
-    {
-      id: '3',
-      quantity: '20 L',
-      user: 'Juan Perez',
-    },
-    {
-      id: '3',
-      quantity: '20 L',
-      user: 'Juan Perez',
-    },
-    {
-      id: '3',
-      quantity: '20 L',
-      user: 'Juan Perez',
-    },
-    {
-      id: '3',
-      quantity: '20 L',
-      user: 'Juan Perez',
-    },
-    {
-      id: '3',
-      quantity: '20 L',
-      user: 'Juan Perez',
-    },
-    {
-      id: '3',
-      quantity: '20 L',
-      user: 'Juan Perez',
-    },
-    {
-      id: '3',
       quantity: '20 L',
       user: 'Juan Perez',
     },
@@ -89,7 +54,7 @@ function recolector_page() {
             Aceptar
           </button>
           <button className='ml-4 h-10 w-[200px] rounded-lg bg-[#FF7272] font-primary text-white xl:visible xl:w-[200px] '>
-            <Link href='/home'>Regresar</Link>
+            <Link href='/'>Regresar</Link>
           </button>
         </div>
       </section>
@@ -97,4 +62,4 @@ function recolector_page() {
   );
 }
 
-export default recolector_page;
+export default RecolectorPage;
