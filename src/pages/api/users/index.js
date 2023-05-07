@@ -40,6 +40,7 @@ async function handler(req, res) {
         body.password = hashedPassword;
         const newTask = new User(body);
         const savedTask = await newTask.save();
+        console.log('🚀 ~ file: index.js:43 ~ handler ~ savedTask:', savedTask);
         return res.status(201).json(savedTask);
       } catch (error) {
         console.log('error', error.message);

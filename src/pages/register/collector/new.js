@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { S3 } from 'aws-sdk';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -418,7 +417,7 @@ export default function UserRegister({ env }) {
                     key={index}
                     class='relative mr-2 mb-2 inline-block w-full'
                   >
-                    <Image
+                    <img
                       src={URL.createObjectURL(image)}
                       alt={image}
                       class='h-30 w-full rounded-lg shadow-md'
@@ -444,7 +443,7 @@ export default function UserRegister({ env }) {
                           key={index}
                           class='relative mr-2 mb-2 inline-block w-full'
                         >
-                          <Image
+                          <img
                             src={image}
                             alt={image.name}
                             class='h-30 w-full rounded-lg shadow-md'

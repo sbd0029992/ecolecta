@@ -25,13 +25,12 @@ export default function UserRegister() {
       latitude: '',
       longitude: '',
     },
-    gender: '',
+    gender: 'M',
     email: '',
     password: '',
     status: 'active',
     type: 'user_normal',
   });
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -154,15 +153,32 @@ export default function UserRegister() {
 
   const createUser = async () => {
     try {
-      await fetch(`${apiUrl}/api/users`, {
+      const response = await fetch(`${apiUrl}/api/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newUser),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log('error completo:', errorData);
+        let errorMessage = errorData.error || 'Ocurrió un error';
+        if (errorMessage.includes('email_1 dup key')) {
+          errorMessage = 'El email ingresado ya está en uso.';
+        } else if (errorMessage.includes('ci_1 dup key')) {
+          errorMessage = 'El CI ingresado ya está en uso.';
+        } else if (errorMessage.includes('phone_1 dup key')) {
+          errorMessage = 'El número de teléfono ingresado ya está en uso.';
+        }
+        alert(errorMessage);
+      } else {
+        push('/');
+      }
     } catch (error) {
-      console.log(error);
+      console.error('Error en createUser:', error);
+      alert('Ocurrió un error al crear el usuario.');
     }
   };
 
@@ -171,13 +187,29 @@ export default function UserRegister() {
     delete updatedUser.password;
 
     try {
-      await fetch(`${apiUrl}/api/users/${query.id}`, {
+      const response = await fetch(`${apiUrl}/api/users/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(updatedUser),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log('error completo:', errorData);
+        let errorMessage = errorData.error || 'Ocurrió un error';
+        if (errorMessage.includes('email_1 dup key')) {
+          errorMessage = 'El email ingresado ya está en uso.';
+        } else if (errorMessage.includes('ci_1 dup key')) {
+          errorMessage = 'El CI ingresado ya está en uso.';
+        } else if (errorMessage.includes('phone_1 dup key')) {
+          errorMessage = 'El número de teléfono ingresado ya está en uso.';
+        }
+        alert(errorMessage);
+      } else {
+        push('/');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -187,11 +219,8 @@ export default function UserRegister() {
     e.preventDefault();
     if (query.id) {
       await updateUser();
-      await push('/');
     } else {
       await createUser(newUser);
-      console.log(newUser);
-      await push('/login');
     }
   };
 

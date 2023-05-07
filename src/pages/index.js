@@ -51,21 +51,23 @@ export default function Index({ products, affiliates }) {
           </p>
         </div>
         <div class='grid grid-flow-row grid-cols-2 items-center gap-5 self-center md:w-3/4 '>
-          {affiliates.map((item) => (
-            <div
-              className='flex flex-col items-center justify-center gap-2'
-              key={item.id}
-            >
-              <img
-                className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px] '
-                src={item.images}
-                width={100}
-                height={100}
-                alt={item.name}
-              />
-              <h3 className='text-white'>{item.name}</h3>
-            </div>
-          ))}
+          {affiliates.length > 0
+            ? affiliates.map((item) => (
+                <div
+                  className='flex flex-col items-center justify-center gap-2'
+                  key={item.id}
+                >
+                  <img
+                    className='h-[200] w-[200px] rounded-full p-1 md:h-[250px] md:w-[250px] lg:h-[300px] lg:w-[300px] '
+                    src={item.images}
+                    width={100}
+                    height={100}
+                    alt={item.name}
+                  />
+                  <h3 className='text-white'>{item.name}</h3>
+                </div>
+              ))
+            : null}
         </div>
       </div>
       {/* Bonus */}
@@ -104,11 +106,13 @@ export default function Index({ products, affiliates }) {
           Cambia los puntos por nuestros fabulosos productos
         </p>
         <div className='grid grid-flow-col grid-rows-1 overflow-x-auto'>
-          {products.map((value) => (
-            <div className='h-full w-96' key={value.id}>
-              <Item data={value} key={value.id} />
-            </div>
-          ))}
+          {products.length > 0
+            ? products.map((value) => (
+                <div className='h-full w-96' key={value.id}>
+                  <Item data={value} key={value.id} />
+                </div>
+              ))
+            : null}
         </div>
       </div>
       {/* Mas sobre nosotros */}

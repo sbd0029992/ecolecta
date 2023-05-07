@@ -23,12 +23,13 @@ export default function NewCollect({ env }) {
     user: query.id ? null : [],
     status: 1,
     points: '',
-    buckets: 1,
+    buckets: null,
     description: '',
     time: '',
     fault: 0,
     images: query.id ? [''] : [],
   });
+  console.log('🚀 ~ file: new.js:32 ~ NewCollect ~ newCollect:', newCollect);
   const getCollect = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/collects/${query.id}`);
@@ -109,13 +110,21 @@ export default function NewCollect({ env }) {
 
   const createCollect = async () => {
     try {
-      await fetch(`${apiUrl}/api/collects`, {
+      const response = await fetch(`${apiUrl}/api/collects`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newCollect),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        let errorMessage = errorData.error || 'Ocurrió un error';
+        alert('Error al crear el producto', errorMessage);
+      } else {
+        push('/');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -123,13 +132,20 @@ export default function NewCollect({ env }) {
 
   const updateCollect = async (collect) => {
     try {
-      await fetch(`${apiUrl}/api/collects/${query.id}`, {
+      const response = await fetch(`${apiUrl}/api/collects/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(collect),
       });
+      if (!response.ok) {
+        const errorData = await response.json();
+        let errorMessage = errorData.error || 'Ocurrió un error';
+        alert('Error al crear el producto', errorMessage);
+      } else {
+        push('/');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -157,10 +173,8 @@ export default function NewCollect({ env }) {
       await updateCollect(updatedProduct);
 
       setNewCollect(updatedProduct);
-      await push('/collect/user/list');
     } else {
       await createCollect(newCollect);
-      await push('/collect/user/list');
     }
   };
 
@@ -168,7 +182,7 @@ export default function NewCollect({ env }) {
     const updateCollectWithImages = async () => {
       await updateCollect();
       setIsSubmitting(false);
-      push('/collect/user/list');
+      push('/');
     };
 
     if (
@@ -224,9 +238,8 @@ export default function NewCollect({ env }) {
       } else {
         console.log('Image deleted from S3:', data);
 
-        // Actualiza los datos en la base de datos con el producto actualizado
         await updateCollect({ ...newCollect, images: updatedImageUrls });
-        push('/collect/user/list');
+        push('/');
       }
     });
   }
