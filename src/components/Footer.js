@@ -23,14 +23,14 @@ function Footer() {
         <div className='flex flex-col gap-1'>
           <h4 className='text-white md:text-sm'>Product</h4>
           <Link
-            href='tiendaProductos'
+            href='/product/tienda'
             passHref
             className='text-sm text-white md:text-[12px]'
           >
             Tienda
           </Link>
           <Link
-            href='carritoCheck'
+            href='/product/carrito'
             passHref
             className='text-sm text-white md:text-[12px]'
           >
@@ -40,7 +40,7 @@ function Footer() {
             Hogar
           </a>
         </div>
-        <div className='hidden flex-col gap-1 md:flex'>
+        <div className='hidden flex-col gap-0.5 md:flex'>
           <h4 className='text-white md:text-sm'>Admin</h4>
           <Link
             href='/register/collector/list'
@@ -70,8 +70,13 @@ function Footer() {
           >
             Camiones
           </Link>
-
-          <p className='text-transparent'>Blog</p>
+          <Link
+            href='/register/user/photoList'
+            passHref
+            className='text-sm text-white md:text-[12px]'
+          >
+            Envio Comprovantes
+          </Link>
           <p className='text-transparent'>Blog</p>
         </div>
       </div>

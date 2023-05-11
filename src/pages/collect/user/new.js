@@ -4,6 +4,7 @@ import { S3 } from 'aws-sdk';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import { AuthContext } from '/src/context/authContext';
 
@@ -29,7 +30,6 @@ export default function NewCollect({ env }) {
     fault: 0,
     images: query.id ? [''] : [],
   });
-  console.log('🚀 ~ file: new.js:32 ~ NewCollect ~ newCollect:', newCollect);
   const getCollect = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/collects/${query.id}`);
@@ -121,11 +121,12 @@ export default function NewCollect({ env }) {
       if (!response.ok) {
         const errorData = await response.json();
         let errorMessage = errorData.error || 'Ocurrió un error';
-        alert('Error al crear el producto', errorMessage);
+        alert(errorMessage);
       } else {
         push('/');
       }
     } catch (error) {
+      console.log(error.message);
       console.log(error);
     }
   };
@@ -331,6 +332,7 @@ export default function NewCollect({ env }) {
                 onChange={handleChange}
                 value={newCollect.buckets}
                 min={1}
+                required
                 className=' w-16 bg-white text-center text-lg text-black'
               />
             </div>
@@ -359,6 +361,7 @@ export default function NewCollect({ env }) {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </form>
     </div>
   );

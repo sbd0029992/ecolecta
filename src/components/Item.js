@@ -1,9 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from 'next/link';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 function Item(props) {
-  const { nameproduct, images, price_points } = props.data;
+  const { register, handleSubmit, setValue } = useForm();
+  const { nameproduct, images, price_points, _id } = props.data;
+  const [dataUser, setdataUser] = useState(null);
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await axios.get('/api/auth/user');
+      setdataUser(data);
+    };
+    getUser();
+  }, []);
+
+  const onSubmit = async (data) => {
+    // Adapta la URL y los datos al formato requerido por tu backend
+    await axios.post('/api/cart/products', {
+      user: dataUser.idUser,
+      product: _id,
+      quantity: data.quantity,
+    });
+    setValue('quantity', 1);
+  };
+
   return (
     <div className='flex flex-row items-center justify-center'>
       <div className='flex flex-col items-center gap-3'>
@@ -12,19 +33,18 @@ function Item(props) {
         <h3 className='text-white'>{price_points} Puntos Unidad</h3>
       </div>
       <div className='ml-[5%] flex flex-col items-center gap-3'>
-        <Link href='/carritoCheck'>
-          <button className='rounded-2xl bg-primary p-3 text-2xl'>
-            Añadir
-          </button>
-        </Link>
-        <button className='rounded-2xl bg-red-500 p-3 text-2xl text-white'>
-          Quitar
+        <button
+          className='rounded-2xl bg-primary p-3 text-2xl'
+          onClick={handleSubmit(onSubmit)}
+        >
+          Añadir
         </button>
+
         <h3 className='text-white'>Cantidad</h3>
         <input
+          {...register('quantity', { min: 1, max: 10 })}
           type='number'
-          min='1'
-          max='10'
+          defaultValue={1}
           className='font-nameproduct w-20 rounded-2xl bg-gray-400 p-1 text-center  text-2xl font-bold'
         />
       </div>
