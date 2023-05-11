@@ -2,6 +2,7 @@
 import { S3 } from 'aws-sdk';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { AuthContext } from '/src/context/authContext';
 
@@ -9,7 +10,6 @@ export default function NewCollect({ env }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { userData } = useContext(AuthContext);
   const { query, push } = useRouter();
-  console.log('🚀 ~ file: new.js:12 ~ NewCollect ~ query:', query.id);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
@@ -32,7 +32,6 @@ export default function NewCollect({ env }) {
     try {
       const res = await fetch(`${apiUrl}/api/collects/${query.id}`);
       const apiCollect = await res.json();
-      console.log('🚀 ~ file: new.js:34 ~ getCollect ~ res:', res);
       setIdCollect({ id: apiCollect._id });
       setCollectImages(apiCollect.images);
       setNewCollect((prevCollect) => ({
@@ -112,29 +111,61 @@ export default function NewCollect({ env }) {
 
   const createCollect = async () => {
     try {
-      await fetch(`${apiUrl}/api/collects`, {
+      const response = await fetch(`${apiUrl}/api/collects`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newCollect),
       });
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log('error completo:', errorData);
+        let errorMessage = errorData.error || 'Ocurrió un error';
+        if (errorMessage.includes('email_1 dup key')) {
+          errorMessage = 'El email ingresado ya está en uso.';
+        } else if (errorMessage.includes('ci_1 dup key')) {
+          errorMessage = 'El CI ingresado ya está en uso.';
+        } else if (errorMessage.includes('phone_1 dup key')) {
+          errorMessage = 'El número de teléfono ingresado ya está en uso.';
+        }
+        toast.error(errorMessage);
+      } else {
+        push('/');
+      }
     } catch (error) {
       console.log(error);
+      toast.error('Ocurrión un error al crear el registro.');
     }
   };
 
   const updateCollect = async (collect) => {
     try {
-      await fetch(`${apiUrl}/api/collects/${query.id}`, {
+      const response = await fetch(`${apiUrl}/api/collects/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(collect),
       });
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log('error completo:', errorData);
+        let errorMessage = errorData.error || 'Ocurrió un error';
+        if (errorMessage.includes('email_1 dup key')) {
+          errorMessage = 'El email ingresado ya está en uso.';
+        } else if (errorMessage.includes('ci_1 dup key')) {
+          errorMessage = 'El CI ingresado ya está en uso.';
+        } else if (errorMessage.includes('phone_1 dup key')) {
+          errorMessage = 'El número de teléfono ingresado ya está en uso.';
+        }
+        toast.error(errorMessage);
+      } else {
+        push('/');
+      }
     } catch (error) {
       console.log(error);
+      toast.error('Ocurrión un error al crear el registro.');
     }
   };
 
@@ -160,10 +191,8 @@ export default function NewCollect({ env }) {
       await updateCollect(updatedProduct);
 
       setNewCollect(updatedProduct);
-      await push('/collect/collector/list');
     } else {
       await createCollect();
-      await push('/collect/collector/list');
     }
   };
 

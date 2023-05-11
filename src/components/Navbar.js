@@ -10,9 +10,8 @@ import {
 } from 'react-icons/fa';
 
 export default function Navbar() {
-  const [isActive, setIsActive] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  const [isActive, setIsActive] = useState(false);
   const [dataUser, setdataUser] = useState([]);
   useEffect(() => {
     const getUser = async () => {
@@ -28,6 +27,20 @@ export default function Navbar() {
     }
   }, [dataUser]);
 
+  const handleToggle = () => {
+    setIsActive(!isActive);
+  };
+
+  useEffect(() => {
+    let timer;
+    if (isActive) {
+      timer = setTimeout(() => {
+        setIsActive(false);
+      }, 1500);
+    }
+    return () => clearTimeout(timer);
+  }, [isActive]);
+
   const displayName = dataUser.isLoggedIn
     ? `${dataUser.firstName} ${dataUser.lastName} ${dataUser.lastName}`
     : 'Invitado';
@@ -41,10 +54,6 @@ export default function Navbar() {
     typeUser = 'Normal';
   }
 
-  const handleToggle = () => {
-    setIsActive(!isActive);
-  };
-
   if (loading) {
     return (
       <div className='flex h-screen items-center justify-center'>
@@ -52,6 +61,18 @@ export default function Navbar() {
       </div>
     );
   }
+
+  // const handleMouseEnter = () => {
+  //   if (window.innerWidth > 768) {
+  //     setIsHovering(true);
+  //   }
+  // };
+
+  // const handleMouseLeave = () => {
+  //   if (window.innerWidth > 768) {
+  //     setIsHovering(false);
+  //   }
+  // };
 
   return (
     <React.Fragment>
@@ -126,7 +147,11 @@ export default function Navbar() {
             <FaChartLine className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
-        <div className='relative self-center'>
+        <div
+          className='relative self-center'
+          // onMouseEnter={handleMouseEnter}
+          // onMouseLeave={handleMouseLeave}
+        >
           <button
             className='flex items-center text-gray-800 focus:outline-none'
             onClick={handleToggle}

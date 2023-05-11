@@ -3,6 +3,7 @@ import { GoogleMap, MarkerF, useLoadScript } from '@react-google-maps/api';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function UserRegister() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -172,13 +173,13 @@ export default function UserRegister() {
         } else if (errorMessage.includes('phone_1 dup key')) {
           errorMessage = 'El número de teléfono ingresado ya está en uso.';
         }
-        alert(errorMessage);
+        toast.error(errorMessage);
       } else {
         push('/');
       }
     } catch (error) {
       console.error('Error en createUser:', error);
-      alert('Ocurrió un error al crear el usuario.');
+      toast.error('Ocurrió un error al crear el usuario.');
     }
   };
 
@@ -206,12 +207,13 @@ export default function UserRegister() {
         } else if (errorMessage.includes('phone_1 dup key')) {
           errorMessage = 'El número de teléfono ingresado ya está en uso.';
         }
-        alert(errorMessage);
+        toast.error(errorMessage);
       } else {
         push('/');
       }
     } catch (error) {
       console.log(error);
+      toast.error('Ocurrió un error al actualizar el usuario.');
     }
   };
 

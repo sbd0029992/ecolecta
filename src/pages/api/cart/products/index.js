@@ -15,7 +15,9 @@ async function handler(req, res) {
         const carts = await Cart.find({
           user: userId,
           status: 1,
-        }).populate(['user', 'product']); // Pasamos un array a .populate()
+        })
+          .populate('user') // Aquí se cambia User por 'user'
+          .populate('product'); // Aquí se cambia Product por 'product'
 
         return res.status(200).json(carts);
       } catch (error) {
@@ -24,10 +26,10 @@ async function handler(req, res) {
     case 'POST':
       try {
         const newCart = new Cart(body);
-        const savedCart = await newCart.save();
-        const populatedCart = await savedCart
-          .populate(['user', 'product']) // Pasamos un array a .populate()
-          .execPopulate();
+        await newCart.save();
+        const populatedCart = await Cart.findById(newCart._id)
+          .populate('user')
+          .populate('product');
         return res.status(201).json(populatedCart);
       } catch (error) {
         return res.status(400).json({ error: error.message });

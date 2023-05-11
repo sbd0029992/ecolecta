@@ -39,23 +39,23 @@ function ListCollects({ user }) {
                     Description: {collect.description}
                   </h4>
                   <h4 className='text-sm font-medium'>
-                    Status: {collect.status === 1 ? 'Mandado' : 'Aceptado'}
+                    Estatus: {collect.status === 1 ? 'Mandado' : 'Aceptado'}
                   </h4>
                 </div>
                 <div className='mb-4 flex justify-center'>
-                  <button
+                  {/* <button
                     className='rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
                     onClick={() => router.push(`/collect/user/${collect._id}`)}
                   >
                     Ver
-                  </button>
+                  </button> */}
                   <button
-                    className='ml-4 rounded-md bg-yellow-500 px-4 py-2 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50'
+                    className='mt-2 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50'
                     onClick={() =>
                       router.push(`/collect/user/${collect._id}/edit`)
                     }
                   >
-                    Editar
+                    Ver y Editar
                   </button>
                 </div>
               </div>

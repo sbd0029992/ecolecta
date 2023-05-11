@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import { S3 } from 'aws-sdk';
 import { useRouter } from 'next/router';
@@ -13,37 +14,19 @@ export default function UserRegister({ env }) {
     id: '',
   });
   const [userImages, setUserImages] = useState([]);
-  const [showPasswordField, setShowPasswordField] = useState(true);
-  const [trucks, setTrucks] = useState([]);
   const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
     secondLastName: '',
     ci: '',
-    license: '',
     phone: '',
     birthdate: '',
     gender: 'M',
     email: '',
-    password: '',
-    status: '1',
-    type: 'collector',
+    status: '',
+    type: '',
     photos: query.id ? [''] : [],
-    truck: query.id ? null : null,
   });
-  console.log('🚀 ~ file: new.js:35 ~ UserRegister ~ newUser:', newUser);
-
-  async function fetchTrucks() {
-    const response = await fetch(`${apiUrl}/api/trucks`);
-    const data = await response.json();
-    setTrucks(data);
-  }
-
-  useEffect(() => {
-    fetchTrucks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -65,7 +48,6 @@ export default function UserRegister({ env }) {
         lastName: user.lastName,
         secondLastName: user.secondLastName,
         ci: user.ci,
-        license: user.license,
         phone: user.phone,
         birthdate: formatDate(user.birthdate),
         email: user.email,
@@ -73,9 +55,7 @@ export default function UserRegister({ env }) {
         type: user.type,
         gender: user.gender,
         photos: user.photos,
-        truck: user.truck,
       });
-      setShowPasswordField(false);
     } catch (error) {
       console.log(error);
     }
@@ -161,10 +141,7 @@ export default function UserRegister({ env }) {
     }
   };
 
-  const updateUser = async () => {
-    const updatedUser = { ...newUser };
-    delete updatedUser.password;
-
+  const updateUser = async (updatedUser) => {
     try {
       const response = await fetch(`${apiUrl}/api/users/${query.id}`, {
         method: 'PUT',
@@ -280,167 +257,148 @@ export default function UserRegister({ env }) {
   }
 
   return (
-    <div className='flex justify-center bg-black'>
+    <div className='flex flex-col justify-center gap-5 bg-black px-2 sm:flex-row'>
       <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
-        <h1>{query.id ? 'Edit Recolector' : 'Register Recolector'}</h1>
+        <h1>{query.id ? 'Comprobante Enviado' : 'Register Recolector'}</h1>
+        <p>Estado usuario = {newUser.status}</p>
         <form class='formulary' onSubmit={handleSubmit}>
           <div class='mb-6 grid gap-3 '>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                NOMBRES
-              </label>
-              <input
-                name='firstName'
-                id='firstName'
-                value={newUser.firstName}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                placeholder='Ingrese sus nombres'
-                required
-              />
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                PRIMER APELLIDO
-              </label>
-              <input
-                type='text'
-                id='lastName'
-                value={newUser.lastName}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                placeholder='Ingrese su primer apellido'
-                required
-              />
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                SEGUNDO APELLIDO
-              </label>
-              <input
-                type='text'
-                id='secondLastName'
-                value={newUser.secondLastName}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                placeholder='Ingrese su segundo apellido'
-              />
-            </div>
-            <div className='flex justify-between'>
-              <label class='mb-2 mt-2 block self-center text-sm font-medium text-gray-500 dark:text-white'>
-                Genero:
-              </label>
-              <select
-                id='gender'
-                value={newUser.gender}
-                onChange={handleChange}
-                class='mt-3 block w-36 rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-secondary text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
-              >
-                <option className='text-sm' value='M' selected>
-                  Masculino
-                </option>
-                <option value='F'>Femenino</option>
-              </select>
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                CEDULA DE IDENTIDAD
-              </label>
-              <input
-                type='text'
-                id='ci'
-                value={newUser.ci}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                placeholder='Ingrese su CI'
-                required
-              />
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                CARNET VEHICULAR
-              </label>
-              <input
-                type='text'
-                id='license'
-                value={newUser.license}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                placeholder='Ingrese su carnet vehicular'
-                required
-              />
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                TELEFONO
-              </label>
-              <input
-                type='number'
-                id='phone'
-                value={newUser.phone}
-                maxLength='12'
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                placeholder='Ingrese su numero de telefono'
-                required
-              />
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                FECHA DE NACIMIENTO
-              </label>
-              <input
-                type='date'
-                id='birthdate'
-                name='birthdate'
-                value={newUser.birthdate}
-                onChange={handleChange}
-                className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                required
-                min='1950-01-01'
-                max={new Date().toISOString().slice(0, 10)}
-              />
-            </div>
-            {query.id ? (
-              <div className='flex justify-between'>
-                <label class='mb-2 mt-2 block self-center text-sm font-medium text-gray-500 dark:text-white'>
-                  Camion:
-                </label>
-                <select
-                  class='mt-3 block w-36 rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-secondary text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
-                  id='truck'
-                  name='truck'
-                  onChange={handleChange}
-                  value={newUser.truck}
-                >
-                  {trucks.map((truck) => (
-                    <option
-                      className='text-lg'
-                      key={truck._id}
-                      value={truck._id}
-                    >
-                      {truck.plate}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            ) : null}
-            {query.id ? (
+            <div hidden>
               <div>
                 <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                  Photos
+                  NOMBRES
                 </label>
                 <input
-                  type='file'
-                  id='photos'
-                  accept='image/*'
-                  onChange={(e) => {
-                    const filesArray = Array.from(e.target.files);
-                    setSelectedImages([...selectedImages, ...filesArray]);
-                  }}
+                  name='firstName'
+                  id='firstName'
+                  value={newUser.firstName}
+                  onChange={handleChange}
                   class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                  max='5145728' // 5MB en bytes
+                  placeholder='Ingrese sus nombres'
+                  required
                 />
+              </div>
+              <div>
+                <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                  PRIMER APELLIDO
+                </label>
+                <input
+                  type='text'
+                  id='lastName'
+                  value={newUser.lastName}
+                  onChange={handleChange}
+                  class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                  placeholder='Ingrese su primer apellido'
+                  required
+                />
+              </div>
+              <div>
+                <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                  SEGUNDO APELLIDO
+                </label>
+                <input
+                  type='text'
+                  id='secondLastName'
+                  value={newUser.secondLastName}
+                  onChange={handleChange}
+                  class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                  placeholder='Ingrese su segundo apellido'
+                />
+              </div>
+              <div className='flex justify-between'>
+                <label class='mb-2 mt-2 block self-center text-sm font-medium text-gray-500 dark:text-white'>
+                  Genero:
+                </label>
+                <select
+                  id='gender'
+                  value={newUser.gender}
+                  onChange={handleChange}
+                  class='mt-3 block w-36 rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-secondary text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
+                >
+                  <option className='text-sm' value='M' selected>
+                    Masculino
+                  </option>
+                  <option value='F'>Femenino</option>
+                </select>
+              </div>
+              <div>
+                <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                  CEDULA DE IDENTIDAD
+                </label>
+                <input
+                  type='text'
+                  id='ci'
+                  value={newUser.ci}
+                  onChange={handleChange}
+                  class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                  placeholder='Ingrese su CI'
+                  required
+                />
+              </div>
+              <div>
+                <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                  TELEFONO
+                </label>
+                <input
+                  type='number'
+                  id='phone'
+                  value={newUser.phone}
+                  maxLength='12'
+                  onChange={handleChange}
+                  class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                  placeholder='Ingrese su numero de telefono'
+                  required
+                />
+              </div>
+              <div>
+                <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                  FECHA DE NACIMIENTO
+                </label>
+                <input
+                  type='date'
+                  id='birthdate'
+                  name='birthdate'
+                  value={newUser.birthdate}
+                  onChange={handleChange}
+                  className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                  required
+                  min='1950-01-01'
+                  max={new Date().toISOString().slice(0, 10)}
+                />
+              </div>
+              <div>
+                <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                  CORRERO ELECTRONICO
+                </label>
+                <input
+                  type='email'
+                  id='email'
+                  value={newUser.email}
+                  onChange={handleChange}
+                  class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                  placeholder='Ingrese su correo electronico '
+                  required
+                />
+              </div>
+            </div>
+            {query.id ? (
+              <div>
+                <div hidden>
+                  <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                    Photos
+                  </label>
+                  <input
+                    type='file'
+                    id='photos'
+                    accept='image/*'
+                    onChange={(e) => {
+                      const filesArray = Array.from(e.target.files);
+                      setSelectedImages([...selectedImages, ...filesArray]);
+                    }}
+                    class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                    max='5145728' // 5MB en bytes
+                  />
+                </div>
                 {selectedImages.map((image, index) => (
                   <div
                     key={index}
@@ -464,7 +422,7 @@ export default function UserRegister({ env }) {
                 {userImages.length > 0 ? (
                   <div>
                     <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                      Existing Photos
+                      Foto comprobante
                     </label>
                     <div class='flex flex-wrap'>
                       {userImages.map((image, index) => (
@@ -492,43 +450,26 @@ export default function UserRegister({ env }) {
                 ) : null}
               </div>
             ) : null}
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                CORRERO ELECTRONICO
-              </label>
-              <input
-                type='email'
-                id='email'
-                value={newUser.email}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                placeholder='Ingrese su correo electronico '
-                required
-              />
-            </div>
-            {showPasswordField && (
-              <div>
-                <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                  PASSWORD
-                </label>
-                <input
-                  type='password'
-                  id='password'
-                  minLength={6}
-                  value={newUser.password}
-                  onChange={handleChange}
-                  class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                  required
-                  placeholder='Ingrese su password'
-                />
-              </div>
-            )}
-            <div className='flex justify-center'>
+            <div className='flex justify-evenly'>
               <button
-                type='submit'
-                class='m-[0px] mt-2 h-20 w-full rounded-lg bg-[#85A547] px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
+                onClick={() => {
+                  const updatedUser = { ...newUser, status: 'completed' };
+                  setNewUser(updatedUser); // Actualiza el estado de "newUser"
+                  updateUser(updatedUser);
+                }}
+                class='m-[0px] mt-2 h-12 rounded-lg bg-[#85A547] px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
               >
-                {query.id ? 'Actualizar' : 'Registrar'}
+                {query.id ? 'Aceptar' : 'Registrar'}
+              </button>
+              <button
+                onClick={() => {
+                  const updatedUser = { ...newUser, status: 'active' };
+                  setNewUser(updatedUser); // Actualiza el estado de "newUser"
+                  updateUser(updatedUser);
+                }}
+                class='m-[0px] mt-2 h-12 rounded-lg bg-red-400 px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
+              >
+                {query.id ? 'Denegar' : 'Registrar'}
               </button>
             </div>
           </div>

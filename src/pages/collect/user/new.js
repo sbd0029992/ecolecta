@@ -4,6 +4,7 @@ import { S3 } from 'aws-sdk';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import { AuthContext } from '/src/context/authContext';
 
@@ -331,6 +332,7 @@ export default function NewCollect({ env }) {
                 onChange={handleChange}
                 value={newCollect.buckets}
                 min={1}
+                required
                 className=' w-16 bg-white text-center text-lg text-black'
               />
             </div>
@@ -359,6 +361,7 @@ export default function NewCollect({ env }) {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </form>
     </div>
   );

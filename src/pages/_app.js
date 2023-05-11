@@ -1,3 +1,6 @@
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 import '/src/styles/globals.css';
 import '/src/styles/colors.css';
 
@@ -9,6 +12,7 @@ function MyApp({ Component, pageProps }) {
     <AuthProvider>
       <Layout>
         <Component {...pageProps} />
+        <ToastContainer />
       </Layout>
     </AuthProvider>
   );
