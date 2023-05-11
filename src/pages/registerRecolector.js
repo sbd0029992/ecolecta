@@ -3,7 +3,7 @@ import React from 'react';
 
 function RegisterRecolector() {
   return (
-    <div className='flex justify-center bg-black'>
+    <div className='background-plantas flex justify-center'>
       <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
         <h1>Recolector Register</h1>
         <form className='formulary'>

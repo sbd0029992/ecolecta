@@ -17,8 +17,8 @@ function RecolectorPage() {
     },
   ];
   return (
-    <div className='h-full min-h-[70vh] justify-center bg-blue-200 marker:flex xl:flex '>
-      <section className='xl:content-flex flex-nowrap items-center justify-center p-2 text-center xl:h-full'>
+    <div className='background-plantas h-full min-h-[70vh] justify-center marker:flex sm:flex sm:flex-wrap xl:flex'>
+      <section className='xl:content-flex flex-nowrap items-center justify-center p-2 text-center  xl:h-full'>
         <div className=' xl:content mt-6 flex-col rounded-t border-black bg-white p-5 xl:h-[100px] xl:w-[1000px]'>
           <div className='justify -center container flex  flex-wrap min-[1250px]:text-left xl:w-[400px]'>
             <h1 className='text-center'>Lista de recojos listos</h1>
@@ -43,21 +43,21 @@ function RecolectorPage() {
           </div>
         </div>
         <br className='xl:hidden' />
-        <div className='flex flex-wrap rounded-lg bg-white sm:h-[50px] xl:h-full xl:w-[1000px]'>
+        <div className='flex flex-wrap rounded-lg bg-white sm:h-auto sm:w-[50vh] lg:w-[1100px] xl:h-full xl:w-[1000px]'>
           {values.map((value) => (
             <List data={value} key={value.id} />
           ))}
         </div>
         <br />
-        <div className='content flex h-[50px] w-full flex-nowrap items-center justify-center rounded-lg bg-white xl:mt-2'>
-          <button className='h-10 w-[200px] rounded-lg bg-prymary font-primary text-white xl:w-[200px]'>
-            Aceptar
-          </button>
-          <button className='ml-4 h-10 w-[200px] rounded-lg bg-[#FF7272] font-primary text-white xl:visible xl:w-[200px] '>
-            <Link href='/'>Regresar</Link>
-          </button>
-        </div>
       </section>
+      <div className='content flex h-[50px] w-full flex-nowrap items-center justify-center rounded-lg bg-white xl:mt-2'>
+        <button className='h-10 w-[200px] rounded-lg bg-prymary font-primary text-white xl:w-[200px]'>
+          Aceptar
+        </button>
+        <button className='ml-4 h-10 w-[200px] rounded-lg bg-[#FF7272] font-primary text-white  xl:visible xl:w-[200px] '>
+          <Link href='/home'>Regresar</Link>
+        </button>
+      </div>
     </div>
   );
 }

@@ -3,24 +3,18 @@ import React from 'react';
 
 function point_checks() {
   return (
-    <div className='h-full min-h-[70vh] w-auto bg-blue-300 xl:h-[70vh]'>
-      <div className='flex w-full flex-col items-center justify-center rounded-b-lg bg-white py-10 text-center lg:h-[80px] xl:h-[50px] '>
-        <h1 className='text-center text-3xl '>
+    <div className='background-image1 h-[62vh] w-auto xl:h-[70vh]'>
+      <div className='mt-20 h-[170px] w-full  rounded-b-lg bg-white text-center lg:mt-16 lg:h-[80px] xl:mt-20 xl:h-[50px] '>
+        <label className='text-justify text-[35px] '>
           ¿Seguro de realizar esta compra?
-        </h1>
+        </label>
       </div>
-      <div className='mt-10 flex h-auto flex-col items-center justify-center gap-6 text-center text-white '>
-        <div>
-          <h1 className=' text-[60px]'>20 pts</h1>
-        </div>
-        <div>
-          <h2 className=' text-[35px]'>por</h2>
-        </div>
-        <div>
-          <h2 className=' text-[35px]'>10 bs.</h2>
-        </div>
+      <div className='content items-center justify-center text-center text-white '>
+        <h1 className='mt-20 text-[60px]'>20 pts</h1>
+        <h2 className='mt-10 text-[35px]'>por</h2>
+        <h2 className='mt-10 text-[35px]'>10 bs.</h2>
         <div className='content items-center justify-center text-center '>
-          <button className='h-20 w-[300px] rounded-lg bg-prymary font-primary text-[30px] text-white no-underline xl:w-[500px] '>
+          <button className='mt-10 h-20 w-[300px] rounded-lg bg-prymary font-primary text-[30px] text-white no-underline xl:w-[500px] '>
             <Link href='/profile'>CONFIRMAR</Link>
           </button>
         </div>

@@ -4,7 +4,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 
 function RecolectorCheck() {
   return (
-    <div className='flex h-full items-center justify-center bg-black py-5 md:min-h-[70vh] md:py-0'>
+    <div className='background-plantas flex h-full items-center justify-center py-5 md:min-h-[70vh] md:py-0'>
       <div className='flex h-full flex-col items-center justify-center gap-6 sm:flex-row sm:p-3 lg:h-[65vh] lg:min-h-[65vh] '>
         <div className='flex w-[90vw] flex-col justify-center gap-5 rounded-xl bg-gray-200  p-4 sm:h-fit sm:w-[300px] sm:gap-10'>
           <div className='mb-5 flex'>
@@ -40,13 +40,13 @@ function RecolectorCheck() {
             </button>
           </div>
         </div>
-        <div className='flex w-[90vw] flex-col justify-center gap-5 rounded-xl bg-secondary p-4 font-secondary sm:h-fit sm:w-[300px] '>
+        <div className='flex w-[90vw] flex-col justify-center gap-5 rounded-xl bg-[#329c18] p-4 font-secondary sm:h-fit sm:w-[300px] '>
           <div className='flex justify-between'>
-            <button className='h-14 w-[38vw] rounded-xl bg-primary text-2xl font-semibold text-white sm:w-full '>
+            <button className='h-14 w-[38vw] rounded-xl bg-[#6ecf42]  text-2xl font-semibold text-white sm:w-full '>
               Estado
             </button>
             <div className='w-5'></div>
-            <button className='h-14 w-[38vw] rounded-xl bg-primary text-2xl font-semibold text-white sm:w-full'>
+            <button className='h-14 w-[38vw] rounded-xl bg-[#6ecf42]  text-2xl font-semibold text-white sm:w-full'>
               Ubicacion
             </button>
           </div>
@@ -74,12 +74,12 @@ function RecolectorCheck() {
           </div>
           <div className='flex flex-col gap-5'>
             <div>
-              <button className='h-14 w-full rounded-xl bg-primary text-3xl font-bold text-white'>
+              <button className='h-14 w-full rounded-xl bg-[#6ecf42]  text-3xl font-bold text-white'>
                 VAMOS
               </button>
             </div>
             <div>
-              <button className='h-14 w-full rounded-xl bg-primary text-3xl font-bold text-white'>
+              <button className='h-14 w-full rounded-xl bg-[#6ecf42]  text-3xl font-bold text-white'>
                 YA LLEGUE
               </button>
             </div>

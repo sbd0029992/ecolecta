@@ -52,7 +52,7 @@ function LoginPage() {
   }, [user, push]);
 
   return (
-    <div className='flex h-[100vh]  w-full items-center justify-center bg-blue-200'>
+    <div className='background-plantas flex h-full w-full items-center justify-center  pb-10'>
       <section className='h-[min-content] justify-center bg-white p-1  font-secondary min-[320px]:h-auto min-[320px]:w-[420px] xl:h-[70vh] xl:w-[40vh] xl:rounded-lg'>
         <div className=' flex-justify-center h-auto w-full p-2'>
           <div className='display snap-center  p-1'>
@@ -82,9 +82,9 @@ function LoginPage() {
                       <input
                         type='email'
                         id='email'
-                        className='focus:border-black-500 block w-full rounded-lg border border-gray-300 bg-gray-50
-                p-2.5 text-sm text-gray-900 focus:ring-black dark:border-gray-600 dark:bg-gray-200 dark:text-black dark:placeholder-gray-400
-                  dark:focus:border-black dark:focus:ring-black'
+                        className='focus:border-black-500 dark:placeholder-black-400   ml-5 block w-[30vh] justify-center rounded-lg border border-gray-300 bg-green-200 p-2.5
+                        text-sm text-gray-900 focus:ring-black dark:border-gray-600 dark:bg-green-200 dark:text-black dark:focus:border-black dark:focus:ring-black
+                          sm:w-[40vh] md:w-[50vh]'
                         placeholder='name@flowbite.com'
                         onChange={emailHandler}
                         required
@@ -101,8 +101,8 @@ function LoginPage() {
                         type='password'
                         id='password'
                         className='block w-full rounded-lg border border-gray-300 bg-gray-50 
-                p-2.5 text-sm text-gray-900 focus:border-black dark:border-gray-600 dark:bg-gray-200 dark:text-black dark:placeholder-gray-400 dark:focus:border-black
-                  dark:focus:ring-black'
+                        p-2.5 text-sm text-gray-900 focus:border-black dark:border-gray-600 dark:bg-gray-200 dark:text-black dark:placeholder-gray-400 dark:focus:border-black
+                          dark:focus:ring-black'
                         placeholder='Contraseña'
                         onChange={passwordHandler}
                         required
