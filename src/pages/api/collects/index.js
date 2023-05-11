@@ -1,7 +1,9 @@
 import { dbConnect } from 'utils/mongosee';
 
 import authMiddleware from '/src/middlewares/authMiddleware';
-import Cart from '/src/models/Cart';
+import Collect from '/src/models/Collect';
+import Truck from '/src/models/Truck';
+import User from '/src/models/User';
 
 dbConnect();
 
@@ -12,24 +14,37 @@ async function handler(req, res) {
     case 'GET':
       try {
         const userId = req.query.userId;
-        const carts = await Cart.find({
-          user: userId,
-          status: 1,
-        }).populate(['user', 'product']); // Pasamos un array a .populate()
+        const user = await User.findById(userId);
+        let collects;
 
-        return res.status(200).json(carts);
+        if (user.type === 'collector') {
+          collects = await Collect.find({}).populate({
+            path: 'user',
+            populate: {
+              path: 'truck',
+              model: Truck,
+            },
+          });
+        } else {
+          collects = await Collect.find({
+            user: userId,
+            status: { $in: [1, 2] },
+          }).populate('user');
+        }
+        return res.status(200).json(collects);
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }
     case 'POST':
       try {
-        const newCart = new Cart(body);
-        const savedCart = await newCart.save();
-        const populatedCart = await savedCart
-          .populate(['user', 'product']) // Pasamos un array a .populate()
-          .execPopulate();
-        return res.status(201).json(populatedCart);
+        const newCollect = new Collect(body);
+        const savedCollect = await newCollect.save();
+        const populatedCollect = await Collect.populate(savedCollect, {
+          path: 'user',
+        });
+        return res.status(201).json(populatedCollect);
       } catch (error) {
+        console.log(error.message);
         return res.status(400).json({ error: error.message });
       }
     default:

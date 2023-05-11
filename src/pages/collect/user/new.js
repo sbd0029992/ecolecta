@@ -30,7 +30,6 @@ export default function NewCollect({ env }) {
     fault: 0,
     images: query.id ? [''] : [],
   });
-  console.log('🚀 ~ file: new.js:32 ~ NewCollect ~ newCollect:', newCollect);
   const getCollect = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/collects/${query.id}`);
@@ -122,11 +121,12 @@ export default function NewCollect({ env }) {
       if (!response.ok) {
         const errorData = await response.json();
         let errorMessage = errorData.error || 'Ocurrió un error';
-        alert('Error al crear el producto', errorMessage);
+        alert(errorMessage);
       } else {
         push('/');
       }
     } catch (error) {
+      console.log(error.message);
       console.log(error);
     }
   };
