@@ -1,7 +1,9 @@
 import axios from 'axios';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 
+import user from '/public/images/User.png';
 import { AuthContext } from '/src/context/authContext';
 
 function Profile() {
@@ -12,6 +14,7 @@ function Profile() {
   const fullName = `${userData.firstName} ${userData.lastName}${
     userData.secondLastName ? ' ' + userData.secondLastName : ''
   }`;
+  const email = `${userData.email}`;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -40,11 +43,12 @@ function Profile() {
         <div className='flex w-full justify-center md:justify-start'>
           {/* <BsFillTriangleFill className='h-10 w-10 text-red-500 md:hidden' /> */}
           <button
+            className='m-[0px] ml-[30vh] mb-4 flex h-10 w-60 items-center justify-center rounded-full bg-[#85A547] px-5 py-2.5 font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 min-[320px]:ml-[5vh] md:ml-[18vh] lg:ml-[25vh]'
             onClick={() =>
               router.push(`/register/user/${userData.idUser}/verify`)
             }
           >
-            <h1 className='text-red-300'>Verificar perfil</h1>
+            <h4 className='p-2 text-center'>Verificar perfil</h4>
           </button>
         </div>
       );
@@ -94,30 +98,41 @@ function Profile() {
   }
 
   return (
-    <div className='bg-black'>
-      <div className='flex h-full min-h-[70vh]  flex-col items-center justify-center gap-4 p-5 '>
-        <div className='flex flex-col items-center gap-3 md:hidden'>
-          {renderUserStatus()}
-          <h1 className='text-primary'>{userData.email}</h1>
-        </div>
-        <div className='flex w-96 flex-col items-center gap-4 rounded-3xl bg-secondary pt-4 pb-4 sm:w-[400px] md:h-[370px] md:w-[800px] md:flex-row lg:w-[900px]'>
-          <div className='flex w-96 flex-col items-center gap-5 sm:w-[400px] md:w-3/4'>
-            <div className='flex h-full w-5/6 justify-between gap-5 rounded-3xl bg-gray-300 p-5'>
-              <div className='mr-14 '>
-                <h2>PUNTOS</h2>
-              </div>
-              <div>
+    <div className='background-image1 '>
+      <div className='flex h-full min-h-[70vh] flex-col items-center justify-center gap-4 p-5 '>
+        <div className='flex w-96 flex-col items-center gap-4 rounded-3xl bg-black pt-4 pb-4 sm:w-[400px] md:h-[370px] md:w-[800px] md:flex-row lg:w-[900px]'>
+          <div className='mr-5 ml-12 flex-col items-center md:flex'>
+            <div className='flex flex-col items-center gap-4'>
+              <Image width={200} height={200} alt='User Imagen' src={user} />
+              <h4 className='text-amber-300'>{fullName}</h4>
+              <h4 className='text-white'>{email}</h4>
+              <button
+                onClick={() =>
+                  router.push(`/register/user/${userData.idUser}/edit`)
+                }
+                className='w-40 rounded-3xl bg-green-600 p-2 text-white'
+              >
+                Editar Perfil
+              </button>
+            </div>
+          </div>
+          <div className='mt-6 flex w-96 flex-col items-center gap-5 p-2 sm:w-[400px] md:w-3/4'>
+            {renderUserStatus()}
+            <div class='h-2 w-[35vh] rounded-full bg-gradient-to-r from-amber-500 to-green-500'></div>
+            <div className=' mt-2 flex h-10 flex-wrap items-center rounded-full bg-white text-center'>
+              <h2 className=' ml-10'>PUNTOS</h2>
+              <div className='ml-[68px] flex h-full w-20 items-center justify-center rounded-r-full bg-green-500 min-[320px]:ml-[58px] md:ml-[49px]'>
                 <h2>{userDetails.points}</h2>
               </div>
             </div>
-            <div className='flex w-5/6 justify-between rounded-3xl bg-gray-300 p-5'>
-              <div className='mr-14 '>
-                <h2>BALDES</h2>
-              </div>
-              <div>
+            <div class='h-2 w-[35vh] rounded-full bg-gradient-to-r from-amber-500 to-green-500'></div>
+            <div className=' mt-2 flex h-10 flex-wrap items-center rounded-full bg-white text-center'>
+              <h2 className=' ml-10'>BALDES</h2>
+              <div className='ml-[68px] flex h-full w-20 items-center justify-center rounded-r-full bg-green-500 min-[320px]:ml-[8vh] md:ml-[52px]'>
                 <h2>{userDetails.buckets}</h2>
               </div>
             </div>
+
             {/* <div className='flex flex-col items-center gap-5'>
               <label class='relative inline-flex cursor-pointer items-center self-center'>
                 <input type='checkbox' value='' class='peer sr-only' />
@@ -125,20 +140,6 @@ function Profile() {
               </label>
               <h1 className='text-white'>Tabla Posicion</h1>
             </div> */}
-          </div>
-          <div className='mr-5 hidden flex-col items-center md:flex'>
-            {renderUserStatus()}
-            <div className='flex flex-col items-center gap-8'>
-              <h1 className='text-white'>{fullName}</h1>
-              <button
-                onClick={() =>
-                  router.push(`/register/user/${userData.idUser}/edit`)
-                }
-                className='w-40 rounded-3xl bg-primary p-2 text-white'
-              >
-                Editar Perfil
-              </button>
-            </div>
           </div>
         </div>
       </div>
