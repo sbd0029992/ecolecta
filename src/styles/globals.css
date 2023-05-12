@@ -182,6 +182,6 @@ body {
   background-image: url('/images/plantas.jpeg');
   width: 100%;
   height: auto;
-  background-repeat: repeat-y;
+  background-repeat: repeat;
   min-height: 600px;
 }

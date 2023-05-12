@@ -13,7 +13,7 @@ export default function TiendaProductos({ products }) {
     );
   }
   return (
-    <div className='h-full min-h-[70vh] bg-black'>
+    <div className='background-plantas h-full min-h-[70vh]'>
       <div className='flex flex-col p-3'>
         <div className='flex justify-end'></div>
         <div className='grid grid-flow-row items-center justify-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>

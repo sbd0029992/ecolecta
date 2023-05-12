@@ -26,15 +26,23 @@ function Item(props) {
   };
 
   return (
-    <div className='flex flex-row items-center justify-center'>
-      <div className='flex flex-col items-center gap-3'>
-        <h3 className='text-white'>{nameproduct}</h3>
-        <img src={images} alt='juguete' height={200} width={200} />
+    <div className='flex flex-row items-center justify-center text-center '>
+      <div className='flex flex-col items-center gap-3 '>
+        <h3 className='h-10 w-[30vh] rounded-full bg-green-600 text-white '>
+          {nameproduct}
+        </h3>
+        <img
+          src={images}
+          alt='juguete'
+          height={200}
+          width={200}
+          className='rounded-lg'
+        />
         <h3 className='text-white'>{price_points} Puntos Unidad</h3>
       </div>
-      <div className='ml-[5%] flex flex-col items-center gap-3'>
+      <div className='ml-[5%] flex flex-col items-center gap-3 rounded-lg bg-white/40 p-2'>
         <button
-          className='rounded-2xl bg-primary p-3 text-2xl'
+          className='rounded-2xl bg-green-500 p-3 text-2xl'
           onClick={handleSubmit(onSubmit)}
         >
           Añadir
@@ -45,7 +53,7 @@ function Item(props) {
           {...register('quantity', { min: 1, max: 10 })}
           type='number'
           defaultValue={1}
-          className='font-nameproduct w-20 rounded-2xl bg-gray-400 p-1 text-center  text-2xl font-bold'
+          className='font-nameproduct w-20 rounded-2xl bg-white p-1 text-center  text-2xl font-bold'
         />
       </div>
     </div>

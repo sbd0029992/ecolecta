@@ -262,7 +262,7 @@ export default function UserRegister({ env }) {
   }
 
   return (
-    <div className='flex flex-col justify-center gap-5 bg-black px-2 sm:flex-row'>
+    <div className='background-image1 flex flex-col justify-center gap-5  px-2 sm:flex-row'>
       <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
         <h1>{query.id ? 'Subir Comprobante' : 'Register Recolector'}</h1>
         <form class='formulary' onSubmit={handleSubmit}>
