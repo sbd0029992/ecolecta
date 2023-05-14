@@ -24,12 +24,12 @@ export default function ListUsers({ collectors }) {
 
   if (!collectors) {
     return (
-      <div className='flex min-h-screen flex-col items-center justify-center'>
+      <div className='background-tierra flex min-h-screen flex-col items-center justify-center'>
         <div>
           <h1 className='mb-4 text-2xl font-bold'>No hay usuarios</h1>
           <div>
             <button
-              className='rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600'
+              className='rounded bg-green-500 px-4 py-2 font-semibold text-white hover:bg-green-600'
               onClick={() => router.push('/register')}
             >
               Crear usuario
@@ -41,16 +41,16 @@ export default function ListUsers({ collectors }) {
   }
 
   return (
-    <div className='h-full min-h-[70vh] px-6'>
+    <div className='background-tierra h-full min-h-[70vh] p-6 px-6 '>
       <div className='text-start'>
         <button
-          className='rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+          className=' mb-2 rounded-md bg-green-500 px-4 py-2 text-black hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50'
           onClick={() => router.push('/register/collector/new')}
         >
-          Registrar Recolector
+          REGISTRAR RECOLECTOR
         </button>
       </div>
-      <div className='container mx-auto h-full min-h-[70vh] py-8'>
+      <div className='container mx-auto h-full min-h-[70vh] rounded-lg bg-white p-2 py-8'>
         <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
           {collectors.map((user, userIndex) => (
             <div
@@ -108,12 +108,12 @@ export default function ListUsers({ collectors }) {
               </div>
               <div className='mt-4 flex justify-center'>
                 <button
-                  className='rounded bg-yellow-500 px-3 py-2 font-semibold text-white hover:bg-yellow-600'
+                  className='rounded bg-red-500 px-3 py-2 font-semibold text-white hover:bg-red-600'
                   onClick={() =>
                     router.push(`/register/collector/${user._id}/edit`)
                   }
                 >
-                  Editar
+                  EDITAR
                 </button>
               </div>
             </div>

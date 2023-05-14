@@ -38,10 +38,10 @@ export default function ListAffiliates({ affiliates }) {
   }
 
   return (
-    <div className='h-full min-h-[70vh]'>
+    <div className='background-tierra h-full min-h-[70vh] p-6'>
       <div className='ml-5 text-start'>
         <button
-          className='rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+          className='rounded-md bg-green-900 px-4 py-2 text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-opacity-50'
           onClick={() => router.push('/affiliate/new')}
         >
           Nuevo Afiliado
@@ -119,7 +119,7 @@ export default function ListAffiliates({ affiliates }) {
                   Ver
                 </button>
                 <button
-                  className='ml-4 rounded-md bg-yellow-500 px-4 py-2 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50'
+                  className='ml-4 rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50'
                   onClick={() =>
                     router.push(`/affiliate/${affiliate._id}/edit`)
                   }

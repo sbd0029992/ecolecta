@@ -209,7 +209,7 @@ export default function Newaffiliate({ env }) {
   }
 
   return (
-    <div className='flex h-full min-h-[70vh] items-center justify-center bg-black'>
+    <div className='background-plantas flex h-full min-h-[70vh] items-center justify-center bg-black'>
       <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
         <h1>{query.id ? 'Edit Affiliate' : 'New Affiliate'}</h1>
         <form onSubmit={handleSubmit}>
@@ -223,7 +223,7 @@ export default function Newaffiliate({ env }) {
                 id='name'
                 value={newAffiliate.name}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-green-300 bg-green-200 p-2.5 text-sm text-gray-900'
                 placeholder='Affiliate Name'
                 required
               />
@@ -237,7 +237,7 @@ export default function Newaffiliate({ env }) {
                 id='description'
                 value={newAffiliate.description}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-green-300 bg-green-200 p-2.5 text-sm text-gray-900'
                 placeholder='Description'
                 required
               />
@@ -258,7 +258,7 @@ export default function Newaffiliate({ env }) {
                       status: checked ? 1 : 0,
                     })
                   }
-                  onColor='#85A547'
+                  onColor='#62D37F'
                   onHandleColor='#ffffff'
                   offColor='#CCCCCC'
                   offHandleColor='#ffffff'

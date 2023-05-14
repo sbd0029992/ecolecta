@@ -185,3 +185,10 @@ body {
   background-repeat: repeat;
   min-height: 600px;
 }
+.background-tierra {
+  background-image: url('/images/tierra.jpeg');
+  width: 100%;
+  height: auto;
+  background-repeat: repeat;
+  min-height: 600px;
+}

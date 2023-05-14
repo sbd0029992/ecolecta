@@ -246,12 +246,12 @@ export default function NewCollect({ env }) {
   }
 
   return (
-    <div className='flex h-full min-h-[70vh] justify-center bg-black py-5 scrollbar-hide'>
+    <div className='background-image1 flex h-full min-h-[70vh] justify-center py-5 scrollbar-hide'>
       <form onSubmit={handleSubmit} className='self-center'>
         <div className='flex flex-col items-center justify-center gap-5 md:flex-row'>
           {/* Recolector card */}
           {newCollect.collector == null ? null : (
-            <div className='flex min-h-[375px] min-w-[340px] flex-col justify-center gap-2 bg-gray-600 p-4 text-white'>
+            <div className='flex min-h-[375px] min-w-[340px] flex-col justify-center gap-2 bg-white p-4 text-black'>
               <div className='flex flex-row justify-between '>
                 <h4>Recolector: </h4>
                 <label id='collector' className='text-sm'>
@@ -297,13 +297,13 @@ export default function NewCollect({ env }) {
             </div>
           )}
           {/* Client card */}
-          <div className='flex  min-w-[340px] flex-col justify-center gap-2 bg-gray-600 p-4 text-white'>
+          <div className='flex  min-w-[340px] flex-col justify-center gap-2 bg-white p-4 text-black'>
             <div>
               <h3 id='user'>
                 <h3 id='user'>
                   {query.id && newCollect.user && newCollect.user.length > 0
                     ? `${newCollect.user[0].firstName} ${newCollect.user[0].lastName} ${newCollect.user[0].secondLastName}`
-                    : 'Usuario'}
+                    : 'USUARIO'}
                 </h3>
               </h3>
             </div>
@@ -325,7 +325,7 @@ export default function NewCollect({ env }) {
             ) : null}
 
             <div className='flex flex-row justify-between'>
-              <h4 className=' text-white'>Cantidad de baldes :</h4>
+              <h4 className=' text-black'>Cantidad de baldes :</h4>
               <input
                 id='buckets'
                 type='number'
@@ -333,17 +333,17 @@ export default function NewCollect({ env }) {
                 value={newCollect.buckets}
                 min={1}
                 required
-                className=' w-16 bg-white text-center text-lg text-black'
+                className=' w-16 rounded-lg bg-green-300 text-center text-lg text-black'
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <h4 className=' text-white'>Descripcion:</h4>
+              <h4 className=' text-black'>Descripcion:</h4>
               <div className='text-center'>
                 <textarea
                   id='description'
                   onChange={handleChange}
                   value={newCollect.description}
-                  className=' h-20 w-5/6 rounded-lg border border-black text-left text-black'
+                  className=' h-20 w-5/6 rounded-lg border border-black bg-green-300 text-left text-black'
                   placeholder='Algo que quieras agregar?'
                 ></textarea>
               </div>

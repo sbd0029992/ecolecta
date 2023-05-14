@@ -75,23 +75,25 @@ export default function AffiliateDetail() {
   }
 
   return (
-    <div className='h-full min-h-[70vh]'>
+    <div className='background-plantas h-full min-h-[70vh] p-6'>
       <div className='ml-5 text-start'>
         <button
-          className='rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+          className='rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50'
           onClick={() => push('/affiliate/list')}
         >
           Lista de Afiliados
         </button>
       </div>
-      <div className='flex h-full flex-col items-center justify-center'>
+      <div className='mt-2 flex h-full flex-col items-center justify-center'>
         {isLoading && (
           <div className='fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-gray-900 bg-opacity-50'>
             <div className='h-32 w-32 animate-spin rounded-full border-t-2 border-b-2 border-gray-100'></div>
           </div>
         )}
         <div className='min-w-min'>
-          <h1 className='mb-4 text-3xl font-bold'>{affiliate.name}</h1>
+          <h1 className='mb-4 rounded-full bg-green-700 text-center text-3xl font-bold text-white'>
+            {affiliate.name}
+          </h1>
           <div className='mb-4 grid grid-cols-1 overflow-hidden rounded-lg bg-white shadow-md md:grid-cols-2'>
             <div className='relative h-[100] w-[200px]'>
               <div

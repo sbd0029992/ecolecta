@@ -21,7 +21,7 @@ function ListCollects({ user }) {
   }, [router, user.idUser]);
 
   return (
-    <div className='h-full min-h-[70vh] px-6'>
+    <div className='background-plantas h-full min-h-[70vh] p-6 px-6'>
       {loading ? ( // Comprueba si la aplicación está cargando los datos
         <div className='flex h-full min-h-[70vh] items-center justify-center'>
           <div className='loader'></div>
@@ -50,7 +50,7 @@ function ListCollects({ user }) {
                     Ver
                   </button> */}
                   <button
-                    className='mt-2 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50'
+                    className='mt-2 rounded-md bg-yellow-500 px-4 py-2 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50'
                     onClick={() =>
                       router.push(`/collect/user/${collect._id}/edit`)
                     }
@@ -65,7 +65,7 @@ function ListCollects({ user }) {
       ) : (
         <div>
           <button
-            className='rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+            className='rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50'
             onClick={() => router.push('/collect/user/new')}
           >
             Crear recolección
