@@ -21,9 +21,9 @@ function ListCollectCollector({ user }) {
   }, [user.idUser]);
 
   return (
-    <div className='flex h-full min-h-[70vh] flex-col bg-blue-200 py-5 '>
+    <div className='background-plantas flex h-full min-h-[70vh] flex-col py-5 '>
       <div className='flex flex-col items-center justify-center p-2'>
-        <div className='mb-2 flex  '>
+        <div className='mb-2 flex  rounded-lg bg-green-300 p-4'>
           <h1>Lista de Recojos</h1>
         </div>
         {collects.length > 0 ? (
@@ -84,7 +84,7 @@ function ListCollectCollector({ user }) {
             </table>
           </div>
         ) : (
-          <div>
+          <div className='rounded-lg bg-red-300 p-2'>
             <h1>Todavia no hay recojos</h1>
           </div>
         )}

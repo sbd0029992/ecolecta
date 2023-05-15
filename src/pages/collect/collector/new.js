@@ -233,11 +233,11 @@ export default function NewCollect({ env }) {
   }
 
   return (
-    <div className='flex h-full min-h-[70vh] justify-center bg-black py-5 scrollbar-hide'>
+    <div className='background-tierra flex h-full min-h-[70vh] justify-center py-5 scrollbar-hide'>
       <form onSubmit={handleSubmit} className='self-center'>
         <div className='flex flex-col items-center justify-center gap-5 md:flex-row'>
           {/* Client card */}
-          <div className='flex  min-w-[340px] flex-col justify-center gap-2 bg-gray-600 p-4 text-white'>
+          <div className='flex min-w-[340px] flex-col justify-center gap-2 rounded-lg bg-[#3AAF14] p-4 text-white'>
             <div>
               <h3 id='user'>
                 <h3 id='user'>
@@ -301,7 +301,7 @@ export default function NewCollect({ env }) {
                     fault: prevCollect.fault + 10,
                   }));
                 }}
-                className='w-fit rounded-full bg-primary py-2 px-4 font-bold text-white '
+                className='w-fit rounded-full bg-[#33C16F] py-2 px-4 font-bold text-white '
               >
                 Quitar Penalizacion
               </button>
@@ -312,7 +312,7 @@ export default function NewCollect({ env }) {
           </div>
           {/* Recolector card */}
           {newCollect.collector ? (
-            <div className='flex w-[90vw] flex-col justify-center gap-5 rounded-xl bg-secondary p-4 font-secondary sm:h-fit sm:w-[300px] '>
+            <div className='flex w-[90vw] flex-col justify-center gap-5 rounded-xl bg-[#05543C] p-4 font-secondary sm:h-fit sm:w-[300px] '>
               <div className='flex flex-row justify-between gap-1'>
                 <p className='flex h-14 w-32 items-center justify-center rounded-xl bg-blue-400 text-2xl font-semibold text-white '>
                   {newCollect.status == 1
@@ -328,7 +328,7 @@ export default function NewCollect({ env }) {
                 isDataLoaded ? (
                   <div className='flex flex-row justify-between'>
                     <a
-                      className='flex h-14 w-32 items-center justify-center rounded-xl bg-primary text-center text-2xl font-semibold text-white '
+                      className='flex h-14 w-32 items-center justify-center rounded-xl bg-[#33C16F] text-center text-2xl font-semibold text-white '
                       href={`https://www.google.com/maps?q=${newCollect.user[0].location.latitude},${newCollect.user[0].location.longitude}`}
                       target='_blank'
                       rel='noopener noreferrer'
@@ -367,13 +367,13 @@ export default function NewCollect({ env }) {
                         status: 2,
                       }));
                     }}
-                    className='h-14 w-full rounded-xl bg-primary text-3xl font-bold text-white'
+                    className='h-14 w-full rounded-xl bg-[#33C16F] text-3xl font-bold text-white'
                   >
                     VAMOS
                   </button>
                   <button
                     type='submit'
-                    className='mt-5 h-14 w-full rounded-xl bg-primary text-3xl font-bold text-white'
+                    className='mt-5 h-14 w-full rounded-xl bg-[#33C16F] text-3xl font-bold text-white'
                     onClick={() => {
                       setNewCollect((prevCollect) => ({
                         ...prevCollect,

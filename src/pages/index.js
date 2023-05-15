@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FaBirthdayCake,
   FaComment,
@@ -13,6 +14,14 @@ import {
 import Item from '../components/Item.js';
 
 export default function Index({ products, affiliates }) {
+  const [dataUser, setdataUser] = useState([]);
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await axios.get('/api/auth/user');
+      setdataUser(data);
+    };
+    getUser();
+  }, []);
   return (
     <div class='bg-secondary p-6'>
       {/* First Part */}
@@ -99,7 +108,7 @@ export default function Index({ products, affiliates }) {
           </div>
         </div>
       </div>
-      {/* Cambio de productos */}
+
       <div class='flex h-full min-h-screen flex-col justify-center gap-5 '>
         <h1 class=' text-white'>Cambio de puntos</h1>
         <p className='text-base text-white'>
@@ -115,6 +124,7 @@ export default function Index({ products, affiliates }) {
             : null}
         </div>
       </div>
+
       {/* Mas sobre nosotros */}
       <div class='mb-5 flex h-full min-h-screen flex-col  gap-5 '>
         <div className='w-full text-start '>

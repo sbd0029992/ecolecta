@@ -251,7 +251,7 @@ export default function NewCollect({ env }) {
         <div className='flex flex-col items-center justify-center gap-5 md:flex-row'>
           {/* Recolector card */}
           {newCollect.collector == null ? null : (
-            <div className='flex min-h-[375px] min-w-[340px] flex-col justify-center gap-2 bg-white p-4 text-black'>
+            <div className='flex min-h-[375px] min-w-[340px] flex-col justify-center gap-2 rounded-lg bg-white p-4 text-black'>
               <div className='flex flex-row justify-between '>
                 <h4>Recolector: </h4>
                 <label id='collector' className='text-sm'>
@@ -297,7 +297,7 @@ export default function NewCollect({ env }) {
             </div>
           )}
           {/* Client card */}
-          <div className='flex  min-w-[340px] flex-col justify-center gap-2 bg-white p-4 text-black'>
+          <div className='flex min-w-[340px] flex-col justify-center gap-2 rounded-lg bg-white p-4 text-black'>
             <div>
               <h3 id='user'>
                 <h3 id='user'>

@@ -39,10 +39,10 @@ export default function ListProducts({ products }) {
   }
 
   return (
-    <div className='h-full min-h-[70vh]'>
+    <div className='background-tierra h-full min-h-[70vh] p-4'>
       <div className='ml-5 text-start'>
         <button
-          className='rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+          className='rounded-md bg-green-500 px-4 py-2 text-black hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50'
           onClick={() => router.push('/product/new')}
         >
           Crear Producto
@@ -52,22 +52,22 @@ export default function ListProducts({ products }) {
         <div className='my-5 flex flex-row flex-wrap place-content-center gap-5 sm:my-0'>
           {products.map((product, productIndex) => (
             <div
-              className='min-w-[200px] overflow-hidden rounded-lg bg-gray-300 shadow-xl'
+              className='min-w-[200px] overflow-hidden rounded-lg bg-white shadow-xl'
               key={product._id}
             >
               <div className='p-4'>
                 <h4 className='text-center text-xl font-semibold'>
                   {product.nameproduct}
                 </h4>
-                <p className='text-gray-600'>{product.description}</p>
-                <p className='text-gray-600'>
+                <p className='text-black'>{product.description}</p>
+                <p className='text-black'>
                   Puntos de precio: {product.price_points}
                 </p>
                 <p className='text-gray-600'>
                   Estado:{' '}
                   <strong
                     className={
-                      product.status === 1 ? 'text-primary' : 'text-red-500'
+                      product.status === 1 ? 'text-[#33C16F]' : 'text-red-500'
                     }
                   >
                     {product.status === 1 ? 'Disponible' : 'No disponible'}
@@ -123,7 +123,7 @@ export default function ListProducts({ products }) {
                   Ver
                 </button>
                 <button
-                  className='ml-4 rounded-md bg-yellow-500 px-4 py-2 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50'
+                  className='ml-4 rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50'
                   onClick={() => router.push(`/product/${product._id}/edit`)}
                 >
                   Editar

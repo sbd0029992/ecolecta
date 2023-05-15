@@ -280,7 +280,7 @@ export default function UserRegister({ env }) {
   }
 
   return (
-    <div className='flex justify-center bg-black'>
+    <div className='background-plantas flex justify-center'>
       <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
         <h1>{query.id ? 'Edit Recolector' : 'Register Recolector'}</h1>
         <form class='formulary' onSubmit={handleSubmit}>
@@ -294,7 +294,7 @@ export default function UserRegister({ env }) {
                 id='firstName'
                 value={newUser.firstName}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-black bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Ingrese sus nombres'
                 required
               />
@@ -308,7 +308,7 @@ export default function UserRegister({ env }) {
                 id='lastName'
                 value={newUser.lastName}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Ingrese su primer apellido'
                 required
               />
@@ -322,7 +322,7 @@ export default function UserRegister({ env }) {
                 id='secondLastName'
                 value={newUser.secondLastName}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Ingrese su segundo apellido'
               />
             </div>
@@ -351,7 +351,7 @@ export default function UserRegister({ env }) {
                 id='ci'
                 value={newUser.ci}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Ingrese su CI'
                 required
               />
@@ -365,7 +365,7 @@ export default function UserRegister({ env }) {
                 id='license'
                 value={newUser.license}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Ingrese su carnet vehicular'
                 required
               />
@@ -380,7 +380,7 @@ export default function UserRegister({ env }) {
                 value={newUser.phone}
                 maxLength='12'
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Ingrese su numero de telefono'
                 required
               />
@@ -395,7 +395,7 @@ export default function UserRegister({ env }) {
                 name='birthdate'
                 value={newUser.birthdate}
                 onChange={handleChange}
-                className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                className='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 required
                 min='1950-01-01'
                 max={new Date().toISOString().slice(0, 10)}
@@ -407,7 +407,7 @@ export default function UserRegister({ env }) {
                   Camion:
                 </label>
                 <select
-                  class='mt-3 block w-36 rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-secondary text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
+                  class='mt-3 block w-36 rounded-lg border border-gray-300 bg-green-300 p-2.5 font-secondary text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
                   id='truck'
                   name='truck'
                   onChange={handleChange}
@@ -501,7 +501,7 @@ export default function UserRegister({ env }) {
                 id='email'
                 value={newUser.email}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Ingrese su correo electronico '
                 required
               />
@@ -517,7 +517,7 @@ export default function UserRegister({ env }) {
                   minLength={6}
                   value={newUser.password}
                   onChange={handleChange}
-                  class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                  class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                   required
                   placeholder='Ingrese su password'
                 />

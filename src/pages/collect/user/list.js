@@ -30,33 +30,26 @@ function ListCollects({ user }) {
         <div className='container mx-auto h-full min-h-[70vh] py-8'>
           <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
             {collects.map((collect) => (
-              <div
-                className='max-w-[250px] rounded p-4 text-black shadow-xl'
-                key={collect._id}
-              >
-                <div>
-                  <h4 className='text-lg font-semibold'>
-                    Description: {collect.description}
-                  </h4>
-                  <h4 className='text-sm font-medium'>
-                    Estatus: {collect.status === 1 ? 'Mandado' : 'Aceptado'}
-                  </h4>
-                </div>
-                <div className='mb-4 flex justify-center'>
-                  {/* <button
-                    className='rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
-                    onClick={() => router.push(`/collect/user/${collect._id}`)}
-                  >
-                    Ver
-                  </button> */}
-                  <button
-                    className='mt-2 rounded-md bg-yellow-500 px-4 py-2 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50'
-                    onClick={() =>
-                      router.push(`/collect/user/${collect._id}/edit`)
-                    }
-                  >
-                    Ver y Editar
-                  </button>
+              <div className='rounded-lg bg-white' key={collect._id}>
+                <div className='max-w-[250px] rounded p-4 text-black shadow-xl'>
+                  <div>
+                    <h4 className='text-lg font-semibold'>
+                      Description: {collect.description}
+                    </h4>
+                    <h4 className='text-sm font-medium'>
+                      Estado: {collect.status === 1 ? 'Mandado' : 'Aceptado'}
+                    </h4>
+                  </div>
+                  <div className='mb-4 flex justify-center'>
+                    <button
+                      className='mt-2 rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50'
+                      onClick={() =>
+                        router.push(`/collect/user/${collect._id}/edit`)
+                      }
+                    >
+                      Ver y Editar
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

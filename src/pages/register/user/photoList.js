@@ -17,7 +17,7 @@ export default function PhotoListUsers({ users }) {
   }
 
   return (
-    <div className='container mx-auto h-full min-h-[70vh] py-8'>
+    <div className='container mx-auto h-full min-h-[70vh] w-full py-8'>
       <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {users.map((user) => (
           <div
@@ -34,7 +34,7 @@ export default function PhotoListUsers({ users }) {
             </div>
             <div className='mt-4 flex justify-center'>
               <button
-                className='rounded bg-yellow-500 px-3 py-2 font-semibold text-white hover:bg-yellow-600'
+                className='rounded bg-green-500 px-3 py-2 font-semibold text-white hover:bg-green-600'
                 onClick={() =>
                   router.push(`/register/user/${user._id}/confirm`)
                 }

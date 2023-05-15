@@ -257,7 +257,7 @@ export default function UserRegister({ env }) {
   }
 
   return (
-    <div className='flex flex-col justify-center gap-5 bg-black px-2 sm:flex-row'>
+    <div className='background-plantas flex flex-col justify-center gap-5 px-2 sm:flex-row'>
       <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
         <h1>{query.id ? 'Comprobante Enviado' : 'Register Recolector'}</h1>
         <p>Estado usuario = {newUser.status}</p>

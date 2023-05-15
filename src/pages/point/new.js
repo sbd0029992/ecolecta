@@ -4,37 +4,33 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Switch from 'react-switch';
 
-export default function NewProduct({ env }) {
+export default function NewPoint({ env }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [idProduct, setIdProduct] = useState({
+  const [idPoint, setIdPoint] = useState({
     id: '',
   });
-  const [productImages, setProductImages] = useState([]);
-  const [newProduct, setNewProduct] = useState({
-    nameproduct: '',
-    description: '',
-    price_points: '',
+  const [pointImages, setPointImages] = useState([]);
+  const [newPoint, setNewPoint] = useState({
+    name: '',
+    price: '',
     status: '1',
-    ammount: '',
     images: query.id ? [''] : [],
   });
 
-  const getProduct = async () => {
+  const getPoint = async () => {
     try {
-      const res = await fetch(`${apiUrl}/api/products/${query.id}`);
-      const product = await res.json();
-      setIdProduct({ id: product._id });
-      setProductImages(product.images);
-      setNewProduct({
-        nameproduct: product.nameproduct,
-        description: product.description,
-        price_points: product.price_points,
-        status: product.status,
-        ammount: product.ammount,
-        images: product.images,
+      const res = await fetch(`${apiUrl}/api/points/${query.id}`);
+      const point = await res.json();
+      setIdPoint({ id: point._id });
+      setPointImages(point.images);
+      setNewPoint({
+        name: point.name,
+        price: point.price,
+        status: point.status,
+        images: point.images,
       });
     } catch (error) {
       console.log(error);
@@ -43,7 +39,7 @@ export default function NewProduct({ env }) {
 
   useEffect(() => {
     if (query.id) {
-      getProduct();
+      getPoint();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.id]);
@@ -51,9 +47,9 @@ export default function NewProduct({ env }) {
   const handleChange = (e) => {
     const { id, value } = e.target;
     if (id === 'images') {
-      setNewProduct({ ...newProduct, [id]: [value] });
+      setNewPoint({ ...newPoint, [id]: [value] });
     } else {
-      setNewProduct({ ...newProduct, [id]: value });
+      setNewPoint({ ...newPoint, [id]: value });
     }
   };
 
@@ -90,29 +86,31 @@ export default function NewProduct({ env }) {
     }
   }
 
-  const createProduct = async () => {
+  const createPoint = async () => {
     try {
-      await fetch(`${apiUrl}/api/products`, {
+      await fetch(`${apiUrl}/api/points`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newProduct),
+        body: JSON.stringify(newPoint),
       });
+      push('/point/list');
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateProduct = async (product) => {
+  const updatePoint = async (point) => {
     try {
-      await fetch(`${apiUrl}/api/products/${query.id}`, {
+      await fetch(`${apiUrl}/api/points/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(product),
+        body: JSON.stringify(point),
       });
+      push('/point/list');
     } catch (error) {
       console.log(error);
     }
@@ -122,7 +120,7 @@ export default function NewProduct({ env }) {
     e.preventDefault();
     setIsSubmitting(true);
     if (query.id) {
-      const stringId = idProduct.id.toString();
+      const stringId = idPoint.id.toString();
       const imageUrls = (
         await Promise.all(
           selectedImages.map(async (file) => {
@@ -133,32 +131,29 @@ export default function NewProduct({ env }) {
       ).filter((url) => url);
 
       const updatedProduct = {
-        ...newProduct,
-        images: newProduct.images.concat(imageUrls),
+        ...newPoint,
+        images: newPoint.images.concat(imageUrls),
       };
 
-      await updateProduct(updatedProduct);
+      await updatePoint(updatedProduct);
 
-      setNewProduct(updatedProduct);
-      await push('/product/list');
+      setNewPoint(updatedProduct);
     } else {
-      await createProduct(newProduct);
-      await push('/product/list');
+      await createPoint(newPoint);
     }
   };
 
   useEffect(() => {
     const updateProductWithImages = async () => {
-      await updateProduct();
+      await updatePoint();
       setIsSubmitting(false);
-      push('/product/list');
     };
 
-    if (query.id && newProduct.images.length > 0 && isSubmitting) {
+    if (query.id && newPoint.images.length > 0 && isSubmitting) {
       updateProductWithImages();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newProduct.images, isSubmitting]);
+  }, [newPoint.images, isSubmitting]);
 
   // Función para eliminar imágenes seleccionadas
   function handleRemoveImage(index) {
@@ -166,9 +161,9 @@ export default function NewProduct({ env }) {
     updatedImages.splice(index, 1);
     setSelectedImages(updatedImages);
 
-    const updatedImageUrls = [...newProduct.images];
+    const updatedImageUrls = [...newPoint.images];
     updatedImageUrls.splice(index, 1);
-    setNewProduct({ ...newProduct, images: updatedImageUrls });
+    setNewPoint({ ...newPoint, images: updatedImageUrls });
   }
 
   async function handleRemoveImageS3(index) {
@@ -182,19 +177,19 @@ export default function NewProduct({ env }) {
     setSelectedImages(updatedImages);
 
     // Obtiene el nombre del archivo de la imagen eliminada
-    const imageToDelete = newProduct.images[index];
+    const imageToDelete = newPoint.images[index];
     const fileName = imageToDelete.split('/').pop();
 
-    // Actualiza el estado de newProduct con las imágenes actualizadas
-    const updatedImageUrls = newProduct.images.filter(
+    // Actualiza el estado de newPoint con las imágenes actualizadas
+    const updatedImageUrls = newPoint.images.filter(
       (imageUrl) => imageUrl !== imageToDelete
     );
-    setNewProduct({ ...newProduct, images: updatedImageUrls });
+    setNewPoint({ ...newPoint, images: updatedImageUrls });
 
     // Elimina el archivo de la imagen del bucket de S3
     const params = {
       Bucket: env.awsBucket,
-      Key: `${idProduct.id}/${fileName}`,
+      Key: `${idPoint.id}/${fileName}`,
     };
     s3.deleteObject(params, async (err, data) => {
       if (err) {
@@ -203,73 +198,43 @@ export default function NewProduct({ env }) {
         console.log('Image deleted from S3:', data);
 
         // Actualiza los datos en la base de datos con el producto actualizado
-        await updateProduct({ ...newProduct, images: updatedImageUrls });
-        push('/product/list');
+        await updatePoint({ ...newPoint, images: updatedImageUrls });
       }
     });
   }
 
   return (
     <div className='background-plantas flex justify-center'>
-      <div className=' mt-[5%] mb-[5%] h-full w-[330px] rounded-lg bg-white p-8 pb-[0px]'>
-        <h1>{query.id ? 'Edit Product' : 'New Product'}</h1>
+      <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
+        <h1>{query.id ? 'Edit Point' : 'New Point'}</h1>
         <form onSubmit={handleSubmit}>
           <div class='mb-6 grid gap-3 '>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Product Name
+                Point Name
               </label>
               <input
                 type='text'
-                id='nameproduct'
-                value={newProduct.nameproduct}
+                id='name'
+                value={newPoint.name}
                 onChange={handleChange}
                 class='block w-full rounded-lg border border-gray-300 bg-green-200 p-2.5 text-sm text-gray-900'
-                placeholder='Product Name'
+                placeholder='Point Name'
                 required
               />
             </div>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Description
-              </label>
-              <input
-                type='text'
-                id='description'
-                value={newProduct.description}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-green-200  p-2.5 text-sm text-gray-900'
-                placeholder='Description'
-                required
-              />
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Price Points
+                Price
               </label>
               <input
                 type='number'
                 min='0'
-                id='price_points'
-                value={newProduct.price_points}
+                id='price'
+                value={newPoint.price}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-green-200  p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-200 p-2.5 text-sm text-gray-900'
                 placeholder='Price Points'
-                required
-              />
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Ammount
-              </label>
-              <input
-                type='number'
-                id='ammount'
-                min='0'
-                value={newProduct.ammount}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-green-200  p-2.5 text-sm text-gray-900'
-                placeholder='Ammount Product'
                 required
               />
             </div>
@@ -282,11 +247,11 @@ export default function NewProduct({ env }) {
                 </div>
 
                 <Switch
-                  checked={newProduct.status === 1}
+                  checked={newPoint.status === 1}
                   onChange={(checked) =>
-                    setNewProduct({ ...newProduct, status: checked ? 1 : 0 })
+                    setNewPoint({ ...newPoint, status: checked ? 1 : 0 })
                   }
-                  onColor='#33C16F'
+                  onColor='#26AD5F'
                   onHandleColor='#ffffff'
                   offColor='#CCCCCC'
                   offHandleColor='#ffffff'
@@ -336,13 +301,13 @@ export default function NewProduct({ env }) {
                     </button>
                   </div>
                 ))}
-                {productImages.length > 0 ? (
+                {pointImages.length > 0 ? (
                   <div>
                     <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
                       Existing Images
                     </label>
                     <div class='flex flex-wrap'>
-                      {productImages.map((image, index) => (
+                      {pointImages.map((image, index) => (
                         <div
                           key={index}
                           class='relative mr-2 mb-2 inline-block w-full'
@@ -372,7 +337,7 @@ export default function NewProduct({ env }) {
                 type='submit'
                 class='m-[0px] mt-2 h-20 w-full rounded-lg bg-[#85A547] px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
               >
-                {query.id ? 'Edit Product' : 'Create Product'}
+                {query.id ? 'Edit Point' : 'Create Point'}
               </button>
             </div>
           </div>

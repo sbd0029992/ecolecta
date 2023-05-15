@@ -82,8 +82,8 @@ export default function UserRegister() {
   };
 
   return (
-    <div className='flex justify-center bg-black'>
-      <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
+    <div className='background-tierra flex justify-center'>
+      <div className=' mt-[5%] mb-[5%] h-full w-[330px] rounded-lg bg-white p-8 pb-[0px]'>
         <h1>{query.id ? 'Edit Truck' : 'Register Truck'}</h1>
         <form class='formulary' onSubmit={handleSubmit}>
           <div class='mb-6 grid gap-3 '>
@@ -96,7 +96,7 @@ export default function UserRegister() {
                 id='plate'
                 value={newTruck.plate}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Inserte su placa'
                 required
               />
@@ -110,7 +110,7 @@ export default function UserRegister() {
                 id='chasis'
                 value={newTruck.chasis}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Inserte su chasis'
                 required
               />
@@ -124,12 +124,12 @@ export default function UserRegister() {
                 id='model'
                 value={newTruck.model}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Inserte el año del modelo'
               />
             </div>
             <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+              <label class='mb-2 mt-2 block text-sm font-medium text-gray-300 dark:text-white'>
                 Marca
               </label>
               <input
@@ -137,7 +137,7 @@ export default function UserRegister() {
                 id='brand'
                 value={newTruck.brand}
                 onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                class='block w-full rounded-lg border border-gray-300 bg-green-300 p-2.5 text-sm text-gray-900'
                 placeholder='Inserte su marca'
                 required
               />
@@ -155,7 +155,7 @@ export default function UserRegister() {
                   onChange={(checked) =>
                     setNewTruck({ ...newTruck, status: checked ? 1 : 0 })
                   }
-                  onColor='#85A547'
+                  onColor='#44FA09'
                   onHandleColor='#ffffff'
                   offColor='#CCCCCC'
                   offHandleColor='#ffffff'

@@ -9,7 +9,7 @@ export default function ListUsers({ users }) {
           <h1 className='mb-4 text-2xl font-bold'>No hay usuarios</h1>
           <div>
             <button
-              className='rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600'
+              className='rounded bg-green-500 px-4 py-2 font-semibold text-white hover:bg-green-600'
               onClick={() => router.push('/register')}
             >
               Crear usuario
@@ -21,7 +21,7 @@ export default function ListUsers({ users }) {
   }
 
   return (
-    <div className='container mx-auto py-8'>
+    <div className='background-image1 container mx-auto py-8'>
       <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {users.map((user) => (
           <div
@@ -44,7 +44,7 @@ export default function ListUsers({ users }) {
             </div>
             <div className='mt-4 flex justify-between'>
               <button
-                className='rounded bg-yellow-500 px-3 py-2 font-semibold text-white hover:bg-yellow-600'
+                className='rounded bg-green-500 px-3 py-2 font-semibold text-white hover:bg-green-600'
                 onClick={() => router.push(`/register/user/${user._id}/edit`)}
               >
                 Editar

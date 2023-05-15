@@ -1,40 +1,38 @@
 /* eslint-disable @next/next/no-img-element */
 import { S3 } from 'aws-sdk';
+import axios from 'axios';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import Switch from 'react-switch';
 
-export default function NewProduct({ env }) {
+export default function NewShop({ env }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [idProduct, setIdProduct] = useState({
+  const [idShop, setIdShop] = useState({
     id: '',
   });
-  const [productImages, setProductImages] = useState([]);
-  const [newProduct, setNewProduct] = useState({
-    nameproduct: '',
-    description: '',
-    price_points: '',
+  const [shopImages, setShopImages] = useState([]);
+  const [newShop, setNewShop] = useState({
+    user: {},
+    point: {},
+    quantity: 1,
     status: '1',
-    ammount: '',
-    images: query.id ? [''] : [],
+    images: [],
   });
-
-  const getProduct = async () => {
+  const getAffiliate = async () => {
     try {
-      const res = await fetch(`${apiUrl}/api/products/${query.id}`);
-      const product = await res.json();
-      setIdProduct({ id: product._id });
-      setProductImages(product.images);
-      setNewProduct({
-        nameproduct: product.nameproduct,
-        description: product.description,
-        price_points: product.price_points,
-        status: product.status,
-        ammount: product.ammount,
-        images: product.images,
+      const { data } = await axios.get(`${apiUrl}/api/cart/points/${query.id}`);
+      const shop = data;
+      setIdShop({ id: shop._id });
+      setShopImages(shop.images);
+      setNewShop({
+        user: shop.user,
+        point: shop.point,
+        quantity: shop.quantity,
+        status: shop.status,
+        images: shop.images,
       });
     } catch (error) {
       console.log(error);
@@ -43,7 +41,7 @@ export default function NewProduct({ env }) {
 
   useEffect(() => {
     if (query.id) {
-      getProduct();
+      getAffiliate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.id]);
@@ -51,9 +49,11 @@ export default function NewProduct({ env }) {
   const handleChange = (e) => {
     const { id, value } = e.target;
     if (id === 'images') {
-      setNewProduct({ ...newProduct, [id]: [value] });
+      setNewShop({ ...newShop, [id]: [value] });
+    } else if (id === 'status') {
+      setNewShop({ ...newShop, [id]: value === '1' ? '1' : '0' });
     } else {
-      setNewProduct({ ...newProduct, [id]: value });
+      setNewShop({ ...newShop, [id]: value });
     }
   };
 
@@ -68,12 +68,12 @@ export default function NewProduct({ env }) {
   }
 
   // Función para subir una imagen a S3 y devolver la URL
-  async function uploadToS3(file, productId) {
+  async function uploadToS3(file, shopId) {
     if (!s3) {
       console.error('S3 client is not initialized');
       return;
     }
-    const fileName = `${productId}/${file.name}`;
+    const fileName = `${shopId}/${file.name}`;
     const params = {
       Bucket: env.awsBucket,
       Key: fileName,
@@ -90,29 +90,30 @@ export default function NewProduct({ env }) {
     }
   }
 
-  const createProduct = async () => {
+  const createShop = async () => {
     try {
-      await fetch(`${apiUrl}/api/products`, {
+      await fetch(`${apiUrl}/api/cart/points`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newProduct),
+        body: JSON.stringify(newShop),
       });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateProduct = async (product) => {
+  const updateShop = async (shop) => {
     try {
-      await fetch(`${apiUrl}/api/products/${query.id}`, {
+      await fetch(`${apiUrl}/api/cart/points/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(product),
+        body: JSON.stringify(shop),
       });
+      push('/');
     } catch (error) {
       console.log(error);
     }
@@ -122,7 +123,7 @@ export default function NewProduct({ env }) {
     e.preventDefault();
     setIsSubmitting(true);
     if (query.id) {
-      const stringId = idProduct.id.toString();
+      const stringId = idShop.id.toString();
       const imageUrls = (
         await Promise.all(
           selectedImages.map(async (file) => {
@@ -132,33 +133,30 @@ export default function NewProduct({ env }) {
         )
       ).filter((url) => url);
 
-      const updatedProduct = {
-        ...newProduct,
-        images: newProduct.images.concat(imageUrls),
+      const updatedAffiliate = {
+        ...newShop,
+        images: newShop.images.concat(imageUrls),
       };
 
-      await updateProduct(updatedProduct);
-
-      setNewProduct(updatedProduct);
-      await push('/product/list');
+      await updateShop(updatedAffiliate);
+      setNewShop(updatedAffiliate);
     } else {
-      await createProduct(newProduct);
-      await push('/product/list');
+      await createShop(newShop);
     }
   };
 
   useEffect(() => {
-    const updateProductWithImages = async () => {
-      await updateProduct();
+    const updateaffiliateWithImages = async () => {
+      await updateShop();
       setIsSubmitting(false);
-      push('/product/list');
+      push('/');
     };
 
-    if (query.id && newProduct.images.length > 0 && isSubmitting) {
-      updateProductWithImages();
+    if (query.id && newShop.images.length > 0 && isSubmitting) {
+      updateaffiliateWithImages();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newProduct.images, isSubmitting]);
+  }, [newShop.images, isSubmitting]);
 
   // Función para eliminar imágenes seleccionadas
   function handleRemoveImage(index) {
@@ -166,9 +164,9 @@ export default function NewProduct({ env }) {
     updatedImages.splice(index, 1);
     setSelectedImages(updatedImages);
 
-    const updatedImageUrls = [...newProduct.images];
+    const updatedImageUrls = [...newShop.images];
     updatedImageUrls.splice(index, 1);
-    setNewProduct({ ...newProduct, images: updatedImageUrls });
+    setNewShop({ ...newShop, images: updatedImageUrls });
   }
 
   async function handleRemoveImageS3(index) {
@@ -182,19 +180,19 @@ export default function NewProduct({ env }) {
     setSelectedImages(updatedImages);
 
     // Obtiene el nombre del archivo de la imagen eliminada
-    const imageToDelete = newProduct.images[index];
+    const imageToDelete = newShop.images[index];
     const fileName = imageToDelete.split('/').pop();
 
-    // Actualiza el estado de newProduct con las imágenes actualizadas
-    const updatedImageUrls = newProduct.images.filter(
+    // Actualiza el estado de newShop con las imágenes actualizadas
+    const updatedImageUrls = newShop.images.filter(
       (imageUrl) => imageUrl !== imageToDelete
     );
-    setNewProduct({ ...newProduct, images: updatedImageUrls });
+    setNewShop({ ...newShop, images: updatedImageUrls });
 
     // Elimina el archivo de la imagen del bucket de S3
     const params = {
       Bucket: env.awsBucket,
-      Key: `${idProduct.id}/${fileName}`,
+      Key: `${idShop.id}/${fileName}`,
     };
     s3.deleteObject(params, async (err, data) => {
       if (err) {
@@ -202,104 +200,18 @@ export default function NewProduct({ env }) {
       } else {
         console.log('Image deleted from S3:', data);
 
-        // Actualiza los datos en la base de datos con el producto actualizado
-        await updateProduct({ ...newProduct, images: updatedImageUrls });
-        push('/product/list');
+        // Actualiza los datos en la base de datos con el affiliateo actualizado
+        await updateShop({ ...newShop, images: updatedImageUrls });
       }
     });
   }
 
   return (
-    <div className='background-plantas flex justify-center'>
+    <div className='background-plantas  flex h-full min-h-[70vh] flex-col items-center justify-center gap-5 md:flex-row'>
       <div className=' mt-[5%] mb-[5%] h-full w-[330px] rounded-lg bg-white p-8 pb-[0px]'>
-        <h1>{query.id ? 'Edit Product' : 'New Product'}</h1>
+        <h1>{query.id ? 'Comprobante Pago' : 'New Affiliate'}</h1>
         <form onSubmit={handleSubmit}>
           <div class='mb-6 grid gap-3 '>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Product Name
-              </label>
-              <input
-                type='text'
-                id='nameproduct'
-                value={newProduct.nameproduct}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-green-200 p-2.5 text-sm text-gray-900'
-                placeholder='Product Name'
-                required
-              />
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Description
-              </label>
-              <input
-                type='text'
-                id='description'
-                value={newProduct.description}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-green-200  p-2.5 text-sm text-gray-900'
-                placeholder='Description'
-                required
-              />
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Price Points
-              </label>
-              <input
-                type='number'
-                min='0'
-                id='price_points'
-                value={newProduct.price_points}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-green-200  p-2.5 text-sm text-gray-900'
-                placeholder='Price Points'
-                required
-              />
-            </div>
-            <div>
-              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Ammount
-              </label>
-              <input
-                type='number'
-                id='ammount'
-                min='0'
-                value={newProduct.ammount}
-                onChange={handleChange}
-                class='block w-full rounded-lg border border-gray-300 bg-green-200  p-2.5 text-sm text-gray-900'
-                placeholder='Ammount Product'
-                required
-              />
-            </div>
-            {query.id ? (
-              <div class='flex flex-row justify-between'>
-                <div>
-                  <label className='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                    Avaliable
-                  </label>
-                </div>
-
-                <Switch
-                  checked={newProduct.status === 1}
-                  onChange={(checked) =>
-                    setNewProduct({ ...newProduct, status: checked ? 1 : 0 })
-                  }
-                  onColor='#33C16F'
-                  onHandleColor='#ffffff'
-                  offColor='#CCCCCC'
-                  offHandleColor='#ffffff'
-                  handleDiameter={22}
-                  uncheckedIcon={false}
-                  checkedIcon={false}
-                  height={28}
-                  width={50}
-                  className='mt-1 mb-4'
-                />
-              </div>
-            ) : null}
-
             {query.id ? (
               <div>
                 <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
@@ -312,8 +224,7 @@ export default function NewProduct({ env }) {
                   onChange={(e) =>
                     setSelectedImages([...selectedImages, ...e.target.files])
                   }
-                  class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-                  multiple
+                  class='block w-full rounded-lg border border-gray-300 bg-green-200 p-2.5 text-sm text-gray-900'
                   max='5145728' // 5MB en bytes
                 />
                 {selectedImages.map((image, index) => (
@@ -321,7 +232,7 @@ export default function NewProduct({ env }) {
                     key={index}
                     class='relative mr-2 mb-2 inline-block w-full'
                   >
-                    <img
+                    <Image
                       src={URL.createObjectURL(image)}
                       alt={image.name}
                       class='h-30 w-full rounded-lg shadow-md'
@@ -336,13 +247,13 @@ export default function NewProduct({ env }) {
                     </button>
                   </div>
                 ))}
-                {productImages.length > 0 ? (
+                {shopImages.length > 0 ? (
                   <div>
-                    <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                    <label class='mb-2 mt-2 block rounded-lg text-sm font-medium text-gray-500 dark:text-white'>
                       Existing Images
                     </label>
                     <div class='flex flex-wrap'>
-                      {productImages.map((image, index) => (
+                      {shopImages.map((image, index) => (
                         <div
                           key={index}
                           class='relative mr-2 mb-2 inline-block w-full'
@@ -372,11 +283,23 @@ export default function NewProduct({ env }) {
                 type='submit'
                 class='m-[0px] mt-2 h-20 w-full rounded-lg bg-[#85A547] px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
               >
-                {query.id ? 'Edit Product' : 'Create Product'}
+                {query.id ? 'Subir Comprobante' : 'Create Affiliate'}
               </button>
             </div>
           </div>
         </form>
+      </div>
+      <div className='mt-[5%] mb-[5%] h-full w-[300px] rounded-lg bg-white p-8 pb-[0px]'>
+        <h1>Qr banco Comprobante</h1>
+        <div className='my-5'>
+          <img
+            src={newShop.point.images}
+            alt='QR banco'
+            height={300}
+            width={300}
+            className='rounded-lg'
+          />
+        </div>
       </div>
     </div>
   );

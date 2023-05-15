@@ -184,6 +184,7 @@ body {
   height: auto;
   background-repeat: repeat;
   min-height: 600px;
+  max-height: 1300px;
 }
 .background-tierra {
   background-image: url('/images/tierra.jpeg');
@@ -191,4 +192,5 @@ body {
   height: auto;
   background-repeat: repeat;
   min-height: 600px;
+  max-height: 900px;
 }

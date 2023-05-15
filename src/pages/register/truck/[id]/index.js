@@ -42,10 +42,10 @@ export default function ProductDetail({ truck, error }) {
   }
 
   return (
-    <div className='h-full min-h-[70vh]'>
+    <div className='background-plantas h-full min-h-[70vh] p-4'>
       <div className='ml-5 text-start'>
         <button
-          className='rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+          className='rounded-md bg-green-500 px-4 py-2 text-black hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50'
           onClick={() => push('/register/truck/list')}
         >
           Lista de camiones
@@ -57,7 +57,7 @@ export default function ProductDetail({ truck, error }) {
             <div className='h-32 w-32 animate-spin rounded-full border-t-2 border-b-2 border-gray-100'></div>
           </div>
         )}
-        <div className='min-w-min py-5 shadow-2xl'>
+        <div className='min-w-min rounded-lg bg-white py-5 shadow-2xl'>
           <h1 className='text-center text-3xl font-bold '>Camion</h1>
 
           <div className='p-6'>

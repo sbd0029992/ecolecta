@@ -25,7 +25,7 @@ function ListCollects({ user }) {
 
   if (loading) {
     return (
-      <div className='flex h-full min-h-[70vh] flex-col bg-blue-200 py-5 '>
+      <div className='background-image1 flex h-full min-h-[70vh] flex-col py-5 '>
         <div className='flex flex-col items-center justify-center p-2'>
           <h1>Cargando...</h1>
         </div>
@@ -34,9 +34,9 @@ function ListCollects({ user }) {
   }
 
   return (
-    <div className='flex h-full min-h-[70vh] flex-col bg-blue-200 py-5 '>
+    <div className='background-image1 flex h-full min-h-[70vh] flex-col py-5 '>
       <div className='flex flex-col items-center justify-center p-2'>
-        <div className='mb-2 flex  '>
+        <div className='mb-2 flex rounded-lg bg-green-300 p-2'>
           <h1>Lista de Recojos</h1>
         </div>
         {collects.length > 0 ? (
