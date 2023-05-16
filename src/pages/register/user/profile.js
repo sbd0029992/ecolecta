@@ -57,7 +57,9 @@ function Profile() {
     if (userDetails.status === 'send') {
       return (
         <div>
-          <h1 className='text-primary'>QR enviado espere</h1>
+          <h1 className='rounded-lg bg-green-500 p-2 text-white'>
+            QR enviado espere
+          </h1>
         </div>
       );
     }

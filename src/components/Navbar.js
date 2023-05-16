@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
@@ -8,6 +9,8 @@ import {
   FaPhoneAlt,
   FaShoppingCart,
 } from 'react-icons/fa';
+
+import logo from '../../public/images/logo.png';
 
 export default function Navbar() {
   const [loading, setLoading] = useState(true);
@@ -77,13 +80,22 @@ export default function Navbar() {
   return (
     <React.Fragment>
       <div>
-        <Link href='/'>
-          <h1 className='text-primary '>ECO-lecta</h1>
+        <Link href='/' class='flex'>
+          <Image
+            class=' h-full w-[30px] md:w-[40px]'
+            src={logo}
+            alt='imagen de un check'
+          />
+          <h2 className='text-prymary2'>Eco</h2>
+          <h2 className='text-primary'>lecta</h2>
         </Link>
       </div>
       <div className='flex flex-row gap-4 sm:gap-6 '>
         <div>
-          <Link href='/product/tienda' className='hidden lg:block'>
+          <Link
+            href='/product/tienda'
+            className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
+          >
             Productos
           </Link>
           <Link href='/product/tienda'>
@@ -97,7 +109,7 @@ export default function Navbar() {
                 <div>
                   <Link
                     href='/collect/collector/list'
-                    className='hidden lg:block'
+                    className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
                   >
                     List Collect
                   </Link>
@@ -108,7 +120,7 @@ export default function Navbar() {
                 <div>
                   <Link
                     href='/collect/collector/listCollector'
-                    className='hidden lg:block'
+                    className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
                   >
                     Check Collector
                   </Link>
@@ -120,7 +132,10 @@ export default function Navbar() {
               </div>
             ) : (
               <div className='flex flex-row gap-4 sm:gap-6 '>
-                <Link href='/collect/user/list' className='hidden lg:block'>
+                <Link
+                  href='/collect/user/list'
+                  className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
+                >
                   Check Page
                 </Link>
                 <Link href='/collect/user/list'>
@@ -132,7 +147,10 @@ export default function Navbar() {
         ) : null}
 
         <div>
-          <Link href='/contact' className='hidden lg:block'>
+          <Link
+            href='/contact'
+            className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
+          >
             Contactos
           </Link>
           <Link href='/contact'>
@@ -140,7 +158,10 @@ export default function Navbar() {
           </Link>
         </div>
         <div>
-          <Link href='/dashboard' className='hidden lg:block'>
+          <Link
+            href='/dashboard'
+            className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
+          >
             Tablero Posiciones
           </Link>
           <Link href='/dashboard'>

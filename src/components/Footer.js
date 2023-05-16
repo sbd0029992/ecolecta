@@ -1,7 +1,9 @@
 import axios from 'axios';
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
+import imagenfondo from '../../public/images/logo.png';
 function Footer() {
   const [dataUser, setdataUser] = useState([]);
 
@@ -14,8 +16,18 @@ function Footer() {
   }, []);
 
   return (
-    <div className='flex h-[20vh] flex-row items-center justify-evenly gap-5 bg-tertiary px-5 md:h-[20vh] md:max-h-[25vh] '>
-      <div className='flex h-[20vh] flex-row gap-5 md:gap-20'>
+    <div className='h- flex w-full flex-row items-center justify-evenly gap-5 bg-green-900 p-6 pb-4 md:h-[20vh] md:max-h-[25vh]'>
+      <div className='flex h-[20vh] flex-row gap-4 md:gap-20'>
+        <div className='collapse ml-[-10vh] flex flex-col items-center justify-center md:visible md:ml-1'>
+          <Image
+            src={imagenfondo}
+            alt='Logo ecolecta'
+            className='rounded-lg'
+            width={100}
+            height={100}
+          />
+          <h1 className='text-white'>Ecolecta</h1>
+        </div>
         <div className='flex flex-col gap-1'>
           <h4 className=' text-white md:text-sm'>Company</h4>
           <Link href='/blog' className='text-sm text-white md:text-[12px]'>
@@ -129,7 +141,7 @@ function Footer() {
         <div className='flex flex-row gap-2'>
           <input
             type='text'
-            className='w-32 rounded-md border-2 border-white bg-transparent p-1'
+            className='w-20 rounded-md border-2 border-black bg-white p-1'
           />
           <button className='rounded-md bg-white p-1 text-tertiary'>
             Enviar

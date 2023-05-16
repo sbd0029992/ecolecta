@@ -22,7 +22,7 @@ export default function ListUsers({ users }) {
 
   return (
     <div className='background-image1 container mx-auto py-8'>
-      <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+      <div className='grid grid-cols-1 gap-8 p-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {users.map((user) => (
           <div
             className='rounded bg-gray-800 p-4 text-white shadow'

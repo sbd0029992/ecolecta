@@ -240,11 +240,9 @@ export default function NewCollect({ env }) {
           <div className='flex min-w-[340px] flex-col justify-center gap-2 rounded-lg bg-[#3AAF14] p-4 text-white'>
             <div>
               <h3 id='user'>
-                <h3 id='user'>
-                  {newCollect.user
-                    ? `${newCollect.user[0].firstName} ${newCollect.user[0].lastName} ${newCollect.user[0].secondLastName}  `
-                    : null}
-                </h3>
+                {newCollect.user
+                  ? `${newCollect.user[0].firstName} ${newCollect.user[0].lastName} ${newCollect.user[0].secondLastName}  `
+                  : null}
               </h3>
             </div>
             {/* {query.id &&
