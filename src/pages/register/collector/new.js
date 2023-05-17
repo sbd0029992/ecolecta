@@ -280,8 +280,8 @@ export default function UserRegister({ env }) {
   }
 
   return (
-    <div className='background-plantas flex justify-center'>
-      <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
+    <div className='background-plantas flex h-[1600px] justify-center'>
+      <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8  '>
         <h1>{query.id ? 'Edit Recolector' : 'Register Recolector'}</h1>
         <form class='formulary' onSubmit={handleSubmit}>
           <div class='mb-6 grid gap-3 '>
@@ -476,8 +476,8 @@ export default function UserRegister({ env }) {
                             src={image}
                             alt={image.name}
                             class='h-30 w-full rounded-lg shadow-md'
-                            height={100}
-                            width={100}
+                            height={1000}
+                            width={1000}
                           />
                           <button
                             class='absolute top-0 right-0 h-5 w-5 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-red-500 text-xs font-bold text-white focus:outline-none'

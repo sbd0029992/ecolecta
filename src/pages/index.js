@@ -57,30 +57,35 @@ export default function Index({ products, affiliates }) {
       {dataUser.type === 'admin' ? (
         <div>
           <div className='flex items-center justify-center text-center'>
-            <Link
-              href='/affiliate/list'
-              className=' h-16 rounded-full bg-green-500 text-2xl text-black md:p-2'
-            >
-              Afiliados
-            </Link>
-            <Link
-              href='/register/user/list'
-              className='ml-4 h-16 rounded-full bg-green-500 text-2xl text-black md:p-2'
-            >
-              Lista de clientes
-            </Link>
-            <Link
-              href='/register/truck/list'
-              className='ml-4 h-16 rounded-full bg-green-500 text-2xl text-black md:p-2'
-            >
-              Lista de Camiones
-            </Link>
-            <Link
-              href='/register/collector/list'
-              className='ml-4 h-16 rounded-full bg-green-500 text-2xl text-black md:p-2'
-            >
-              Lista de Recolectores
-            </Link>
+            <div className='flex min-[360px]:flex-col md:flex-row'>
+              <Link
+                href='/affiliate/list'
+                className=' h-16 rounded-full bg-green-500 text-2xl text-black min-[360px]:text-[20px] md:p-2'
+              >
+                AFILIADOS
+              </Link>
+
+              <Link
+                href='/register/user/list'
+                className='ml-4 h-16 rounded-full bg-green-500 text-2xl text-black min-[360px]:mt-4 min-[360px]:w-[140px] min-[360px]:text-[20px] md:mt-0 md:w-auto md:p-2'
+              >
+                LISTA DE CLIENTES
+              </Link>
+            </div>
+            <div className='flex min-[360px]:flex-col md:flex-row'>
+              <Link
+                href='/register/truck/list'
+                className='ml-4 h-16 rounded-full bg-green-500 text-2xl text-black min-[360px]:text-[20px] md:p-2'
+              >
+                LISTA DE CAMIONES
+              </Link>
+              <Link
+                href='/register/collector/list'
+                className='ml-4 h-16 rounded-full bg-green-500 text-lg text-black min-[360px]:mt-4 min-[360px]:text-[20px] md:mt-0 md:p-2'
+              >
+                LISTA DE RECOLECTORES
+              </Link>
+            </div>
           </div>
         </div>
       ) : null}
