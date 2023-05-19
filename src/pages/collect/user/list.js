@@ -8,7 +8,7 @@ function ListCollects({ user }) {
   const router = useRouter();
   const [collects, setCollects] = useState([]);
   const [loading, setLoading] = useState(true); // Nuevo estado para el indicador de carga
-  const [dataUser, setdataUser] = useState([]);
+  const [dataUser] = useState([]);
   useEffect(() => {
     const getCollects = async () => {
       const { data } = await axios.get(
