@@ -42,7 +42,7 @@ function Item(props) {
       </div>
       {dataUser.isLoggedIn ? (
         <>
-          {dataUser.type === 'send' && (
+          {dataUser.status === 'completed' && (
             <div className='flex flex-col items-center gap-3 rounded-lg bg-white/40'>
               <button
                 className='rounded-2xl bg-green-500 p-3 text-2xl'

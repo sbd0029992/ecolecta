@@ -72,12 +72,58 @@ function ListCollects({ user }) {
   );
 }
 
-export const getServerSideProps = withSession(async function ({ req }) {
-  return {
-    props: {
-      user: req.session.get('user'),
-    },
-  };
-});
+export const getServerSideProps = withSession(async function (context) {
+  const { req } = context;
+  const user = req.session.get('user');
 
+  // Verifica si el usuario no ha iniciado sesión
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const cookie = context.req.headers.cookie;
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
+    headers: {
+      cookie: cookie,
+    },
+  });
+  if (userRes.ok) {
+    const userData = await userRes.json();
+
+    if (
+      userData.type !== 'user_normal' &&
+      userData.type !== 'user_superior' &&
+      userData.type !== 'admin'
+    ) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+    const res = await fetch(`${apiUrl}/api/collects`);
+    const affiliates = await res.json();
+
+    return {
+      props: {
+        user,
+        affiliates,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+});
 export default ListCollects;

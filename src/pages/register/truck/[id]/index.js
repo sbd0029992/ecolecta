@@ -57,7 +57,7 @@ export default function ProductDetail({ truck, error }) {
             <div className='h-32 w-32 animate-spin rounded-full border-t-2 border-b-2 border-gray-100'></div>
           </div>
         )}
-        <div className='min-w-min rounded-lg bg-white py-5 shadow-2xl'>
+        <div className='min-w-min rounded-lg bg-white py-5 shadow-2xl '>
           <h1 className='text-center text-3xl font-bold '>Camion</h1>
 
           <div className='p-6'>

@@ -383,13 +383,50 @@ export default function NewProduct({ env }) {
 }
 
 //getserverSideProps
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const { cookies } = req;
+
+  // Verifica si el usuario ha iniciado sesión (autenticación)
+  if (!cookies.session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/', // Cambia esto por la ruta de inicio de sesión
+      },
+      props: {},
+    };
+  }
+
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/env`);
-  const env = await res.json();
+
+  // Obtén los detalles del usuario
+  const resUser = await fetch(`${apiUrl}/api/user`, {
+    headers: {
+      Authorization: `Bearer ${cookies.session}`,
+    },
+  });
+
+  const user = await resUser.json();
+
+  // Verifica si el usuario tiene el rol de admin o collector (autorización)
+  if (!(user.role === 'admin' || user.role === 'collector')) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/', // Cambia esto por la ruta de acceso denegado
+      },
+      props: {},
+    };
+  }
+
+  const resEnv = await fetch(`${apiUrl}/api/env`);
+  const env = await resEnv.json();
+
   return {
     props: {
       env,
+      user,
     },
   };
 }

@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 
+import withSession from '../../../lib/session';
+
 import { AuthContext } from '/src/context/authContext';
 
 export default function NewCollect({ env }) {
@@ -34,6 +36,17 @@ export default function NewCollect({ env }) {
     try {
       const res = await fetch(`${apiUrl}/api/collects/${query.id}`);
       const apiCollect = await res.json();
+      const date = new Date(apiCollect.time);
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hour = date.getHours();
+      const minutes = date.getMinutes();
+      const time = `${day < 10 ? `0${day}` : day}/${
+        month < 10 ? `0${month}` : month
+      } ${hour < 10 ? `0${hour}` : hour}:${
+        minutes < 10 ? `0${minutes}` : minutes
+      }`;
+      apiCollect.time = time;
       setIdCollect({ id: apiCollect._id });
       setCollectImages(apiCollect.images);
       setNewCollect({
@@ -367,78 +380,61 @@ export default function NewCollect({ env }) {
   );
 }
 
-//getserverSideProps
-export async function getServerSideProps() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/env`);
-  const env = await res.json();
-  return {
-    props: {
-      env,
-    },
-  };
-}
+export const getServerSideProps = withSession(async function (context) {
+  const { req } = context;
+  const user = req.session.get('user');
 
-//  {
-//    query.id ? (
-//      <div>
-//        <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-//          Images
-//        </label>
-//        <input
-//          type='file'
-//          id='images'
-//          accept='image/*'
-//          onChange={(e) =>
-//            setSelectedImages([...selectedImages, ...e.target.files])
-//          }
-//          class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
-//          multiple
-//          max='5145728' // 5MB en bytes
-//        />
-//        {selectedImages.map((image, index) => (
-//          <div key={index} class='relative mr-2 mb-2 inline-block w-full'>
-//            <Image
-//              src={URL.createObjectURL(image)}
-//              alt={image.name}
-//              class='h-30 w-full rounded-lg shadow-md'
-//              height={100}
-//              width={100}
-//            />
-//            <button
-//              class='absolute top-0 right-0 h-5 w-5 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-white text-xs font-bold text-red-500 focus:outline-none'
-//              onClick={() => handleRemoveImage(index)}
-//            >
-//              ×
-//            </button>
-//          </div>
-//        ))}
-//        {collectImages.length > 0 ? (
-//          <div>
-//            <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-//              Existing Images
-//            </label>
-//            <div class='flex flex-wrap'>
-//              {collectImages.map((image, index) => (
-//                <div key={index} class='relative mr-2 mb-2 inline-block w-full'>
-//                  <Image
-//                    src={image}
-//                    alt={image}
-//                    class='h-30 w-full rounded-lg shadow-md'
-//                    height={100}
-//                    width={100}
-//                  />
-//                  <button
-//                    class='absolute top-0 right-0 h-5 w-5 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-red-500 text-xs font-bold text-white focus:outline-none'
-//                    onClick={() => handleRemoveImageS3(index)}
-//                  >
-//                    ×
-//                  </button>
-//                </div>
-//              ))}
-//            </div>
-//          </div>
-//        ) : null}
-//      </div>
-//    ) : null;
-//  }
+  // Verifica si el usuario no ha iniciado sesión
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const cookie = context.req.headers.cookie;
+
+  // Busca los datos del usuario
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
+    headers: {
+      cookie: cookie,
+    },
+  });
+
+  // Si la respuesta es OK, extrae los datos del usuario y verifica su tipo
+  if (userRes.ok) {
+    const userData = await userRes.json();
+
+    // Comprueba si el usuario tiene el tipo 'admin' o 'collector'
+    if (userData.type !== 'user_normal' && userData.type !== 'user_superior') {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+
+    // Realiza la solicitud a '/api/env'
+    const res = await fetch(`${apiUrl}/api/env`);
+    const env = await res.json();
+
+    return {
+      props: {
+        env,
+        user,
+      },
+    };
+  } else {
+    // Si la respuesta no es OK, redirige al usuario a la página de inicio
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+});

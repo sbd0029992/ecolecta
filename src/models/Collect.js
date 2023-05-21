@@ -30,7 +30,7 @@ const collectSchema = new Schema(
       maxlength: [500, 'Description cannot be more than 500 characters'],
     },
     time: {
-      type: Number,
+      type: Date,
       required: [false, 'Please add time'],
     },
     fault: {

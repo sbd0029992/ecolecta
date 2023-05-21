@@ -1,36 +1,43 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useState } from 'react';
-
-import { AuthContext } from '/src/context/authContext';
+import React, { useEffect, useState } from 'react';
 
 function Profile() {
   const router = useRouter();
-  const { userData } = useContext(AuthContext);
   const [userDetails, setUserDetails] = useState(null);
-  console.log('🚀 ~ file: profile.js:13 ~ Profile ~ userDetails:', userDetails);
-  const fullName = `${userData.firstName} ${userData.lastName}${
-    userData.secondLastName ? ' ' + userData.secondLastName : ''
-  }`;
-  const email = `${userData.email}`;
+  const [dataUser, setdataUser] = useState([]);
+  const fullName = `${userDetails?.firstName} ${userDetails?.lastName} ${userDetails?.secondLastName}`;
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const { data } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/users/${userData.idUser}`
-        );
-        setUserDetails(data.user);
-      } catch (error) {
-        console.log(error);
-      }
+    const getUserContext = async () => {
+      const { data } = await axios.get('/api/auth/user');
+      setdataUser(data);
     };
+    getUserContext();
+  }, []);
 
-    if (userData && userData.idUser) {
-      fetchUserData();
+  const getUser = async () => {
+    try {
+      if (!dataUser) {
+        console.log('sin susaurio');
+        return;
+      } else {
+        const { data } = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/${dataUser.idUser}`
+        );
+        const user = data.user;
+        setUserDetails(user);
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }, [userData]);
+  };
+
+  useEffect(() => {
+    getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataUser]);
 
   function renderUserStatus() {
     if (!userDetails) {
@@ -42,12 +49,11 @@ function Profile() {
         <div className='flex w-full justify-center md:justify-start'>
           {/* <BsFillTriangleFill className='h-10 w-10 text-red-500 md:hidden' /> */}
           <button
-            className='m-[0px] ml-[30vh] mb-4 flex h-10 w-60 items-center justify-center rounded-full bg-[#85A547] px-5 py-2.5 font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 min-[320px]:ml-[5vh] md:ml-[18vh] lg:ml-[25vh]'
             onClick={() =>
-              router.push(`/register/user/${userData.idUser}/verify`)
+              router.push(`/register/user/${dataUser.idUser}/verify`)
             }
           >
-            <h4 className='p-2 text-center'>Verificar perfil</h4>
+            <h1 className='text-red-300'>Verificar perfil</h1>
           </button>
         </div>
       );
@@ -56,9 +62,7 @@ function Profile() {
     if (userDetails.status === 'send') {
       return (
         <div>
-          <h1 className='rounded-lg bg-green-500 p-2 text-white'>
-            QR enviado espere
-          </h1>
+          <h1 className='text-primary'>QR enviado espere</h1>
         </div>
       );
     }
@@ -120,14 +124,22 @@ function Profile() {
                 </div>
               ))}
               <h4 className='text-amber-300'>{fullName}</h4>
-              <h4 className='text-white'>{email}</h4>
+              <h4 className='text-white'>{dataUser.email}</h4>
               <button
                 onClick={() =>
-                  router.push(`/register/user/${userData.idUser}/edit`)
+                  router.push(`/register/user/${dataUser.idUser}/edit`)
                 }
                 className='w-40 rounded-3xl bg-green-600 p-2 text-white'
               >
                 Editar Perfil
+              </button>
+              <button
+                onClick={() =>
+                  router.push(`/register/user/${dataUser.idUser}/password`)
+                }
+                className='w-40 rounded-3xl bg-green-600 p-2 text-white'
+              >
+                Cambiar Contraseña
               </button>
             </div>
           </div>
@@ -147,14 +159,6 @@ function Profile() {
                 <h2>{userDetails.buckets}</h2>
               </div>
             </div>
-
-            {/* <div className='flex flex-col items-center gap-5'>
-              <label class='relative inline-flex cursor-pointer items-center self-center'>
-                <input type='checkbox' value='' class='peer sr-only' />
-                <div class="peer h-11 w-20 rounded-full bg-gray-200 after:absolute after:top-[2px] after:left-[2px] after:h-10 after:w-10 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
-              </label>
-              <h1 className='text-white'>Tabla Posicion</h1>
-            </div> */}
           </div>
         </div>
       </div>

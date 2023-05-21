@@ -1,22 +1,15 @@
-/* eslint-disable unused-imports/no-unused-vars */
-import { S3 } from 'aws-sdk';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 
+import withSession from '../../../lib/session';
+
 import { AuthContext } from '/src/context/authContext';
 
-export default function NewCollect({ env }) {
+export default function NewCollect() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { userData } = useContext(AuthContext);
   const { query, push } = useRouter();
-  console.log('🚀 ~ file: new.js:12 ~ NewCollect ~ query:', query.id);
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [idCollect, setIdCollect] = useState({
-    id: '',
-  });
-  const [collectImages, setCollectImages] = useState([]);
   const [newCollect, setNewCollect] = useState({
     collector: null,
     user: query.id ? null : [],
@@ -30,16 +23,26 @@ export default function NewCollect({ env }) {
   });
   const getCollect = async () => {
     try {
-      const res = await fetch(`${apiUrl}/api/collects/${query.id}`);
-      const apiCollect = await res.json();
-      console.log('🚀 ~ file: new.js:34 ~ getCollect ~ res:', res);
-      setIdCollect({ id: apiCollect._id });
-      setCollectImages(apiCollect.images);
+      const { data } = await axios.get(`${apiUrl}/api/collects/${query.id}`);
+      const apiCollect = data;
+      //convert date to input type='datetime-local' format
+      const date = new Date(apiCollect.time);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hour = date.getHours();
+      const minutes = date.getMinutes();
+      const time = `${year}-${month < 10 ? `0${month}` : month}-${
+        day < 10 ? `0${day}` : day
+      }T${hour < 10 ? `0${hour}` : hour}:${
+        minutes < 10 ? `0${minutes}` : minutes
+      }`;
+      apiCollect.time = time;
       setNewCollect((prevCollect) => ({
         collector: prevCollect.collector
           ? prevCollect.collector
           : apiCollect.collector,
-        user: apiCollect.user,
+        user: apiCollect.user[0],
         status: apiCollect.status,
         points: apiCollect.points,
         buckets: apiCollect.buckets,
@@ -55,7 +58,6 @@ export default function NewCollect({ env }) {
 
   useEffect(() => {
     if (userData && userData.idUser) {
-      console.log('entrando al if de userData');
       setNewCollect((prevCollect) => ({
         ...prevCollect,
         collector: userData.idUser,
@@ -64,184 +66,55 @@ export default function NewCollect({ env }) {
     if (query.id) {
       getCollect();
     }
-    setIsDataLoaded(true); // Marcar los datos como cargados
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.id, userData]);
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
-    if (id === 'images') {
-      setNewCollect({ ...newCollect, [id]: [value] });
-    } else {
-      setNewCollect({ ...newCollect, [id]: value });
-    }
-  };
-
-  // Configura el cliente de S3
-  let s3;
-  if (env && env.awsAccessKeyId && env.awsSecretAccessKey && env.awsRegion) {
-    s3 = new S3({
-      accessKeyId: env.awsAccessKeyId,
-      secretAccessKey: env.awsSecretAccessKey,
-      region: env.awsRegion,
-    });
-  }
-
-  // Función para subir una imagen a S3 y devolver la URL
-  async function uploadToS3(file, productId) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    const fileName = `${productId}/${file.name}`;
-    const params = {
-      Bucket: env.awsBucket,
-      Key: fileName,
-      Body: file,
-      ContentType: file.type,
-      ACL: 'public-read',
-    };
-
-    try {
-      const response = await s3.upload(params).promise();
-      return response.Location;
-    } catch (error) {
-      console.error('Error uploading to S3:', error);
-    }
-  }
-
-  const createCollect = async () => {
-    try {
-      await fetch(`${apiUrl}/api/collects`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newCollect),
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    setNewCollect((prevCollect) => ({
+      ...prevCollect,
+      [e.target.id]: e.target.value,
+    }));
   };
 
   const updateCollect = async (collect) => {
     try {
-      await fetch(`${apiUrl}/api/collects/${query.id}`, {
+      await fetch(`${apiUrl}/api/collects/collector/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(collect),
       });
+      push('/collect/collector/list');
     } catch (error) {
+      alert(error);
       console.log(error);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     if (query.id) {
-      const stringId = idCollect.id.toString();
-      const imageUrls = (
-        await Promise.all(
-          selectedImages.map(async (file) => {
-            const imageUrl = await uploadToS3(file, stringId);
-            return imageUrl;
-          })
-        )
-      ).filter((url) => url);
-
-      const updatedProduct = {
-        ...newCollect,
-        images: newCollect.images.concat(imageUrls),
-      };
-
-      await updateCollect(updatedProduct);
-
-      setNewCollect(updatedProduct);
-      await push('/collect/collector/list');
-    } else {
-      await createCollect();
-      await push('/collect/collector/list');
+      await updateCollect(newCollect);
     }
   };
 
-  useEffect(() => {
-    const updateCollectWithImages = async () => {
-      await updateCollect();
-      setIsSubmitting(false);
-      // push('/collect/collector/list');
-    };
+  const today = new Date().toISOString().slice(0, 16);
 
-    if (
-      query.id &&
-      newCollect.images &&
-      newCollect.images.length > 0 &&
-      isSubmitting
-    ) {
-      updateCollectWithImages();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newCollect.images, isSubmitting]);
-
-  // Función para eliminar imágenes seleccionadas
-  function handleRemoveImage(index) {
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
-
-    const updatedImageUrls = [...newCollect.images];
-    updatedImageUrls.splice(index, 1);
-    setNewCollect({ ...newCollect, images: updatedImageUrls });
-  }
-
-  async function handleRemoveImageS3(index) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    // Elimina la imagen seleccionada del array de imágenes seleccionadas
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
-
-    // Obtiene el nombre del archivo de la imagen eliminada
-    const imageToDelete = newCollect.images[index];
-    const fileName = imageToDelete.split('/').pop();
-
-    // Actualiza el estado de newCollect con las imágenes actualizadas
-    const updatedImageUrls = newCollect.images.filter(
-      (imageUrl) => imageUrl !== imageToDelete
-    );
-    setNewCollect({ ...newCollect, images: updatedImageUrls });
-
-    // Elimina el archivo de la imagen del bucket de S3
-    const params = {
-      Bucket: env.awsBucket,
-      Key: `${idCollect.id}/${fileName}`,
-    };
-    s3.deleteObject(params, async (err, data) => {
-      if (err) {
-        console.error('Error deleting image from S3:', err);
-      } else {
-        console.log('Image deleted from S3:', data);
-        await updateCollect({ ...newCollect, images: updatedImageUrls });
-        push('/collect/user/list');
-      }
-    });
-  }
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 20);
+  const max = maxDate.toISOString().slice(0, 16);
 
   return (
     <div className='background-tierra flex h-full min-h-[70vh] justify-center py-5 scrollbar-hide'>
       <form onSubmit={handleSubmit} className='self-center'>
         <div className='flex flex-col items-center justify-center gap-5 md:flex-row'>
           {/* Client card */}
-          <div className='flex min-w-[340px] flex-col justify-center gap-2 rounded-lg bg-[#3AAF14] p-4 text-white'>
+          <div className='flex min-w-[340px] flex-col justify-center gap-2 rounded-lg bg-[#10523e] p-4 text-white'>
             <div>
               <h3 id='user'>
                 {newCollect.user
-                  ? `${newCollect.user[0].firstName} ${newCollect.user[0].lastName} ${newCollect.user[0].secondLastName}  `
+                  ? `${newCollect?.user.firstName} ${newCollect?.user.lastName} ${newCollect?.user.secondLastName}  `
                   : null}
               </h3>
             </div>
@@ -256,7 +129,7 @@ export default function NewCollect({ env }) {
             ) : null} */}
 
             <div className='flex flex-row justify-between'>
-              <h4 className=' text-white'>Cantidad de baldes :</h4>
+              <h4 className=' rounded-lg text-white'>Cantidad de baldes :</h4>
               <input
                 id='buckets'
                 type='number'
@@ -264,7 +137,7 @@ export default function NewCollect({ env }) {
                 value={newCollect.buckets}
                 disabled
                 min={1}
-                className=' w-16 bg-white text-center text-lg text-black'
+                className=' w-16 rounded-lg bg-white text-center text-lg text-black'
               />
             </div>
             <div className='flex flex-col gap-3'>
@@ -288,7 +161,7 @@ export default function NewCollect({ env }) {
                     fault: prevCollect.fault - 10,
                   }));
                 }}
-                className='w-fit rounded-full bg-red-500 py-2 px-4 font-bold text-white '
+                className='w-fit rounded-full bg-red-500 py-2 px-4 font-bold text-black '
               >
                 Penalizar
               </button>
@@ -299,7 +172,7 @@ export default function NewCollect({ env }) {
                     fault: prevCollect.fault + 10,
                   }));
                 }}
-                className='w-fit rounded-full bg-[#33C16F] py-2 px-4 font-bold text-white '
+                className='w-fit rounded-full bg-[#33C16F] py-2 px-4 font-bold text-black '
               >
                 Quitar Penalizacion
               </button>
@@ -309,101 +182,129 @@ export default function NewCollect({ env }) {
             </p>
           </div>
           {/* Recolector card */}
-          {newCollect.collector ? (
-            <div className='flex w-[90vw] flex-col justify-center gap-5 rounded-xl bg-[#05543C] p-4 font-secondary sm:h-fit sm:w-[300px] '>
-              <div className='flex flex-row justify-between gap-1'>
-                <p className='flex h-14 w-32 items-center justify-center rounded-xl bg-blue-400 text-2xl font-semibold text-white '>
-                  {newCollect.status == 1
-                    ? 'Mandado'
-                    : newCollect.status == 2
-                    ? 'En camino'
-                    : 'Finalizado'}
-                </p>
-                {query.id &&
-                newCollect.user &&
-                newCollect.user.length > 0 &&
-                newCollect.user[0].location &&
-                isDataLoaded ? (
-                  <div className='flex flex-row justify-between'>
-                    <a
-                      className='flex h-14 w-32 items-center justify-center rounded-xl bg-[#33C16F] text-center text-2xl font-semibold text-white '
-                      href={`https://www.google.com/maps?q=${newCollect.user[0].location.latitude},${newCollect.user[0].location.longitude}`}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      Ubicacion
-                    </a>
-                  </div>
-                ) : null}
-              </div>
-              <div className='flex flex-col gap-4'>
-                <div className='items-start'>
-                  <h1 className='text-center font-secondary text-white sm:text-3xl sm:font-normal '>
-                    Hora estimada de llegada
-                  </h1>
-                </div>
-                <div className='flex justify-center'>
-                  <input
-                    className='h-14 w-32  text-center text-2xl sm:w-32'
-                    type='number'
-                    id='time'
-                    min='0'
-                    max='2359'
-                    placeholder='HH:MM'
-                    value={newCollect.time}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              <div className='flex flex-col gap-5'>
-                <div>
-                  <button
-                    type='submit'
-                    onClick={() => {
-                      setNewCollect((prevCollect) => ({
-                        ...prevCollect,
-                        status: 2,
-                      }));
-                    }}
-                    className='h-14 w-full rounded-xl bg-[#33C16F] text-3xl font-bold text-white'
+          <div className='flex w-[90vw] flex-col justify-center gap-5 rounded-xl bg-white p-4 font-secondary sm:h-fit sm:w-[300px] '>
+            <div className='flex flex-row justify-between gap-1'>
+              <p className='flex h-14 w-32 items-center justify-center rounded-xl bg-blue-400 text-2xl font-semibold text-black '>
+                {newCollect.status == 1
+                  ? 'Mandado'
+                  : newCollect.status == 2
+                  ? 'En camino'
+                  : 'Finalizado'}
+              </p>
+              {newCollect.user && newCollect.user.location ? (
+                <div className='flex flex-row justify-between'>
+                  <a
+                    className='flex h-14 w-32 items-center justify-center rounded-xl bg-primary text-center text-2xl font-semibold text-white '
+                    href={`https://www.google.com/maps?q=${newCollect.user?.location.latitude},${newCollect.user?.location.longitude}`}
+                    target='_blank'
+                    rel='noopener noreferrer'
                   >
-                    VAMOS
-                  </button>
-                  <button
-                    type='submit'
-                    className='mt-5 h-14 w-full rounded-xl bg-[#33C16F] text-3xl font-bold text-white'
-                    onClick={() => {
-                      setNewCollect((prevCollect) => ({
-                        ...prevCollect,
-                        status: 3,
-                      }));
-                    }}
-                  >
-                    FINALIZADO
-                  </button>
+                    Ubicacion
+                  </a>
                 </div>
-                {/* <div>
-                  <button className='h-14 w-full rounded-xl bg-primary text-3xl font-bold text-white'>
-                    YA LLEGUE
-                  </button>
-                </div> */}
+              ) : null}
+            </div>
+            <div className='flex flex-col gap-4'>
+              <div className='items-start'>
+                <h1 className='text-center font-secondary text-black sm:text-2xl sm:font-normal '>
+                  Fecha y Hora estimada de llegada
+                </h1>
+              </div>
+              <div className='flex justify-center'>
+                <input
+                  className='h-14 max-w-fit rounded-lg bg-green-200 text-center text-xl'
+                  type='datetime-local'
+                  id='time'
+                  min={today}
+                  max={max}
+                  value={
+                    newCollect.time === '1969-12-31T20:00'
+                      ? today
+                      : newCollect.time
+                  }
+                  onChange={handleChange}
+                />
               </div>
             </div>
-          ) : null}
+            <div className='flex flex-col gap-2'>
+              {newCollect.status === 2 ? (
+                <button
+                  className='h-14 w-full rounded-xl bg-green-500 text-3xl font-bold text-black'
+                  type='submit'
+                >
+                  Actualizar
+                </button>
+              ) : null}
+              <button
+                type='submit'
+                onClick={() => {
+                  setNewCollect((prevCollect) => ({
+                    ...prevCollect,
+                    status: prevCollect.status === 2 ? 3 : 2,
+                  }));
+                }}
+                className={`h-14 w-full rounded-xl text-3xl font-bold text-black ${
+                  newCollect.status === 2 ? 'bg-red-500' : 'bg-green-500'
+                }`}
+              >
+                {newCollect.status === 2 ? 'FINALIZADO' : 'VAMOS'}
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     </div>
   );
 }
 
-//getserverSideProps
-export async function getServerSideProps() {
+export const getServerSideProps = withSession(async function (context) {
+  const { req } = context;
+  const user = req.session.get('user');
+
+  // check if user is not logged in
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/env`);
-  const env = await res.json();
-  return {
-    props: {
-      env,
+  const cookie = context.req.headers.cookie;
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
+    headers: {
+      cookie: cookie,
     },
-  };
-}
+  });
+
+  if (userRes.ok) {
+    const userData = await userRes.json();
+    if (userData.type !== 'admin' && userData.type !== 'collector') {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+
+    const res = await fetch(`${apiUrl}/api/collects`);
+    const affiliates = await res.json();
+
+    return {
+      props: {
+        user,
+        affiliates,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+});

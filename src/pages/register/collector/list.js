@@ -2,6 +2,7 @@
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
 
+import withSession from '../../../lib/session';
 export default function ListUsers({ collectors }) {
   const router = useRouter();
 
@@ -123,14 +124,60 @@ export default function ListUsers({ collectors }) {
     </div>
   );
 }
+export const getServerSideProps = withSession(async function (context) {
+  const { req } = context;
+  const user = req.session.get('user');
 
-export const getServerSideProps = async () => {
+  // Verifica si el usuario no ha iniciado sesión
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/users/collector`);
-  const collectors = await res.json();
-  return {
-    props: {
-      collectors,
+  const cookie = context.req.headers.cookie;
+
+  // Busca los datos del usuario
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
+    headers: {
+      cookie: cookie,
     },
-  };
-};
+  });
+
+  // Si la respuesta es OK, extrae los datos del usuario y verifica su tipo
+  if (userRes.ok) {
+    const userData = await userRes.json();
+
+    // Comprueba si el usuario tiene el tipo 'admin' o 'collector'
+    if (userData.type !== 'admin') {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+
+    const res = await fetch(`${apiUrl}/api/users/collector`);
+    const collectors = await res.json();
+
+    return {
+      props: {
+        collectors,
+        user,
+      },
+    };
+  } else {
+    // Si la respuesta no es OK, redirige al usuario a la página de inicio
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+});

@@ -8,7 +8,7 @@ function ListCollects({ user }) {
   const router = useRouter();
   const [collects, setCollects] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log('🚀 ~ file: list.js:9 ~ ListCollects ~ collects:', collects);
+
   useEffect(() => {
     const fetchCollects = async () => {
       if (user.idUser) {
@@ -65,7 +65,7 @@ function ListCollects({ user }) {
                         ' ' +
                         collect.user[0].secondLastName}
                       <a
-                        className='text-blue-400 hover:text-blue-600'
+                        className='rounded-lg bg-blue-500 text-white hover:text-blue-600'
                         href={`https://www.google.com/maps?q=${collect.user[0].location.latitude},${collect.user[0].location.longitude}`}
                         target='_blank'
                         rel='noopener noreferrer'
@@ -106,12 +106,56 @@ function ListCollects({ user }) {
   );
 }
 
-export const getServerSideProps = withSession(async function ({ req }) {
-  return {
-    props: {
-      user: req.session.get('user'),
+export const getServerSideProps = withSession(async function (context) {
+  const { req } = context;
+  const user = req.session.get('user');
+
+  // check if user is not logged in
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const cookie = context.req.headers.cookie;
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
+    headers: {
+      cookie: cookie,
     },
-  };
+  });
+
+  if (userRes.ok) {
+    const userData = await userRes.json();
+    if (userData.type !== 'admin' && userData.type !== 'collector') {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+
+    const res = await fetch(`${apiUrl}/api/collects`);
+    const affiliates = await res.json();
+
+    return {
+      props: {
+        user,
+        affiliates,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 });
 
 export default ListCollects;

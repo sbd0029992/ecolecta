@@ -107,15 +107,6 @@ function LoginPage() {
                         onChange={passwordHandler}
                         required
                       />
-
-                      <div className='mt-3 snap-center' type='submit'>
-                        <Link
-                          href='/recuperar'
-                          className='rounded-lg underline decoration-black '
-                        >
-                          Olvide mi contraseña
-                        </Link>
-                      </div>
                     </div>
                     <br />
                     <div className='justify-center text-center'>

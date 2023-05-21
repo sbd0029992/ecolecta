@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
+import withSession from '../../../lib/session';
 export default function ListTrucks({ trucks }) {
   const router = useRouter();
 
@@ -78,13 +77,59 @@ export default function ListTrucks({ trucks }) {
     </div>
   );
 }
+export const getServerSideProps = withSession(async function (context) {
+  const { req } = context;
+  const user = req.session.get('user');
 
-export const getServerSideProps = async () => {
-  const res = await fetch(`${apiUrl}/api/trucks`);
-  const trucks = await res.json();
-  return {
-    props: {
-      trucks,
+  // Verifica si el usuario no ha iniciado sesión
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const cookie = context.req.headers.cookie;
+
+  // Busca los datos del usuario
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
+    headers: {
+      cookie: cookie,
     },
-  };
-};
+  });
+
+  // Si la respuesta es OK, extrae los datos del usuario y verifica su tipo
+  if (userRes.ok) {
+    const userData = await userRes.json();
+
+    // Comprueba si el usuario tiene el tipo 'admin' o 'collector'
+    if (userData.type !== 'admin' && userData.type !== 'collector') {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+    const res = await fetch(`${apiUrl}/api/trucks`);
+    const trucks = await res.json();
+
+    return {
+      props: {
+        trucks,
+        user,
+      },
+    };
+  } else {
+    // Si la respuesta no es OK, redirige al usuario a la página de inicio
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+});

@@ -1,24 +1,43 @@
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import withSession from '../../../lib/session';
 
-function ListCollectCollector({ user }) {
+function ListCollectCollector() {
   const router = useRouter();
+  const [dataUser, setdataUser] = useState([]);
   const [collects, setCollects] = useState([]);
+
   useEffect(() => {
-    const fetchCollects = async () => {
-      if (user.idUser) {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/collects/?userId=${user.idUser}`
-        );
-        const data = await response.json();
-        const filteredData = data.filter((collect) => collect.status === 2);
-        setCollects(filteredData);
+    const getUser = async () => {
+      try {
+        const { data } = await axios.get('/api/auth/user');
+        setdataUser(data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
       }
     };
-    fetchCollects();
-  }, [user.idUser]);
+
+    getUser();
+  }, []);
+
+  useEffect(() => {
+    const getCollects = async () => {
+      try {
+        const { data } = await axios.get(
+          `/api/collects/collector/list?userId=${dataUser.idUser}`
+        );
+        setCollects(data);
+      } catch (error) {
+        console.error('Error fetching collects:', error);
+      }
+    };
+
+    if (dataUser.idUser) {
+      getCollects();
+    }
+  }, [dataUser.idUser]);
 
   return (
     <div className='background-plantas flex h-full min-h-[70vh] flex-col py-5 '>
@@ -60,7 +79,7 @@ function ListCollectCollector({ user }) {
                         Ubicacion
                       </a>
                     </td>
-                    <td className='w-[100px] border px-4 py-2 text-center text-center'>
+                    <td className='w-[100px] border px-4 py-2 text-center'>
                       {collect.description}
                     </td>
                     <td
@@ -93,12 +112,56 @@ function ListCollectCollector({ user }) {
   );
 }
 
-export const getServerSideProps = withSession(async function ({ req }) {
-  return {
-    props: {
-      user: req.session.get('user'),
+export const getServerSideProps = withSession(async function (context) {
+  const { req } = context;
+  const user = req.session.get('user');
+
+  // check if user is not logged in
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const cookie = context.req.headers.cookie;
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
+    headers: {
+      cookie: cookie,
     },
-  };
+  });
+
+  if (userRes.ok) {
+    const userData = await userRes.json();
+    if (userData.type !== 'admin' && userData.type !== 'collector') {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+
+    const res = await fetch(`${apiUrl}/api/collects`);
+    const affiliates = await res.json();
+
+    return {
+      props: {
+        user,
+        affiliates,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 });
 
 export default ListCollectCollector;

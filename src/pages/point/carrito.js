@@ -10,10 +10,25 @@ const CarritoCheck = () => {
   useEffect(() => {
     const getUser = async () => {
       const { data } = await axios.get('/api/auth/user');
+
+      if (data) {
+        if (
+          data.type !== 'admin' &&
+          data.type !== 'user_normal' &&
+          data.type !== 'user_superior'
+        ) {
+          router.push('/');
+          return;
+        }
+      } else {
+        router.push('/');
+        return;
+      }
+
       setdataUser(data);
     };
     getUser();
-  }, []);
+  }, [router]);
 
   const getCartItems = useCallback(async () => {
     if (dataUser) {

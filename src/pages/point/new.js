@@ -1,12 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import { S3 } from 'aws-sdk';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Switch from 'react-switch';
 
 export default function NewPoint({ env }) {
+  const router = useRouter();
+  const { query, push } = router;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const { query, push } = useRouter();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [idPoint, setIdPoint] = useState({
@@ -16,6 +17,7 @@ export default function NewPoint({ env }) {
   const [newPoint, setNewPoint] = useState({
     name: '',
     price: '',
+    value: 1,
     status: '1',
     images: query.id ? [''] : [],
   });
@@ -28,6 +30,7 @@ export default function NewPoint({ env }) {
       setPointImages(point.images);
       setNewPoint({
         name: point.name,
+        value: point.value,
         price: point.price,
         status: point.status,
         images: point.images,
@@ -53,38 +56,25 @@ export default function NewPoint({ env }) {
     }
   };
 
-  // Configura el cliente de S3
-  let s3;
-  if (env && env.awsAccessKeyId && env.awsSecretAccessKey && env.awsRegion) {
-    s3 = new S3({
-      accessKeyId: env.awsAccessKeyId,
-      secretAccessKey: env.awsSecretAccessKey,
-      region: env.awsRegion,
-    });
-  }
+  const [setdataUser] = useState(null);
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await axios.get('/api/auth/user');
 
-  // Función para subir una imagen a S3 y devolver la URL
-  async function uploadToS3(file, productId) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    const fileName = `${productId}/${file.name}`;
-    const params = {
-      Bucket: env.awsBucket,
-      Key: fileName,
-      Body: file,
-      ContentType: file.type,
-      ACL: 'public-read',
+      if (data) {
+        if (data.type !== 'admin') {
+          router.push('/');
+          return;
+        }
+      } else {
+        router.push('/');
+        return;
+      }
+
+      setdataUser(data);
     };
-
-    try {
-      const response = await s3.upload(params).promise();
-      return response.Location;
-    } catch (error) {
-      console.error('Error uploading to S3:', error);
-    }
-  }
+    getUser();
+  }, [router]);
 
   const createPoint = async () => {
     try {
@@ -115,32 +105,75 @@ export default function NewPoint({ env }) {
       console.log(error);
     }
   };
+  // Función para subir una imagen a S3 y devolver la URL
+  async function uploadToS3(file, id) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('id', id);
 
+    try {
+      const response = await fetch(`${apiUrl}/api/s3/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      return data.imageUrl; // Asume que tu API devuelve la URL de la imagen
+    } catch (error) {
+      console.error('Error uploading to S3:', error);
+    }
+  }
+
+  async function handleRemoveImageS3(index) {
+    const imageToDelete = newPoint.images[index];
+    const fileName = imageToDelete.split('/').pop();
+    const key = `${idPoint.id}/${fileName}`;
+
+    try {
+      await fetch(`${apiUrl}/api/s3/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ key }),
+      });
+      console.log('Image deleted from S3');
+
+      const updatedImageUrls = newPoint.images.filter(
+        (imageUrl) => imageUrl !== imageToDelete
+      );
+      setNewPoint({ ...newPoint, images: updatedImageUrls });
+      await updatePoint({ ...newPoint, images: updatedImageUrls });
+      push('/point/list');
+    } catch (error) {
+      console.error('Error deleting image from S3:', error);
+    }
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+
     if (query.id) {
-      const stringId = idPoint.id.toString();
-      const imageUrls = (
-        await Promise.all(
-          selectedImages.map(async (file) => {
-            const imageUrl = await uploadToS3(file, stringId);
-            return imageUrl;
-          })
-        )
-      ).filter((url) => url);
+      // Si hay una imagen seleccionada
+      if (selectedImages[0]) {
+        const imageUrl = await uploadToS3(
+          selectedImages[0],
+          idPoint.id.toString()
+        );
 
-      const updatedProduct = {
-        ...newPoint,
-        images: newPoint.images.concat(imageUrls),
-      };
+        const updatedPoint = {
+          ...newPoint,
+          images: [...newPoint.images, imageUrl],
+        };
 
-      await updatePoint(updatedProduct);
-
-      setNewPoint(updatedProduct);
+        await updatePoint(updatedPoint);
+        setNewPoint(updatedPoint);
+      } else {
+        await updatePoint(newPoint);
+      }
     } else {
-      await createPoint(newPoint);
+      await createPoint();
     }
+    push('/point/list');
   };
 
   useEffect(() => {
@@ -164,43 +197,7 @@ export default function NewPoint({ env }) {
     const updatedImageUrls = [...newPoint.images];
     updatedImageUrls.splice(index, 1);
     setNewPoint({ ...newPoint, images: updatedImageUrls });
-  }
-
-  async function handleRemoveImageS3(index) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    // Elimina la imagen seleccionada del array de imágenes seleccionadas
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
-
-    // Obtiene el nombre del archivo de la imagen eliminada
-    const imageToDelete = newPoint.images[index];
-    const fileName = imageToDelete.split('/').pop();
-
-    // Actualiza el estado de newPoint con las imágenes actualizadas
-    const updatedImageUrls = newPoint.images.filter(
-      (imageUrl) => imageUrl !== imageToDelete
-    );
-    setNewPoint({ ...newPoint, images: updatedImageUrls });
-
-    // Elimina el archivo de la imagen del bucket de S3
-    const params = {
-      Bucket: env.awsBucket,
-      Key: `${idPoint.id}/${fileName}`,
-    };
-    s3.deleteObject(params, async (err, data) => {
-      if (err) {
-        console.error('Error deleting image from S3:', err);
-      } else {
-        console.log('Image deleted from S3:', data);
-
-        // Actualiza los datos en la base de datos con el producto actualizado
-        await updatePoint({ ...newPoint, images: updatedImageUrls });
-      }
-    });
+    document.getElementById('images').value = '';
   }
 
   return (
@@ -220,6 +217,22 @@ export default function NewPoint({ env }) {
                 onChange={handleChange}
                 class='block w-full rounded-lg border border-gray-300 bg-green-200 p-2.5 text-sm text-gray-900'
                 placeholder='Point Name'
+                required
+              />
+            </div>
+            <div>
+              <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                Value
+              </label>
+              <input
+                type='number'
+                min='1'
+                max='9999'
+                id='value'
+                value={newPoint.value}
+                onChange={handleChange}
+                class='block w-full rounded-lg border border-gray-300 bg-green-200 p-2.5 text-sm text-gray-900'
+                placeholder='Value Point'
                 required
               />
             </div>
@@ -267,7 +280,7 @@ export default function NewPoint({ env }) {
 
             {query.id ? (
               <div>
-                <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
+                <label className='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
                   Images
                 </label>
                 <input
@@ -277,7 +290,7 @@ export default function NewPoint({ env }) {
                   onChange={(e) =>
                     setSelectedImages([...selectedImages, ...e.target.files])
                   }
-                  class='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
+                  className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900'
                   multiple
                   max='5145728' // 5MB en bytes
                 />
@@ -345,16 +358,4 @@ export default function NewPoint({ env }) {
       </div>
     </div>
   );
-}
-
-//getserverSideProps
-export async function getServerSideProps() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/env`);
-  const env = await res.json();
-  return {
-    props: {
-      env,
-    },
-  };
 }

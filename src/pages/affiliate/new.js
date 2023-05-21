@@ -210,7 +210,7 @@ export default function Newaffiliate({ env }) {
 
   return (
     <div className='background-plantas flex h-full min-h-[70vh] items-center justify-center bg-black'>
-      <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
+      <div className=' mt-[5%] mb-[5%] h-full w-[330px] rounded-lg bg-white p-8 pb-[0px]'>
         <h1>{query.id ? 'Edit Affiliate' : 'New Affiliate'}</h1>
         <form onSubmit={handleSubmit}>
           <div class='mb-6 grid gap-3 '>
@@ -353,14 +353,42 @@ export default function Newaffiliate({ env }) {
   );
 }
 
-//getserverSideProps
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/env`);
-  const env = await res.json();
-  return {
-    props: {
-      env,
+  const envRes = await fetch(`${apiUrl}/api/env`);
+  const env = await envRes.json();
+  const affiliatesRes = await fetch(`${apiUrl}/api/affiliates`);
+  const affiliates = await affiliatesRes.json();
+  const cookie = context.req.headers.cookie;
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
+    headers: {
+      cookie: cookie,
     },
-  };
+  });
+
+  if (userRes.ok) {
+    const userData = await userRes.json();
+    if (userData.type !== 'admin' && userData.type !== 'affiliate') {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+
+    return {
+      props: {
+        env,
+        affiliates,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 }

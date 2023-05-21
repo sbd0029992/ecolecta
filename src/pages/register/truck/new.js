@@ -182,3 +182,52 @@ export default function UserRegister() {
     </div>
   );
 }
+
+//getserverSideProps
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const { cookies } = req;
+
+  // Verifica si el usuario ha iniciado sesión (autenticación)
+  if (!cookies.session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/', // Cambia esto por la ruta de inicio de sesión
+      },
+      props: {},
+    };
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  // Obtén los detalles del usuario
+  const resUser = await fetch(`${apiUrl}/api/user`, {
+    headers: {
+      Authorization: `Bearer ${cookies.session}`,
+    },
+  });
+
+  const user = await resUser.json();
+
+  // Verifica si el usuario tiene el rol de admin o collector (autorización)
+  if (!(user.role === 'admin')) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/', // Cambia esto por la ruta de acceso denegado
+      },
+      props: {},
+    };
+  }
+
+  const resEnv = await fetch(`${apiUrl}/api/env`);
+  const env = await resEnv.json();
+
+  return {
+    props: {
+      env,
+      user,
+    },
+  };
+}

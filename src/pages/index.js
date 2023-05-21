@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fa';
 
 import Item from '../components/Item.js';
+import ItemAfiliados from '../components/ItemAfiliados.js';
 import imaimport from '../../public/images/imagenfondo.jpg';
 import imagenfondo from '../../public/images/logo.png';
 export default function Index({ products, affiliates }) {
@@ -33,7 +34,7 @@ export default function Index({ products, affiliates }) {
       <div class=' m-[-5%] h-[90vh] flex-col justify-center gap-3 md:m-[-2%] md:flex-row'>
         <div class="w-[100vw]] grid  h-[50vh] items-center justify-center bg-[url('../../public/images/menu.jpg')] bg-cover bg-center bg-no-repeat  text-center md:h-[60vh]">
           <Image
-            class='ml-[10%] h-[35vh] w-[35vh] md:ml-[20%]'
+            class='ml-[10%] h-[35vh] w-[35vh] rounded-lg md:ml-[20%]'
             src={imagenfondo}
             alt='imagen de un check'
           />
@@ -49,9 +50,6 @@ export default function Index({ products, affiliates }) {
             mision es de ayudar al planeta tierra y mas a usted que quiere
             ayudar a conseguir nuestro objetivo
           </p>
-          <button class=' hidden h-10 w-auto rounded-lg bg-[#A3E635] pl-5 pr-5 text-base text-black md:block '>
-            Informate
-          </button>
         </div>
       </div>
       {dataUser.type === 'admin' ? (
@@ -91,7 +89,7 @@ export default function Index({ products, affiliates }) {
       ) : null}
       {/* Pasos */}
       {/* Afiliados */}
-      <div class='h-full min-h-screen flex-row items-center justify-center gap-5 md:flex md:h-auto md:flex-col md:items-center'>
+      <div class='mt-6 h-[40vh] flex-row items-center justify-center gap-5 md:flex md:h-auto md:flex-col md:items-center'>
         <div className='flex flex-row'>
           <h1 className='text-primary md:mt-0'>Eco</h1>
           <h1 className='text-prymary2 md:mt-0'>Afiliados</h1>
@@ -101,21 +99,11 @@ export default function Index({ products, affiliates }) {
           class='grid-cols grid grid-flow-col items-center gap-5 self-center md:w-3/4 '
           data-carousel='slide'
         >
-          <div class='grid grid-flow-row grid-cols-1 items-center gap-5 self-center md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 '>
+          <div className='grid grid-flow-col grid-rows-1 overflow-x-auto'>
             {affiliates.length > 0
-              ? affiliates.map((item) => (
-                  <div
-                    className='mt-2 flex h-[25vh] flex-col items-center justify-center gap-2 rounded-lg bg-[#EDE595]'
-                    key={item.id}
-                  >
-                    <img
-                      className='h-[150px] w-[150px] rounded-full p-1  '
-                      src={item.images}
-                      width={100}
-                      height={100}
-                      alt={item.name}
-                    />
-                    <h3 className='text-black'>{item.name}</h3>
+              ? affiliates.map((value) => (
+                  <div className='h-[30vh] w-80' key={value.id}>
+                    <ItemAfiliados data={value} key={value.id} />
                   </div>
                 ))
               : null}

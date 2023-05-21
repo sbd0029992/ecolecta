@@ -135,13 +135,39 @@ export default function ListAffiliates({ affiliates }) {
   );
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(`${apiUrl}/api/affiliates`);
   const affiliates = await res.json();
-  return {
-    props: {
-      affiliates,
+  const cookie = context.req.headers.cookie;
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
+    headers: {
+      cookie: cookie,
     },
-  };
+  });
+
+  if (userRes.ok) {
+    const userData = await userRes.json();
+    if (userData.type !== 'admin' && userData.type !== 'affiliate') {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+
+    return {
+      props: {
+        affiliates,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 };

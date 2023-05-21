@@ -175,7 +175,7 @@ export default function UserRegister() {
         }
         toast.error(errorMessage);
       } else {
-        push('/');
+        push('/login');
       }
     } catch (error) {
       console.error('Error en createUser:', error);

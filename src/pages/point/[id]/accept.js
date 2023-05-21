@@ -14,7 +14,6 @@ export default function Accept() {
     status: '1',
     images: [],
   });
-  console.log('🚀 ~ file: accept.js:24 ~ Accept ~ newShop:', newShop);
   const getAffiliate = async () => {
     try {
       const { data } = await axios.get(

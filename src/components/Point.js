@@ -28,7 +28,7 @@ function Point(props) {
   return (
     <div className='flex flex-row items-center justify-center'>
       <div className='flex flex-col items-center gap-3'>
-        <h3 className='rounded-lg bg-blue-300 p-2 text-white'>{name}</h3>
+        <h3 className='mt-4 rounded-lg bg-blue-300 p-2 text-white'>{name}</h3>
         <img
           src={images}
           alt='juguete'
