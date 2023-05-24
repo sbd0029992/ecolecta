@@ -55,12 +55,12 @@ export default function Profile({ users }) {
                   </label>
                 </div>
               </div>
-              <div className=' ml-20 flex w-20 items-center justify-center '>
+              <div className='ml-2 flex w-20 items-center justify-center md:w-10'>
                 {userDetails?.photos.map((image) => (
                   <div
                     key={image}
-                    className='mr-4 flex-none '
-                    style={{ width: '140px' }}
+                    className='mr-4 w-auto flex-none'
+                    style={{ width: '30px' }}
                   >
                     <img
                       src={image}

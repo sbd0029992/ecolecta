@@ -131,17 +131,22 @@ export default function Navbar() {
                 </div>
               </div>
             ) : (
-              <div className='flex flex-row gap-4 sm:gap-6 '>
-                <Link
-                  href='/collect/user/list'
-                  className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
-                >
-                  Check Page
-                </Link>
-                <Link href='/collect/user/list'>
-                  <FaCheck className='h-6 w-6 lg:hidden' />
-                </Link>
-              </div>
+              <>
+                {dataUser.type === 'user_normal' ||
+                dataUser.type === 'user_superior' ? (
+                  <div className='flex flex-row gap-4 sm:gap-6 '>
+                    <Link
+                      href='/collect/user/list'
+                      className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
+                    >
+                      Check Page
+                    </Link>
+                    <Link href='/collect/user/list'>
+                      <FaCheck className='h-6 w-6 lg:hidden' />
+                    </Link>
+                  </div>
+                ) : null}
+              </>
             )}
           </>
         ) : null}
