@@ -41,7 +41,7 @@ export default function ListAffiliates({ affiliates }) {
     <div className='background-tierra h-full min-h-[70vh] p-6'>
       <div className='ml-5 text-start'>
         <button
-          className='rounded-md bg-green-900 px-4 py-2 text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-opacity-50'
+          className='m-2 rounded-md bg-green-900 px-4 py-2 text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-opacity-50'
           onClick={() => router.push('/affiliate/new')}
         >
           Nuevo Afiliado
@@ -59,6 +59,7 @@ export default function ListAffiliates({ affiliates }) {
                   {affiliate.name}
                 </h4>
                 <p className='text-gray-600'>{affiliate.description}</p>
+
                 <p className='text-gray-600'>
                   Estado:{' '}
                   <strong
@@ -69,6 +70,14 @@ export default function ListAffiliates({ affiliates }) {
                     {affiliate.status === 1 ? 'Activo' : 'Inactivo'}
                   </strong>
                 </p>
+                {affiliate.url ? (
+                  <a
+                    href={affiliate.url}
+                    className='mt-2  rounded-lg  bg-blue-500 text-[14px] text-white'
+                  >
+                    Sitio Web
+                  </a>
+                ) : null}
 
                 <div className='relative m-auto h-[100] w-[100px]'>
                   <div

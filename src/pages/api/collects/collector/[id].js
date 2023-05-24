@@ -35,16 +35,58 @@ async function handler(req, res) {
         return res.status(400).json({ error: error.message });
       }
 
-    case 'PUT':
+    case 'PUT': {
+      const session = await mongoose.startSession();
       try {
+        session.startTransaction();
+
         const collect = await Collect.findByIdAndUpdate(id, body, {
           new: true,
           runValidators: true,
+          session,
         });
+
+        if (!collect) {
+          await session.abortTransaction();
+          session.endSession();
+          return res.status(404).json({ error: 'Collect not found' });
+        }
+
+        const user = await User.findById(collect.user);
+
+        if (!user) {
+          await session.abortTransaction();
+          session.endSession();
+          return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Only update the points and buckets if the status is 3
+        if (body.status === 3) {
+          let pointsMultiplier = 10; // default for 'user_normal'
+          if (user.type === 'user_superior') {
+            pointsMultiplier = 50;
+          }
+
+          // Use the `buckets` value from the request body instead of from the current `collect`
+          const pointsToAdd = body.buckets * pointsMultiplier;
+
+          await User.findByIdAndUpdate(
+            user._id,
+            { $inc: { points: pointsToAdd, buckets: body.buckets } },
+            { session }
+          );
+        }
+
+        await session.commitTransaction();
+        session.endSession();
+
         return res.status(200).json(collect);
       } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
         return res.status(400).json({ error: error.message });
       }
+    }
 
     case 'DELETE':
       var s3 = new S3({

@@ -112,19 +112,18 @@ function Footer() {
             </Link>
           </div>
         ) : null}
-        {dataUser.type === 'collector' ||
-        dataUser.type === 'admin' ||
-        dataUser.type === 'user_superior' ? (
+        {dataUser.type === 'collector' || dataUser.type === 'admin' ? (
           <div className='hidden flex-col md:flex'>
             <h4 className='text-white md:text-sm'>RECOLECTOR</h4>
-            <Link
-              href='/register/collector/list'
-              passHref
-              className='text-sm text-white md:text-[12px]'
-            >
-              Recolectores
-            </Link>
-
+            {dataUser.type === 'admin' ? (
+              <Link
+                href='/register/collector/list'
+                passHref
+                className='text-sm text-white md:text-[12px]'
+              >
+                Recolectores
+              </Link>
+            ) : null}
             <Link
               href='/register/truck/list'
               passHref

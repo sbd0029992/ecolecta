@@ -8,7 +8,6 @@ function ListCollects({ user }) {
   const router = useRouter();
   const [collects, setCollects] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchCollects = async () => {
       if (user.idUser) {
@@ -25,7 +24,7 @@ function ListCollects({ user }) {
 
   if (loading) {
     return (
-      <div className='background-image1 flex h-full min-h-[70vh] flex-col py-5 '>
+      <div className='flex h-full min-h-[70vh] flex-col bg-blue-200 py-5 '>
         <div className='flex flex-col items-center justify-center p-2'>
           <h1>Cargando...</h1>
         </div>
