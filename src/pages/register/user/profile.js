@@ -53,7 +53,9 @@ function Profile() {
               router.push(`/register/user/${dataUser.idUser}/verify`)
             }
           >
-            <h1 className='text-red-300'>Verificar perfil</h1>
+            <h4 className='w-60 rounded-3xl bg-green-600 p-2 text-white'>
+              Verificar perfil
+            </h4>
           </button>
         </div>
       );

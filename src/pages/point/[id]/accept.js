@@ -94,10 +94,10 @@ export default function Accept() {
   };
 
   return (
-    <div className='flex  h-full min-h-[70vh] flex-col items-center justify-center gap-5 bg-black md:flex-row'>
-      <div className=' mt-[5%] mb-[5%] h-full w-[300px] bg-white p-8 pb-[0px] '>
+    <div className='background-plantas  flex h-full min-h-[70vh] flex-col items-center justify-center gap-5 md:flex-row'>
+      <div className=' mt-[5%] mb-[5%] h-full w-[300px] rounded-lg bg-white p-8 pb-[0px]'>
         <h1>{query.id ? 'Comprobante Pago' : 'New Affiliate'}</h1>
-        <h4>{newShop.point}</h4>
+        <h4>{newShop.point?.name}</h4>
         <h4 className='text-gray-500 '>
           {newShop.status === 1
             ? 'Pendiente'
@@ -132,7 +132,7 @@ export default function Accept() {
             <div className='flex justify-evenly'>
               <button
                 type='submit'
-                className='rounded bg-primary px-3 py-2 font-semibold text-white hover:bg-green-600'
+                className='rounded bg-green-600 px-3 py-2 font-semibold text-white hover:bg-green-600'
                 onClick={() => {
                   setNewShop(() => ({
                     status: 2,
