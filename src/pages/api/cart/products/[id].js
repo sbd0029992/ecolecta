@@ -25,8 +25,8 @@ async function handler(req, res) {
           new: true,
           runValidators: true,
         })
-          .populate(User)
-          .populate(Product);
+          .populate({ path: 'user', model: User })
+          .populate({ path: 'product', model: Product });
         return res.status(200).json(updatedCart);
       } catch (error) {
         return res.status(400).json({ error: error.message });

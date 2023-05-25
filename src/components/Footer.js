@@ -37,7 +37,8 @@ function Footer() {
             Contacto
           </Link>
         </div>
-        {dataUser.isLoggedIn ? (
+        {(dataUser.isLoggedIn && dataUser.type === 'user_normal') ||
+        dataUser.type === 'user_superior' ? (
           <div className='flex flex-col gap-1'>
             <h4 className='text-white md:text-sm'>PRODUCTS</h4>
             <Link
@@ -56,7 +57,8 @@ function Footer() {
             </Link>
           </div>
         ) : null}
-        {dataUser.isLoggedIn ? (
+        {(dataUser.isLoggedIn && dataUser.type === 'user_normal') ||
+        dataUser.type === 'user_superior' ? (
           <div className='flex flex-col gap-1'>
             <h4 className='text-white md:text-sm'>POINTS</h4>
 
@@ -121,20 +123,29 @@ function Footer() {
           <div className='hidden flex-col md:flex'>
             <h4 className='text-white md:text-sm'>RECOLECTOR</h4>
             {dataUser.type === 'admin' ? (
-              <Link
-                href='/register/collector/list'
-                passHref
-                className='text-sm text-white md:text-[12px]'
-              >
-                Recolectores
-              </Link>
+              <div className='flex flex-col '>
+                <Link
+                  href='/register/collector/list'
+                  passHref
+                  className='text-sm text-white md:text-[12px]'
+                >
+                  Recolectores
+                </Link>
+                <Link
+                  href='/register/truck/list'
+                  passHref
+                  className='text-sm text-white md:text-[12px]'
+                >
+                  Camiones
+                </Link>
+              </div>
             ) : null}
             <Link
-              href='/register/truck/list'
+              href='/product/listBuy'
               passHref
               className='text-sm text-white md:text-[12px]'
             >
-              Camiones
+              Productos Comprados
             </Link>
           </div>
         ) : null}

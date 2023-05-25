@@ -14,10 +14,8 @@ async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const userId = req.query.userId;
         const carts = await Cart.find({
-          user: userId,
-          status: { $in: [1, 2] },
+          status: 2,
         })
           .populate({
             path: 'user',
@@ -49,13 +47,9 @@ async function handler(req, res) {
           user: body.userId,
           status: 1,
         }).populate({ path: 'product', model: Product });
-
         let totalPointsToSubtract = 0;
         for (const item of cartItemsToUpdate) {
-          totalPointsToSubtract += item.product.price_points * item.quantity;
-          if (item.product.ammount < item.quantity) {
-            throw new Error('Not enough stock');
-          }
+          totalPointsToSubtract += item.product.price_points;
         }
 
         session.startTransaction();
@@ -63,16 +57,6 @@ async function handler(req, res) {
         for (const item of cartItemsToUpdate) {
           item.status = body.newStatus;
           await item.save({ session });
-
-          // Resta la cantidad comprada del inventario del producto
-          let product = await Product.findById(item.product._id, null, {
-            session,
-          });
-          product.ammount -= item.quantity;
-          if (product.ammount === 0) {
-            product.status = 0;
-          }
-          await product.save({ session });
         }
 
         const user = await User.findById(body.userId);

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { dbConnect } from 'utils/mongosee';
 
 import authMiddleware from '/src/middlewares/authMiddleware';
@@ -20,26 +21,43 @@ async function handler(req, res) {
             model: User,
           })
           .populate({ path: 'point', model: Point });
-        console.log('🚀 ~ file: [id].js:18 ~ handler ~ cart:', cart);
         return res.status(200).json(cart);
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }
-    case 'PUT':
+    case 'PUT': {
+      const session = await mongoose.startSession();
+      session.startTransaction();
       try {
         const updatedCart = await Shop.findByIdAndUpdate(id, body, {
           new: true,
           runValidators: true,
+          session,
         })
           .populate({
             path: 'user',
             model: User,
           })
           .populate({ path: 'point', model: Point });
+        if (updatedCart.status === 2) {
+          await User.findByIdAndUpdate(
+            updatedCart.user._id,
+            { $inc: { points: updatedCart.point.value } },
+            { new: true, session }
+          );
+        }
+
+        await session.commitTransaction();
+        session.endSession();
+
         return res.status(200).json(updatedCart);
       } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
         return res.status(400).json({ error: error.message });
       }
+    }
+
     case 'DELETE':
       try {
         const deletedCart = await Shop.findByIdAndRemove(id);

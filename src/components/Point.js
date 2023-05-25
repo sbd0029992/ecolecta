@@ -36,9 +36,7 @@ function Point(props) {
           width={200}
           className='rounded-lg'
         />
-        <h3 className='rounded-lg bg-white p-2 text-black'>
-          {price} Puntos Unidad
-        </h3>
+        <h3 className='rounded-lg bg-white p-2 text-black'>{price} Bs</h3>
       </div>
       <div className='ml-[5%] flex flex-col items-center gap-3'>
         <button

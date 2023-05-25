@@ -1,34 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 
 const CarritoCheck = () => {
-  const router = useRouter();
   const [cartItems, setCartItems] = useState([]);
   const [dataUser, setdataUser] = useState(null);
   useEffect(() => {
     const getUser = async () => {
       const { data } = await axios.get('/api/auth/user');
-
-      if (data) {
-        if (
-          data.type !== 'admin' &&
-          data.type !== 'user_normal' &&
-          data.type !== 'user_superior'
-        ) {
-          router.push('/');
-          return;
-        }
-      } else {
-        router.push('/');
-        return;
-      }
-
       setdataUser(data);
     };
     getUser();
-  }, [router]);
+  }, []);
 
   const getCartItems = useCallback(async () => {
     if (dataUser) {
@@ -52,8 +35,11 @@ const CarritoCheck = () => {
   function sumarPuntos(array) {
     let totalPuntos = 0;
     for (let i = 0; i < array.length; i++) {
-      totalPuntos +=
-        parseInt(array[i].product.price_points) * array[i].quantity;
+      // Solo suma puntos si el estado es 1
+      if (array[i].status === 1) {
+        totalPuntos +=
+          parseInt(array[i].product.price_points) * array[i].quantity;
+      }
     }
     return totalPuntos;
   }
@@ -67,26 +53,42 @@ const CarritoCheck = () => {
     }
   }
 
+  async function handleConfirm() {
+    try {
+      const response = await axios.put('/api/cart/products', {
+        userId: dataUser.idUser,
+        newStatus: 2,
+      });
+
+      if (response.status === 200) {
+        getCartItems();
+      }
+    } catch (error) {
+      alert(error.response.data.error);
+      console.error(error);
+    }
+  }
+
   const userPoints = cartItems[0]?.user.points;
   const totalPuntos = sumarPuntos(cartItems);
-  const canConfirm = userPoints >= totalPuntos;
+  const canConfirm = totalPuntos > 0 && userPoints >= totalPuntos;
   return (
-    <div className='background-image1 h-full min-h-[70vh]'>
-      <div className='flex flex-col'>
+    <div className='background-image1 h-full min-h-[70vh] '>
+      <div className='flex flex-col '>
         <div className='flex justify-end'>
-          <div className='m-5 rounded-2xl bg-white p-2'>
-            <h1 className=' text-lg'>MIS PUNTOS: {userPoints}</h1>
+          <div className='m-5 rounded-2xl bg-gray-300 p-2'>
+            <h1 className='text-lg'>MIS PUNTOS: {userPoints}</h1>
           </div>
         </div>
         <div>
-          <div className='flex justify-center text-white'>
-            <table className='w-3/4 table-auto  rounded-lg bg-white text-black lg:w-[800px]'>
-              <thead className='rounded-lg bg-green-200'>
+          <div className='flex justify-center  text-white'>
+            <table className='w-3/4 table-auto  lg:w-[800px]'>
+              <thead>
                 <tr>
                   <th className='px-4 py-2 text-center'></th>
-                  <th className='px-4 py-2 text-center'>PRODUCTO</th>
-                  <th className='px-4 py-2 text-center'>CANTIDAD</th>
-                  <th className='px-4 py-2 text-center'>PUNTOS</th>
+                  <th className='px-4 py-2 text-center'>Producto</th>
+                  <th className='px-4 py-2 text-center'>Cantidad</th>
+                  <th className='px-4 py-2 text-center'>Puntos</th>
                 </tr>
               </thead>
               <tbody>
@@ -96,17 +98,21 @@ const CarritoCheck = () => {
                       <div className='flex flex-col justify-center  gap-2'>
                         <img
                           src={item.product.images}
-                          className='h-20 w-14 rounded-lg sm:h-32 sm:w-20 lg:h-40 lg:w-32 '
+                          className='h-20 w-14 sm:h-32 sm:w-20 lg:h-40 lg:w-32'
                           width={100}
                           height={100}
                           alt='Product Iamge'
                         />
-                        <button
-                          className='rounded-lg bg-red-500 lg:h-9'
-                          onClick={() => handleRemove(item._id)}
-                        >
-                          Quitar
-                        </button>
+                        {item.status === 1 ? (
+                          <button
+                            className='rounded-lg bg-red-500 lg:h-9'
+                            onClick={() => handleRemove(item._id)}
+                          >
+                            Quitar
+                          </button>
+                        ) : (
+                          <p>A la espera</p>
+                        )}
                       </div>
                     </td>
                     <td className='border px-4 py-2 text-center'>
@@ -128,14 +134,23 @@ const CarritoCheck = () => {
               <h2>Total Puntos: {totalPuntos} </h2>
             </div>
             <div className='mb-[5%] text-center'>
-              <button
-                className={`h-12 w-40 rounded-2xl text-xl text-white ${
-                  canConfirm ? 'bg-[#33C16F]' : 'bg-gray-500'
-                }`}
-                disabled={!canConfirm}
-              >
-                Confirmar
-              </button>
+              {canConfirm ? (
+                <button
+                  className={`h-12 w-40 rounded-2xl text-xl text-white ${
+                    canConfirm ? 'bg-primary' : 'bg-gray-500'
+                  }`}
+                  disabled={!canConfirm}
+                  onClick={handleConfirm} // Agregar esto
+                >
+                  Confirmar
+                </button>
+              ) : (
+                <h2>
+                  {canConfirm
+                    ? 'No tienes suficientes puntos'
+                    : 'No hay productos nuevos en tu carrito'}
+                </h2>
+              )}
             </div>
           </div>
         </div>
