@@ -14,6 +14,12 @@ const affiliateSchema = new Schema(
       trim: true,
       maxlength: [500, 'Description cannot be more than 500 characters'],
     },
+    url: {
+      type: String,
+      required: [false, 'Please add a description'],
+      trim: true,
+      maxlength: [500, 'Url cannot be more than 500 characters'],
+    },
     images: {
       type: [String],
       required: [false, 'Please add at least one image URL'],

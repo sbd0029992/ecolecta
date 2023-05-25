@@ -31,7 +31,7 @@ export default function Index({ products, affiliates }) {
         href='https://unpkg.com/swiper/swiper-bundle.min.css'
       />
       <div class=' m-[-5%] h-[90vh] flex-col justify-center gap-3 md:m-[-2%] md:flex-row'>
-        <div class="w-[100vw]] grid  h-[50vh] items-center justify-center bg-[url('../../public/images/menu.jpg')] bg-cover bg-center bg-no-repeat  text-center md:h-[60vh]">
+        <div class="grid h-[50vh]  w-[100vw] items-center justify-center bg-[url('../../public/images/menu.jpg')] bg-cover bg-center bg-no-repeat  text-center md:h-[60vh]">
           <Image
             class='ml-[10%] h-[35vh] w-[35vh] rounded-lg md:ml-[20%]'
             src={imagenfondo}
@@ -100,11 +100,13 @@ export default function Index({ products, affiliates }) {
         >
           <div className='grid grid-flow-col grid-rows-1 overflow-x-auto'>
             {affiliates.length > 0
-              ? affiliates.map((value) => (
-                  <div className='h-[30vh] w-80' key={value.id}>
-                    <ItemAfiliados data={value} key={value.id} />
-                  </div>
-                ))
+              ? affiliates
+                  .filter((value) => value.status === 1)
+                  .map((value) => (
+                    <div className='h-[30vh] w-80' key={value.id}>
+                      <ItemAfiliados data={value} key={value.id} />
+                    </div>
+                  ))
               : null}
           </div>
         </div>

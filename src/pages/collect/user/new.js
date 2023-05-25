@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable unused-imports/no-unused-vars */
-import { S3 } from 'aws-sdk';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
@@ -10,13 +9,14 @@ import withSession from '../../../lib/session';
 
 import { AuthContext } from '/src/context/authContext';
 
-export default function NewCollect({ env }) {
+export default function NewCollect() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { userData } = useContext(AuthContext);
   const { query, push } = useRouter();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [idCollect, setIdCollect] = useState({
     id: '',
   });
@@ -26,27 +26,32 @@ export default function NewCollect({ env }) {
     user: query.id ? null : [],
     status: 1,
     points: '',
-    buckets: null,
+    buckets: 1,
     description: '',
     time: '',
     fault: 0,
     images: query.id ? [''] : [],
   });
+  console.log('🚀 ~ file: new.js:35 ~ NewCollect ~ newCollect:', newCollect);
+
+  const displayTime = (apiTime) => {
+    const date = new Date(apiTime); // Pasamos directamente el tiempo, no un objeto
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minutes = date.getMinutes();
+    const time = `${day < 10 ? `0${day}` : day}/${
+      month < 10 ? `0${month}` : month
+    } ${hour < 10 ? `0${hour}` : hour}:${
+      minutes < 10 ? `0${minutes}` : minutes
+    }`;
+    return time;
+  };
+
   const getCollect = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/collects/${query.id}`);
       const apiCollect = await res.json();
-      const date = new Date(apiCollect.time);
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      const hour = date.getHours();
-      const minutes = date.getMinutes();
-      const time = `${day < 10 ? `0${day}` : day}/${
-        month < 10 ? `0${month}` : month
-      } ${hour < 10 ? `0${hour}` : hour}:${
-        minutes < 10 ? `0${minutes}` : minutes
-      }`;
-      apiCollect.time = time;
       setIdCollect({ id: apiCollect._id });
       setCollectImages(apiCollect.images);
       setNewCollect({
@@ -81,45 +86,8 @@ export default function NewCollect({ env }) {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    if (id === 'images') {
-      setNewCollect({ ...newCollect, [id]: [value] });
-    } else {
-      setNewCollect({ ...newCollect, [id]: value });
-    }
+    setNewCollect({ ...newCollect, [id]: value });
   };
-
-  // Configura el cliente de S3
-  let s3;
-  if (env && env.awsAccessKeyId && env.awsSecretAccessKey && env.awsRegion) {
-    s3 = new S3({
-      accessKeyId: env.awsAccessKeyId,
-      secretAccessKey: env.awsSecretAccessKey,
-      region: env.awsRegion,
-    });
-  }
-
-  // Función para subir una imagen a S3 y devolver la URL
-  async function uploadToS3(file, productId) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    const fileName = `${productId}/${file.name}`;
-    const params = {
-      Bucket: env.awsBucket,
-      Key: fileName,
-      Body: file,
-      ContentType: file.type,
-      ACL: 'public-read',
-    };
-
-    try {
-      const response = await s3.upload(params).promise();
-      return response.Location;
-    } catch (error) {
-      console.error('Error uploading to S3:', error);
-    }
-  }
 
   const createCollect = async () => {
     try {
@@ -151,12 +119,12 @@ export default function NewCollect({ env }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(collect),
+        body: JSON.stringify(collect), // Corregido aquí
       });
       if (!response.ok) {
         const errorData = await response.json();
         let errorMessage = errorData.error || 'Ocurrió un error';
-        alert('Error al crear el producto', errorMessage);
+        alert(errorMessage);
       } else {
         push('/');
       }
@@ -167,28 +135,16 @@ export default function NewCollect({ env }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setIsSubmitting(true);
-    if (query.id) {
-      const stringId = idCollect.id.toString();
-      const imageUrls = (
-        await Promise.all(
-          selectedImages.map(async (file) => {
-            const imageUrl = await uploadToS3(file, stringId);
-            return imageUrl;
-          })
-        )
-      ).filter((url) => url);
-
-      const updatedProduct = {
-        ...newCollect,
-        images: newCollect.images.concat(imageUrls),
-      };
-
-      await updateCollect(updatedProduct);
-
-      setNewCollect(updatedProduct);
-    } else {
-      await createCollect(newCollect);
+    try {
+      if (query.id) {
+        await updateCollect(newCollect);
+      } else {
+        await createCollect(newCollect);
+      }
+    } catch {
+      setLoading(false);
     }
   };
 
@@ -209,54 +165,6 @@ export default function NewCollect({ env }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newCollect.images, isSubmitting]);
-
-  // Función para eliminar imágenes seleccionadas
-  function handleRemoveImage(index) {
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
-
-    const updatedImageUrls = [...newCollect.images];
-    updatedImageUrls.splice(index, 1);
-    setNewCollect({ ...newCollect, images: updatedImageUrls });
-  }
-
-  async function handleRemoveImageS3(index) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    // Elimina la imagen seleccionada del array de imágenes seleccionadas
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
-
-    // Obtiene el nombre del archivo de la imagen eliminada
-    const imageToDelete = newCollect.images[index];
-    const fileName = imageToDelete.split('/').pop();
-
-    // Actualiza el estado de newCollect con las imágenes actualizadas
-    const updatedImageUrls = newCollect.images.filter(
-      (imageUrl) => imageUrl !== imageToDelete
-    );
-    setNewCollect({ ...newCollect, images: updatedImageUrls });
-
-    // Elimina el archivo de la imagen del bucket de S3
-    const params = {
-      Bucket: env.awsBucket,
-      Key: `${idCollect.id}/${fileName}`,
-    };
-    s3.deleteObject(params, async (err, data) => {
-      if (err) {
-        console.error('Error deleting image from S3:', err);
-      } else {
-        console.log('Image deleted from S3:', data);
-
-        await updateCollect({ ...newCollect, images: updatedImageUrls });
-        push('/');
-      }
-    });
-  }
 
   return (
     <div className='background-image1 flex h-full min-h-[70vh] justify-center py-5 scrollbar-hide'>
@@ -290,7 +198,7 @@ export default function NewCollect({ env }) {
               <div className='flex flex-row justify-between'>
                 <h4>Tiempo estimado llegada</h4>
                 <label id='time' className='text-md'>
-                  {newCollect.time} hrs
+                  {displayTime(newCollect.time)}
                 </label>
               </div>
               <div className='flex w-full flex-col items-center justify-center'>
@@ -362,15 +270,33 @@ export default function NewCollect({ env }) {
               </div>
             </div>
             <div className='text-center'>
-              <button type='submit' className='rounded-full bg-[#85A547]'>
-                <Image
-                  width={150}
-                  height={150}
-                  className='p-4 text-center'
-                  src='/images/check.png'
-                  alt='imagen de un check'
-                ></Image>
-              </button>
+              {newCollect.status === 2 ? (
+                <button
+                  className='h-14 w-full rounded-xl bg-green-500 text-3xl font-bold text-black'
+                  disabled={loading}
+                  type='submit'
+                >
+                  {loading ? 'Actualizando...' : 'Actualizar'}
+                </button>
+              ) : (
+                <button
+                  type='submit'
+                  disabled={loading}
+                  className='rounded-full bg-[#85A547]'
+                >
+                  {loading ? (
+                    'Mandando...'
+                  ) : (
+                    <Image
+                      width={150}
+                      height={150}
+                      className='p-4 text-center'
+                      src='/images/check.png'
+                      alt='imagen de un check'
+                    ></Image>
+                  )}
+                </button>
+              )}
             </div>
           </div>
         </div>

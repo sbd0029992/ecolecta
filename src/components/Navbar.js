@@ -39,7 +39,7 @@ export default function Navbar() {
     if (isActive) {
       timer = setTimeout(() => {
         setIsActive(false);
-      }, 1500);
+      }, 10000);
     }
     return () => clearTimeout(timer);
   }, [isActive]);

@@ -54,6 +54,11 @@ function Footer() {
             >
               Carrito Productos
             </Link>
+          </div>
+        ) : null}
+        {dataUser.isLoggedIn ? (
+          <div className='flex flex-col gap-1'>
+            <h4 className='text-white md:text-sm'>POINTS</h4>
 
             <Link
               href='/point/tienda'
@@ -134,7 +139,7 @@ function Footer() {
           </div>
         ) : null}
       </div>
-      <div className='flex w-min flex-col gap-2'>
+      {/* <div className='flex w-min flex-col gap-2'>
         <h1 className='text-xl text-white'>Ecolecta</h1>
         <p className='text-white md:text-sm '>Recibe noticias</p>
         <div className='flex flex-row gap-2'>
@@ -146,7 +151,7 @@ function Footer() {
             Enviar
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

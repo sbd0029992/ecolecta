@@ -2,7 +2,7 @@
 import React from 'react';
 
 function ItemAfiliados(props) {
-  const { name, images, _id } = props.data;
+  const { name, images, _id, url } = props.data;
 
   return (
     <div className=' mt-4 flex h-[25vh] flex-col items-center justify-center gap-2 rounded-lg'>
@@ -14,7 +14,13 @@ function ItemAfiliados(props) {
           width={200}
           className='h-[150px] w-[150px] rounded-full p-1 '
         />
-        <h3 className='h-10 w-[30vh] text-black '>{name}</h3>
+        {url ? (
+          <a href={url} className='text-xl font-bold hover:text-primary'>
+            {name}
+          </a>
+        ) : (
+          <h3>{name}</h3>
+        )}
       </div>
     </div>
   );

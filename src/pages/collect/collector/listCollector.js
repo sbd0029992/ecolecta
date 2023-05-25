@@ -8,6 +8,10 @@ function ListCollectCollector() {
   const router = useRouter();
   const [dataUser, setdataUser] = useState([]);
   const [collects, setCollects] = useState([]);
+  console.log(
+    '🚀 ~ file: listCollector.js:11 ~ ListCollectCollector ~ collects:',
+    collects
+  );
 
   useEffect(() => {
     const getUser = async () => {

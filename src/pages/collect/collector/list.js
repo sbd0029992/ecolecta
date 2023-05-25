@@ -12,10 +12,9 @@ function ListCollects({ user }) {
     const fetchCollects = async () => {
       if (user.idUser) {
         const { data } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/collects/?userId=${user.idUser}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/collects/collector`
         );
-        const filteredData = data.filter((collect) => collect.status === 1);
-        setCollects(filteredData);
+        setCollects(data);
         setLoading(false);
       }
     };
@@ -50,48 +49,50 @@ function ListCollects({ user }) {
                 </tr>
               </thead>
               <tbody>
-                {collects.map((collect) => (
-                  <tr key={collect._id}>
-                    <td className='border px-4 py-2 text-center'>
-                      {collect.user[0].type === 'user_normal'
-                        ? collect.buckets * 20 + ' L'
-                        : collect.buckets * 200 + ' L'}
-                    </td>
-                    <td className='flex  flex-col border px-4 py-2 text-center'>
-                      {collect.user[0].firstName +
-                        ' ' +
-                        collect.user[0].lastName +
-                        ' ' +
-                        collect.user[0].secondLastName}
-                      <a
-                        className='rounded-lg bg-blue-500 text-white hover:text-blue-600'
-                        href={`https://www.google.com/maps?q=${collect.user[0].location.latitude},${collect.user[0].location.longitude}`}
-                        target='_blank'
-                        rel='noopener noreferrer'
+                {collects
+                  .filter((collect) => collect.user && collect.user[0])
+                  .map((collect) => (
+                    <tr key={collect._id}>
+                      <td className='border px-4 py-2 text-center'>
+                        {collect.user[0].type === 'user_normal'
+                          ? collect.buckets * 20 + ' L'
+                          : collect.buckets * 200 + ' L'}
+                      </td>
+                      <td className='flex  flex-col border px-4 py-2 text-center'>
+                        {collect.user[0].firstName +
+                          ' ' +
+                          collect.user[0].lastName +
+                          ' ' +
+                          collect.user[0].secondLastName}
+                        <a
+                          className='rounded-lg bg-blue-500 text-white hover:text-blue-600'
+                          href={`https://www.google.com/maps?q=${collect.user[0].location.latitude},${collect.user[0].location.longitude}`}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          Ubicacion
+                        </a>
+                      </td>
+                      <td className='w-[100px] border px-4 py-2  text-center'>
+                        {collect.description}
+                      </td>
+                      <td
+                        className='cursor-pointer border px-4 py-2 text-center'
+                        onClick={() =>
+                          router.push(`/collect/collector/${collect._id}/edit`)
+                        }
                       >
-                        Ubicacion
-                      </a>
-                    </td>
-                    <td className='w-[100px] border px-4 py-2  text-center'>
-                      {collect.description}
-                    </td>
-                    <td
-                      className='cursor-pointer border px-4 py-2 text-center'
-                      onClick={() =>
-                        router.push(`/collect/collector/${collect._id}/edit`)
-                      }
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 rounded-full text-center ${
-                          collect.status === 1
-                            ? 'bg-yellow-500'
-                            : 'bg-green-500'
-                        }`}
-                      ></span>
-                      <p>Aceptar</p>
-                    </td>
-                  </tr>
-                ))}
+                        <span
+                          className={`inline-block h-4 w-4 rounded-full text-center ${
+                            collect.status === 1
+                              ? 'bg-yellow-500'
+                              : 'bg-green-500'
+                          }`}
+                        ></span>
+                        <p>Mirar</p>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

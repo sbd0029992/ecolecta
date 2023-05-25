@@ -10,6 +10,7 @@ export default function NewCollect() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { userData } = useContext(AuthContext);
   const { query, push } = useRouter();
+  const [loading, setLoading] = useState(false);
   const [newCollect, setNewCollect] = useState({
     collector: null,
     user: query.id ? null : [],
@@ -21,6 +22,7 @@ export default function NewCollect() {
     fault: 0,
     images: query.id ? [''] : [],
   });
+  console.log('🚀 ~ file: new.js:25 ~ NewCollect ~ newCollect:', newCollect);
   const getCollect = async () => {
     try {
       const { data } = await axios.get(`${apiUrl}/api/collects/${query.id}`);
@@ -94,8 +96,13 @@ export default function NewCollect() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (query.id) {
-      await updateCollect(newCollect);
+    setLoading(true);
+    try {
+      if (query.id) {
+        await updateCollect(newCollect);
+      }
+    } catch {
+      setLoading(false);
     }
   };
 
@@ -237,6 +244,7 @@ export default function NewCollect() {
               ) : null}
               <button
                 type='submit'
+                disabled={loading}
                 onClick={() => {
                   setNewCollect((prevCollect) => ({
                     ...prevCollect,
@@ -247,7 +255,11 @@ export default function NewCollect() {
                   newCollect.status === 2 ? 'bg-red-500' : 'bg-green-500'
                 }`}
               >
-                {newCollect.status === 2 ? 'FINALIZADO' : 'VAMOS'}
+                {loading
+                  ? 'Cargando...'
+                  : newCollect.status === 2
+                  ? 'FINALIZADO'
+                  : 'VAMOS'}
               </button>
             </div>
           </div>

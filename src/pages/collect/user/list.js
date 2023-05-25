@@ -40,19 +40,16 @@ function ListCollects({ user }) {
                       Estado: {collect.status === 1 ? 'Mandado' : 'Aceptado'}
                     </h4>
                   </div>
-                  {dataUser.type === 'admin' ||
-                  dataUser.type === 'collector' ? (
-                    <div className='mb-4 flex justify-center'>
-                      <button
-                        className='mt-2 rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50'
-                        onClick={() =>
-                          router.push(`/collect/user/${collect._id}/edit`)
-                        }
-                      >
-                        Ver y Editar
-                      </button>
-                    </div>
-                  ) : null}
+                  <div className='mb-4 flex justify-center'>
+                    <button
+                      className='mt-2 rounded-md bg-primary px-4 py-2 text-white'
+                      onClick={() =>
+                        router.push(`/collect/user/${collect._id}/edit`)
+                      }
+                    >
+                      Ver Pedido
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
