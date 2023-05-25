@@ -13,7 +13,6 @@ import {
 
 import Item from '../components/Item.js';
 import ItemAfiliados from '../components/ItemAfiliados.js';
-import imaimport from '../../public/images/imagenfondo.jpg';
 import imagenfondo from '../../public/images/logo.png';
 export default function Index({ products, affiliates }) {
   const [dataUser, setdataUser] = useState([]);
@@ -159,16 +158,18 @@ export default function Index({ products, affiliates }) {
         </p>
         <div className='grid grid-flow-col grid-rows-1 overflow-x-auto'>
           {products.length > 0
-            ? products.map((value) => (
-                <div className='h-full w-96' key={value.id}>
-                  <Item data={value} key={value.id} />
-                </div>
-              ))
+            ? products
+                .filter((value) => value.status === 1)
+                .map((value) => (
+                  <div className='h-full w-96' key={value.id}>
+                    <Item data={value} key={value.id} />
+                  </div>
+                ))
             : null}
         </div>
       </div>
       {/* Mas sobre nosotros */}
-      <div class='background-plantas mb-5 flex h-full min-h-screen  flex-col gap-5 '>
+      {/*<div class='background-plantas mb-5 flex h-full min-h-screen  flex-col gap-5 '>
         <div className='w-full p-2 text-start'>
           <h1 class=' text-white'>Mas Sobre Nosotros </h1>
         </div>
@@ -184,7 +185,7 @@ export default function Index({ products, affiliates }) {
             alt='imagen de un check'
           />
         </div>
-      </div>
+                </div>*/}
       {/* Clubes */}
       <div class='background-plantas flex h-full  min-h-[75vh]  flex-col gap-5 p-2'>
         <h1 class='text-white '>Club</h1>
