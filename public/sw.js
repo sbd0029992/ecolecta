@@ -35,6 +35,14 @@ define(['./workbox-588899ac'], function (e) {
     e.precacheAndRoute(
       [
         {
+          url: '/_next/static/CAlhUDiIQx6K8Gmm3G4-5/_buildManifest.js',
+          revision: '659d5c98e08128526764c4dc254914f6',
+        },
+        {
+          url: '/_next/static/CAlhUDiIQx6K8Gmm3G4-5/_ssgManifest.js',
+          revision: 'b6652df95db52feb4daf4eca35380933',
+        },
+        {
           url: '/_next/static/chunks/1-0ec2e503de57f4a3.js',
           revision: '0ec2e503de57f4a3',
         },
@@ -407,14 +415,6 @@ define(['./workbox-588899ac'], function (e) {
           revision: '2d31934b272a9fbe',
         },
         {
-          url: '/_next/static/kkkpRRJqNMEPXDcLo63KY/_buildManifest.js',
-          revision: '659d5c98e08128526764c4dc254914f6',
-        },
-        {
-          url: '/_next/static/kkkpRRJqNMEPXDcLo63KY/_ssgManifest.js',
-          revision: 'b6652df95db52feb4daf4eca35380933',
-        },
-        {
           url: '/_next/static/media/check.38e0d245.png',
           revision: '3f266085cbac90b8e4c454bd7a6fc81e',
         },
@@ -575,7 +575,7 @@ define(['./workbox-588899ac'], function (e) {
         },
         { url: '/manifest.json', revision: 'a523e8fef9353c8a87ddc56d901838bf' },
         { url: '/robots.txt', revision: '12c1b30978435c5968e8475c0693af6d' },
-        { url: '/sitemap-0.xml', revision: '840e2087532acc425b5fbd3862eaef5b' },
+        { url: '/sitemap-0.xml', revision: '2a9d5824108475426dd442a40a9fc15d' },
         { url: '/sitemap.xml', revision: 'cc3697158d8075fd190419683a1b74e5' },
         {
           url: '/svg/Vercel.svg',
