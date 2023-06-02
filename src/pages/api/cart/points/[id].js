@@ -42,14 +42,13 @@ async function handler(req, res) {
         if (updatedCart.status === 2) {
           await User.findByIdAndUpdate(
             updatedCart.user._id,
-            { $inc: { points: updatedCart.point.value } },
+            { $inc: { points: updatedCart.point.price } },
             { new: true, session }
           );
         }
 
         await session.commitTransaction();
         session.endSession();
-
         return res.status(200).json(updatedCart);
       } catch (error) {
         await session.abortTransaction();

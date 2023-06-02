@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 
 import withSession from '../../lib/session';
 export default function ListPointsend({ points }) {
-  console.log('🚀 ~ file: listSend.js:5 ~ ListPointsend ~ points:', points);
   const router = useRouter();
   if (points.length === 0) {
     return (

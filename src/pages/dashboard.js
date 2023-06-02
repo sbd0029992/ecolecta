@@ -49,7 +49,7 @@ export default function Profile({ users }) {
                   {userDetails?.secondLastName}
                 </label>
                 <div class='flex'>
-                  <label class='text-black md:ml-[10px]'> PUNTOS : </label>
+                  <label class='text-black md:ml-[10px]'> PUNTOS</label>
                   <label class='text-black md:ml-[10px]'>
                     {userDetails && userDetails.points}
                   </label>
@@ -65,7 +65,7 @@ export default function Profile({ users }) {
                     <img
                       src={image}
                       alt={userDetails.name}
-                      className='h-[5vh] w-[5vh] rounded-full bg-white object-cover shadow-md '
+                      className='ml-2 h-[5vh] w-[5vh] rounded-full bg-white object-cover shadow-md '
                       width={50}
                       height={50}
                     />
@@ -92,7 +92,7 @@ export default function Profile({ users }) {
                       user.photos.map((image) => (
                         <div
                           key={image}
-                          className='mr-4 flex-none'
+                          className='mr-6 flex-none'
                           style={{ width: '40px' }}
                         >
                           <img

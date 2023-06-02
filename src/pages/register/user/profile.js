@@ -110,21 +110,6 @@ function Profile() {
         <div className='flex w-96 flex-col items-center gap-4 rounded-3xl bg-black pt-4 pb-4 sm:w-[400px] md:h-[370px] md:w-[800px] md:flex-row lg:w-[900px]'>
           <div className='mr-5 ml-12 flex-col items-center md:ml-16 md:flex lg:ml-20'>
             <div className='flex flex-col items-center gap-4'>
-              {userDetails.photos.map((image) => (
-                <div
-                  key={image}
-                  className='mr-4 flex-none '
-                  style={{ width: '140px' }}
-                >
-                  <img
-                    src={image}
-                    alt={userDetails.name}
-                    className='h-[15vh] w-[20vh] rounded-full bg-white object-cover shadow-md '
-                    width={200}
-                    height={200}
-                  />
-                </div>
-              ))}
               <h4 className='text-amber-300'>{fullName}</h4>
               <h4 className='text-white'>{dataUser.email}</h4>
               <button

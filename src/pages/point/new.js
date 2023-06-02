@@ -1,12 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Switch from 'react-switch';
+import { toast } from 'react-toastify';
 
-export default function NewPoint({ env }) {
+import Loading from '../../components/Loading';
+
+export default function NewPoint() {
   const router = useRouter();
   const { query, push } = router;
+  const [loading, setLoading] = useState(false);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,52 +59,46 @@ export default function NewPoint({ env }) {
     }
   };
 
-  const [setdataUser] = useState(null);
-  useEffect(() => {
-    const getUser = async () => {
-      const { data } = await axios.get('/api/auth/user');
-
-      if (data) {
-        if (data.type !== 'admin') {
-          router.push('/');
-          return;
-        }
-      } else {
-        router.push('/');
-        return;
-      }
-
-      setdataUser(data);
-    };
-    getUser();
-  }, [router]);
-
   const createPoint = async () => {
     try {
-      await fetch(`${apiUrl}/api/points`, {
+      const response = await fetch(`${apiUrl}/api/points`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newPoint),
       });
-      push('/point/list');
+      if (!response.ok) {
+        const errorData = await response.json();
+        let errorMessage = errorData.error || 'Ocurrió un error';
+        alert(errorMessage);
+      } else {
+        toast.success('Puntos creada con éxito!');
+        push('/point/list');
+      }
     } catch (error) {
+      toast.error('Ocurrió un error intente denuevo');
       console.log(error);
     }
   };
 
   const updatePoint = async (point) => {
     try {
-      await fetch(`${apiUrl}/api/points/${query.id}`, {
+      const response = await fetch(`${apiUrl}/api/points/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(point),
       });
-      push('/point/list');
+      if (!response.ok) {
+        toast.error('Ocurrió un error');
+      } else {
+        toast.success('Puntos Actualizados.');
+        push('/point/list');
+      }
     } catch (error) {
+      toast.error('Ocurrio un error');
       console.log(error);
     }
   };
@@ -150,6 +147,7 @@ export default function NewPoint({ env }) {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setIsSubmitting(true);
 
     if (query.id) {
@@ -202,13 +200,15 @@ export default function NewPoint({ env }) {
 
   return (
     <div className='background-plantas flex justify-center'>
-      <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8 pb-[0px] '>
-        <h1>{query.id ? 'Edit Point' : 'New Point'}</h1>
+      <div className=' mt-[5%] mb-[5%] h-full w-[330px] rounded-lg bg-white p-8 pb-[0px] dark:bg-black'>
+        <h1 className='text-black dark:text-white'>
+          {query.id ? 'Edit Point' : 'New Point'}
+        </h1>
         <form onSubmit={handleSubmit}>
           <div class='mb-6 grid gap-3 '>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Point Name
+                Nombre punto
               </label>
               <input
                 type='text'
@@ -222,7 +222,7 @@ export default function NewPoint({ env }) {
             </div>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Value
+                Valor
               </label>
               <input
                 type='number'
@@ -238,7 +238,7 @@ export default function NewPoint({ env }) {
             </div>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Price
+                Precio
               </label>
               <input
                 type='number'
@@ -255,7 +255,7 @@ export default function NewPoint({ env }) {
               <div class='flex flex-row justify-between'>
                 <div>
                   <label className='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                    Avaliable
+                    Disponible
                   </label>
                 </div>
 
@@ -281,7 +281,7 @@ export default function NewPoint({ env }) {
             {query.id ? (
               <div>
                 <label className='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                  Images
+                  Imagen
                 </label>
                 <input
                   type='file'
@@ -317,7 +317,7 @@ export default function NewPoint({ env }) {
                 {pointImages.length > 0 ? (
                   <div>
                     <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                      Existing Images
+                      Imagenes existentes
                     </label>
                     <div class='flex flex-wrap'>
                       {pointImages.map((image, index) => (
@@ -348,9 +348,18 @@ export default function NewPoint({ env }) {
             <div className='flex justify-center'>
               <button
                 type='submit'
-                class='m-[0px] mt-2 h-20 w-full rounded-lg bg-[#85A547] px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
+                disabled={loading}
+                className={`rounded-full ${
+                  !loading ? 'h-20 w-40 rounded-lg bg-[#36bd53]' : ''
+                }`}
               >
-                {query.id ? 'Edit Point' : 'Create Point'}
+                {loading ? (
+                  <Loading />
+                ) : query.id ? (
+                  'Editar Producto'
+                ) : (
+                  'Crear Producto'
+                )}
               </button>
             </div>
           </div>
@@ -358,4 +367,41 @@ export default function NewPoint({ env }) {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  const cookie = context.req.headers.cookie;
+
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
+    headers: {
+      cookie: cookie,
+    },
+  });
+
+  if (userRes.ok) {
+    const userData = await userRes.json();
+
+    if (userData.type !== 'admin') {
+      return {
+        redirect: {
+          destination: '/',
+
+          permanent: false,
+        },
+      };
+    }
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 }

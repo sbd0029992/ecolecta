@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 
 import withSession from '../../../lib/session';
 export default function PhotoListUsers({ users }) {
-  console.log('🚀 ~ file: photoList.js:4 ~ PhotoListUsers ~ users:', users);
   const router = useRouter();
   if (!users) {
     return (

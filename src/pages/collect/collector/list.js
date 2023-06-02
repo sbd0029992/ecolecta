@@ -12,9 +12,10 @@ function ListCollects({ user }) {
     const fetchCollects = async () => {
       if (user.idUser) {
         const { data } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/collects/collector`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/collects/?userId=${user.idUser}`
         );
-        setCollects(data);
+        const filteredData = data.filter((collect) => collect.status === 1);
+        setCollects(filteredData);
         setLoading(false);
       }
     };
@@ -23,7 +24,7 @@ function ListCollects({ user }) {
 
   if (loading) {
     return (
-      <div className='flex h-full min-h-[70vh] flex-col bg-blue-200 py-5 '>
+      <div className='background-image1 flex h-full min-h-[70vh] flex-col py-5 '>
         <div className='flex flex-col items-center justify-center p-2'>
           <h1>Cargando...</h1>
         </div>
@@ -98,7 +99,9 @@ function ListCollects({ user }) {
           </div>
         ) : (
           <div>
-            <h1>Todavia no hay recojos</h1>
+            <h1 className='w-auto rounded-lg bg-white p-2'>
+              Todavia no hay recojos
+            </h1>
           </div>
         )}
       </div>
@@ -110,7 +113,6 @@ export const getServerSideProps = withSession(async function (context) {
   const { req } = context;
   const user = req.session.get('user');
 
-  // check if user is not logged in
   if (!user) {
     return {
       redirect: {
@@ -140,12 +142,12 @@ export const getServerSideProps = withSession(async function (context) {
     }
 
     const res = await fetch(`${apiUrl}/api/collects`);
-    const affiliates = await res.json();
+    const collectors = await res.json();
 
     return {
       props: {
         user,
-        affiliates,
+        collectors,
       },
     };
   } else {

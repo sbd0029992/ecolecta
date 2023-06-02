@@ -62,19 +62,20 @@ const ListaComprados = () => {
     <div className='background-image1 h-full min-h-[70vh] '>
       {/* Barra de búsqueda */}
       <input
+        className='m-4 w-[35vh] rounded-lg bg-white text-black'
         type='text'
         placeholder='Buscar por nombre de usuario...'
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <div className='flex flex-col '>
-        <div className='flex justify-center  text-white'>
-          <table className='w-3/4 table-auto  lg:w-[800px]'>
+        <div className='flex justify-center text-white'>
+          <table className='w-3/4 table-auto  rounded-lg bg-white text-black lg:w-[800px]'>
             <thead>
               <tr>
                 <th className='px-4 py-2 text-center'></th>
-                <th className='px-4 py-2 text-center'>Usuario</th>
-                <th className='px-4 py-2 text-center'>Producto</th>
-                <th className='px-4 py-2 text-center'>Cantidad</th>
+                <th className='px-4 py-2 text-center'>USUARIO</th>
+                <th className='px-4 py-2 text-center'>PRODUCTO</th>
+                <th className='px-4 py-2 text-center'>CANTIDAD</th>
               </tr>
             </thead>
             <tbody>
@@ -107,7 +108,7 @@ const ListaComprados = () => {
                           item.user?.secondLastName}
                       </p>
                       <a
-                        className='text-blue-400 hover:text-blue-600'
+                        className='rounded-full bg-blue-400 text-white hover:text-blue-600'
                         href={`https://www.google.com/maps?q=${item.user?.location.latitude},${item.user?.location.longitude}`}
                         target='_blank'
                         rel='noopener noreferrer'

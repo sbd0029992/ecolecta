@@ -35,11 +35,11 @@ define(['./workbox-588899ac'], function (e) {
     e.precacheAndRoute(
       [
         {
-          url: '/_next/static/CAlhUDiIQx6K8Gmm3G4-5/_buildManifest.js',
-          revision: '659d5c98e08128526764c4dc254914f6',
+          url: '/_next/static/GXIBaM19Nac34IUa4mwja/_buildManifest.js',
+          revision: 'da1e73ac758f071c6cd220ed6da430e4',
         },
         {
-          url: '/_next/static/CAlhUDiIQx6K8Gmm3G4-5/_ssgManifest.js',
+          url: '/_next/static/GXIBaM19Nac34IUa4mwja/_ssgManifest.js',
           revision: 'b6652df95db52feb4daf4eca35380933',
         },
         {
@@ -55,32 +55,36 @@ define(['./workbox-588899ac'], function (e) {
           revision: '4db2ecdd9452831c',
         },
         {
-          url: '/_next/static/chunks/4072747d-a240079b66cae33e.js',
-          revision: 'a240079b66cae33e',
+          url: '/_next/static/chunks/4072747d-3eebae392f978be3.js',
+          revision: '3eebae392f978be3',
         },
         {
-          url: '/_next/static/chunks/4223-bc4aa7e4594f1bec.js',
-          revision: 'bc4aa7e4594f1bec',
+          url: '/_next/static/chunks/4223-e4f2945eee445cd3.js',
+          revision: 'e4f2945eee445cd3',
         },
         {
-          url: '/_next/static/chunks/4763-445b6b0a65862138.js',
-          revision: '445b6b0a65862138',
+          url: '/_next/static/chunks/4763-a89e3edbe433c9bb.js',
+          revision: 'a89e3edbe433c9bb',
         },
         {
-          url: '/_next/static/chunks/6430-4b45f9a6487e201c.js',
-          revision: '4b45f9a6487e201c',
+          url: '/_next/static/chunks/6430-09741577a8a9530e.js',
+          revision: '09741577a8a9530e',
         },
         {
-          url: '/_next/static/chunks/7201-54c357c01eacb77c.js',
-          revision: '54c357c01eacb77c',
+          url: '/_next/static/chunks/6472-60889410b52e0a3d.js',
+          revision: '60889410b52e0a3d',
+        },
+        {
+          url: '/_next/static/chunks/7201-107fc737e4d75ed1.js',
+          revision: '107fc737e4d75ed1',
         },
         {
           url: '/_next/static/chunks/7536-7fc5471e2ac2b8f6.js',
           revision: '7fc5471e2ac2b8f6',
         },
         {
-          url: '/_next/static/chunks/7713-1305f9c8b0d7727e.js',
-          revision: '1305f9c8b0d7727e',
+          url: '/_next/static/chunks/7713-ae9be8fa511e5a46.js',
+          revision: 'ae9be8fa511e5a46',
         },
         {
           url: '/_next/static/chunks/7d0bf13e-9cc5c4baa8a9ef6e.js',
@@ -103,8 +107,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: '4114d52a64a74941',
         },
         {
-          url: '/_next/static/chunks/pages/_app-992a631239b8a9a6.js',
-          revision: '992a631239b8a9a6',
+          url: '/_next/static/chunks/pages/_app-2f5e2a77a1224c10.js',
+          revision: '2f5e2a77a1224c10',
         },
         {
           url: '/_next/static/chunks/pages/_error-02cc11fd74b4e5ff.js',
@@ -127,8 +131,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: '4f95bb9c5fa714ef',
         },
         {
-          url: '/_next/static/chunks/pages/blog-ead69fa77c3187a7.js',
-          revision: 'ead69fa77c3187a7',
+          url: '/_next/static/chunks/pages/blog-401cfa3f7ea495ba.js',
+          revision: '401cfa3f7ea495ba',
         },
         {
           url: '/_next/static/chunks/pages/carritoCheck-dd9bf2094faa7ff8.js',
@@ -139,92 +143,92 @@ define(['./workbox-588899ac'], function (e) {
           revision: 'f8e1cbdbdf588822',
         },
         {
-          url: '/_next/static/chunks/pages/collect/collector/%5Bid%5D/edit-226ee9d9efafb2e8.js',
-          revision: '226ee9d9efafb2e8',
+          url: '/_next/static/chunks/pages/collect/collector/%5Bid%5D/edit-06a17278aed6c732.js',
+          revision: '06a17278aed6c732',
         },
         {
-          url: '/_next/static/chunks/pages/collect/collector/list-ae66e4a903ad7a66.js',
-          revision: 'ae66e4a903ad7a66',
+          url: '/_next/static/chunks/pages/collect/collector/list-26d04c79675d1a76.js',
+          revision: '26d04c79675d1a76',
         },
         {
-          url: '/_next/static/chunks/pages/collect/collector/listCollector-b8f2e50052e69342.js',
-          revision: 'b8f2e50052e69342',
+          url: '/_next/static/chunks/pages/collect/collector/listCollector-c5dac0feb2ae563a.js',
+          revision: 'c5dac0feb2ae563a',
         },
         {
-          url: '/_next/static/chunks/pages/collect/collector/new-98f0817a2b8f7815.js',
-          revision: '98f0817a2b8f7815',
+          url: '/_next/static/chunks/pages/collect/collector/new-8945cb31ca0113b5.js',
+          revision: '8945cb31ca0113b5',
         },
         {
           url: '/_next/static/chunks/pages/collect/user/%5Bid%5D-dc830d7439dbd702.js',
           revision: 'dc830d7439dbd702',
         },
         {
-          url: '/_next/static/chunks/pages/collect/user/%5Bid%5D/edit-6ea4b43ae44143ba.js',
-          revision: '6ea4b43ae44143ba',
+          url: '/_next/static/chunks/pages/collect/user/%5Bid%5D/edit-a596a5f54c1458a1.js',
+          revision: 'a596a5f54c1458a1',
         },
         {
           url: '/_next/static/chunks/pages/collect/user/list-ccc4040c3e8b9097.js',
           revision: 'ccc4040c3e8b9097',
         },
         {
-          url: '/_next/static/chunks/pages/collect/user/new-51dd01e969d975af.js',
-          revision: '51dd01e969d975af',
+          url: '/_next/static/chunks/pages/collect/user/new-f64ea56c117f7002.js',
+          revision: 'f64ea56c117f7002',
         },
         {
           url: '/_next/static/chunks/pages/contact-423ed1e1a892bf7c.js',
           revision: '423ed1e1a892bf7c',
         },
         {
-          url: '/_next/static/chunks/pages/dashboard-88e7cba1f429e153.js',
-          revision: '88e7cba1f429e153',
+          url: '/_next/static/chunks/pages/dashboard-7ae4e590d9d2bc47.js',
+          revision: '7ae4e590d9d2bc47',
         },
         {
           url: '/_next/static/chunks/pages/editProfile-3cd742884c93a868.js',
           revision: '3cd742884c93a868',
         },
         {
-          url: '/_next/static/chunks/pages/index-27af9de2b7a60962.js',
-          revision: '27af9de2b7a60962',
+          url: '/_next/static/chunks/pages/index-b82e8fcd172974ec.js',
+          revision: 'b82e8fcd172974ec',
         },
         {
           url: '/_next/static/chunks/pages/login-5e3b492a79f87a76.js',
           revision: '5e3b492a79f87a76',
         },
         {
-          url: '/_next/static/chunks/pages/point/%5Bid%5D-81c7c0551b135d4c.js',
-          revision: '81c7c0551b135d4c',
+          url: '/_next/static/chunks/pages/point/%5Bid%5D-4df6f9fcddcc9b2c.js',
+          revision: '4df6f9fcddcc9b2c',
         },
         {
-          url: '/_next/static/chunks/pages/point/%5Bid%5D/accept-8837a2f1619f999b.js',
-          revision: '8837a2f1619f999b',
+          url: '/_next/static/chunks/pages/point/%5Bid%5D/accept-934fd9800907c02b.js',
+          revision: '934fd9800907c02b',
         },
         {
           url: '/_next/static/chunks/pages/point/%5Bid%5D/edit-8efbff75c6d39dd2.js',
           revision: '8efbff75c6d39dd2',
         },
         {
-          url: '/_next/static/chunks/pages/point/%5Bid%5D/verify-04a36fc1e55f8d3c.js',
-          revision: '04a36fc1e55f8d3c',
+          url: '/_next/static/chunks/pages/point/%5Bid%5D/verify-1381810c92f12f76.js',
+          revision: '1381810c92f12f76',
         },
         {
-          url: '/_next/static/chunks/pages/point/carrito-5cd6f0d34daef47f.js',
-          revision: '5cd6f0d34daef47f',
+          url: '/_next/static/chunks/pages/point/carrito-0225be36dce9a1a1.js',
+          revision: '0225be36dce9a1a1',
         },
         {
-          url: '/_next/static/chunks/pages/point/list-1c67f10e03ee7e17.js',
-          revision: '1c67f10e03ee7e17',
+          url: '/_next/static/chunks/pages/point/list-6e8f97aea26e5c91.js',
+          revision: '6e8f97aea26e5c91',
         },
         {
-          url: '/_next/static/chunks/pages/point/listSend-b46bf0c6b6133901.js',
-          revision: 'b46bf0c6b6133901',
+          url: '/_next/static/chunks/pages/point/listSend-4d71be5ca2e1ce0b.js',
+          revision: '4d71be5ca2e1ce0b',
         },
         {
           url: '/_next/static/chunks/pages/point/new-e388fa52ff11f3df.js',
           revision: 'e388fa52ff11f3df',
         },
         {
-          url: '/_next/static/chunks/pages/point/tienda-7d44064ccb8c928c.js',
-          revision: '7d44064ccb8c928c',
+          url: '/_next/static/chunks/pages/point/tienda-2047e6990351d966.js',
+          revision: '2047e6990351d966',
         },
         {
           url: '/_next/static/chunks/pages/point_checks-8ac64363c84add54.js',
@@ -239,24 +243,24 @@ define(['./workbox-588899ac'], function (e) {
           revision: 'a979ed07d68c0c41',
         },
         {
-          url: '/_next/static/chunks/pages/product/carrito-5071aad7e99aa0f7.js',
-          revision: '5071aad7e99aa0f7',
+          url: '/_next/static/chunks/pages/product/carrito-c8255c23f9932a6a.js',
+          revision: 'c8255c23f9932a6a',
         },
         {
-          url: '/_next/static/chunks/pages/product/list-8a042fd7a9af7ed5.js',
-          revision: '8a042fd7a9af7ed5',
+          url: '/_next/static/chunks/pages/product/list-4576ee4ebafc0d46.js',
+          revision: '4576ee4ebafc0d46',
         },
         {
-          url: '/_next/static/chunks/pages/product/listBuy-07fdb61620978fbc.js',
-          revision: '07fdb61620978fbc',
+          url: '/_next/static/chunks/pages/product/listBuy-a16cc67f30130564.js',
+          revision: 'a16cc67f30130564',
         },
         {
           url: '/_next/static/chunks/pages/product/new-131c2d4bc066fe5a.js',
           revision: '131c2d4bc066fe5a',
         },
         {
-          url: '/_next/static/chunks/pages/product/tienda-1056b49b125b6380.js',
-          revision: '1056b49b125b6380',
+          url: '/_next/static/chunks/pages/product/tienda-dc4629d5644ce927.js',
+          revision: 'dc4629d5644ce927',
         },
         {
           url: '/_next/static/chunks/pages/prueba-b492f20ee7cb52b1.js',
@@ -299,28 +303,28 @@ define(['./workbox-588899ac'], function (e) {
           revision: '8ef80b74a8ca6a59',
         },
         {
-          url: '/_next/static/chunks/pages/register/collector/profile-277401571ae4feb3.js',
-          revision: '277401571ae4feb3',
+          url: '/_next/static/chunks/pages/register/collector/profile-98f3cf82b8a80da3.js',
+          revision: '98f3cf82b8a80da3',
         },
         {
           url: '/_next/static/chunks/pages/register/truck/%5Bid%5D-d5566d2afbc86fba.js',
           revision: 'd5566d2afbc86fba',
         },
         {
-          url: '/_next/static/chunks/pages/register/truck/%5Bid%5D/edit-1a282015042e0faf.js',
-          revision: '1a282015042e0faf',
+          url: '/_next/static/chunks/pages/register/truck/%5Bid%5D/edit-e2003210bd7bbaaf.js',
+          revision: 'e2003210bd7bbaaf',
         },
         {
-          url: '/_next/static/chunks/pages/register/truck/list-fd91b96702b01bb9.js',
-          revision: 'fd91b96702b01bb9',
+          url: '/_next/static/chunks/pages/register/truck/list-ae60f56e5dacb917.js',
+          revision: 'ae60f56e5dacb917',
         },
         {
-          url: '/_next/static/chunks/pages/register/truck/new-af2812a22c46ebbf.js',
-          revision: 'af2812a22c46ebbf',
+          url: '/_next/static/chunks/pages/register/truck/new-5befb7f32311c1f1.js',
+          revision: '5befb7f32311c1f1',
         },
         {
-          url: '/_next/static/chunks/pages/register/user/%5Bid%5D/confirm-698df77265d86421.js',
-          revision: '698df77265d86421',
+          url: '/_next/static/chunks/pages/register/user/%5Bid%5D/confirm-b778531ed67323ce.js',
+          revision: 'b778531ed67323ce',
         },
         {
           url: '/_next/static/chunks/pages/register/user/%5Bid%5D/edit-5a4328bdfd12a0bb.js',
@@ -331,8 +335,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: '00fa18b7dcb6dc84',
         },
         {
-          url: '/_next/static/chunks/pages/register/user/%5Bid%5D/verify-9ba1d867bf7e522c.js',
-          revision: '9ba1d867bf7e522c',
+          url: '/_next/static/chunks/pages/register/user/%5Bid%5D/verify-c5fd3306510e7d24.js',
+          revision: 'c5fd3306510e7d24',
         },
         {
           url: '/_next/static/chunks/pages/register/user/list-a7b6526139fe4efa.js',
@@ -343,12 +347,12 @@ define(['./workbox-588899ac'], function (e) {
           revision: '61abb573adb02ed3',
         },
         {
-          url: '/_next/static/chunks/pages/register/user/photoList-0c02ab133a26415b.js',
-          revision: '0c02ab133a26415b',
+          url: '/_next/static/chunks/pages/register/user/photoList-f8c7f4992ed0fd9b.js',
+          revision: 'f8c7f4992ed0fd9b',
         },
         {
-          url: '/_next/static/chunks/pages/register/user/profile-ed390bd7f123bd46.js',
-          revision: 'ed390bd7f123bd46',
+          url: '/_next/static/chunks/pages/register/user/profile-911e9330dcb641f6.js',
+          revision: '911e9330dcb641f6',
         },
         {
           url: '/_next/static/chunks/pages/registerRecolector-fa8f3d8372f90852.js',
@@ -391,12 +395,12 @@ define(['./workbox-588899ac'], function (e) {
           revision: 'e5dc23bfa88d8d7a',
         },
         {
-          url: '/_next/static/chunks/pages/tiendaProductos-aa7854ce5f1dc93e.js',
-          revision: 'aa7854ce5f1dc93e',
+          url: '/_next/static/chunks/pages/tiendaProductos-14aa639bf7b6298a.js',
+          revision: '14aa639bf7b6298a',
         },
         {
-          url: '/_next/static/chunks/pages/tiendaPuntos-2c0d5940589c7320.js',
-          revision: '2c0d5940589c7320',
+          url: '/_next/static/chunks/pages/tiendaPuntos-c529913c7b941587.js',
+          revision: 'c529913c7b941587',
         },
         {
           url: '/_next/static/chunks/pages/user_list_verification-a75bdbf77171d515.js',
@@ -411,8 +415,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: 'd5bbb0b8d9193a3e',
         },
         {
-          url: '/_next/static/css/2d31934b272a9fbe.css',
-          revision: '2d31934b272a9fbe',
+          url: '/_next/static/css/a8cb8657dc9f831a.css',
+          revision: 'a8cb8657dc9f831a',
         },
         {
           url: '/_next/static/media/check.38e0d245.png',
@@ -575,7 +579,7 @@ define(['./workbox-588899ac'], function (e) {
         },
         { url: '/manifest.json', revision: 'a523e8fef9353c8a87ddc56d901838bf' },
         { url: '/robots.txt', revision: '12c1b30978435c5968e8475c0693af6d' },
-        { url: '/sitemap-0.xml', revision: '2a9d5824108475426dd442a40a9fc15d' },
+        { url: '/sitemap-0.xml', revision: 'd2bfae9c285e8b86a077f4dd41cc4710' },
         { url: '/sitemap.xml', revision: 'cc3697158d8075fd190419683a1b74e5' },
         {
           url: '/svg/Vercel.svg',

@@ -65,7 +65,7 @@ export default function ListProducts({ products }) {
                   Puntos de precio: {product.price_points}
                 </p>
                 <p className='text-gray-600'>
-                  Estado:{' '}
+                  Estado:
                   <strong
                     className={
                       product.status === 1 ? 'text-[#33C16F]' : 'text-red-500'

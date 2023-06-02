@@ -2,6 +2,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 function Point(props) {
   const { handleSubmit, setValue } = useForm();
@@ -22,6 +23,7 @@ function Point(props) {
       point: _id,
       quantity: 1,
     });
+    toast.success('Se agrero al carrito');
     setValue('quantity', 1);
   };
 

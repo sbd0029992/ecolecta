@@ -28,15 +28,18 @@ function Footer() {
           />
           <h1 className='text-white'>Ecolecta</h1>
         </div>
-        <div className='flex flex-col gap-1'>
-          <h4 className=' text-white md:text-sm'>Company</h4>
-          <Link href='/blog' className='text-sm text-white md:text-[12px]'>
-            Conoce más...
-          </Link>
-          <Link href='/contact' className='text-sm text-white md:text-[12px]'>
-            Contacto
-          </Link>
-        </div>
+        {(dataUser.isLoggedIn && dataUser.type === 'user_normal') ||
+        dataUser.type === 'user_superior' ? (
+          <div className='flex flex-col gap-1'>
+            <h4 className=' text-white md:text-sm'>Company</h4>
+            <Link href='/blog' className='text-sm text-white md:text-[12px]'>
+              Conoce más...
+            </Link>
+            <Link href='/contact' className='text-sm text-white md:text-[12px]'>
+              Contacto
+            </Link>
+          </div>
+        ) : null}
         {(dataUser.isLoggedIn && dataUser.type === 'user_normal') ||
         dataUser.type === 'user_superior' ? (
           <div className='flex flex-col gap-1'>
@@ -80,73 +83,101 @@ function Footer() {
         ) : null}
 
         {dataUser.type === 'admin' ? (
-          <div className='hidden flex-col md:flex'>
+          <div className=' flex-col md:flex'>
             <h4 className='text-white md:text-sm'>ADMINISTRACION</h4>
-            <Link
-              href='/affiliate/list'
-              passHref
-              className='text-sm text-white md:text-[12px]'
-            >
-              Afiliados
-            </Link>
-            <Link
-              href='/product/list'
-              passHref
-              className='text-sm text-white md:text-[12px]'
-            >
-              Productos
-            </Link>
-            <Link
-              href='/point/list'
-              passHref
-              className='text-sm text-white md:text-[12px]'
-            >
-              Puntos
-            </Link>
-            <Link
-              href='/register/user/photoList'
-              passHref
-              className='text-sm text-white md:text-[12px]'
-            >
-              Comprobante Usuario
-            </Link>
-            <Link
-              href='/point/listSend'
-              passHref
-              className='text-sm text-white md:text-[12px]'
-            >
-              Comprobante Puntos
-            </Link>
+            <div className='mb-2 lg:mb-0'>
+              <Link
+                href='/affiliate/list'
+                passHref
+                className='text-sm text-white md:text-[12px]'
+              >
+                Afiliados
+              </Link>
+            </div>
+            <div className='mb-2 md:mb-0'>
+              <Link
+                href='/product/list'
+                passHref
+                className='text-sm text-white md:text-[12px]'
+              >
+                Productos
+              </Link>
+            </div>
+            <div className='mb-2 md:mb-0'>
+              <Link
+                href='/point/list'
+                passHref
+                className='text-sm text-white md:text-[12px]'
+              >
+                Puntos
+              </Link>
+            </div>
+            <div className='mb-2 md:mb-0'>
+              <Link
+                href='/register/user/photoList'
+                passHref
+                className='text-sm text-white md:text-[12px]'
+              >
+                Comprobante Usuario
+              </Link>
+            </div>
+            <div className='mb-2 md:mb-0'>
+              <Link
+                href='/point/listSend'
+                passHref
+                className='text-sm text-white md:text-[12px]'
+              >
+                Comprobante Puntos
+              </Link>
+            </div>
           </div>
         ) : null}
         {dataUser.type === 'collector' || dataUser.type === 'admin' ? (
-          <div className='hidden flex-col md:flex'>
+          <div className='flex-col md:flex'>
             <h4 className='text-white md:text-sm'>RECOLECTOR</h4>
             {dataUser.type === 'admin' ? (
-              <div className='flex flex-col '>
+              <div className='mb-2 flex flex-col md:mb-0'>
                 <Link
                   href='/register/collector/list'
                   passHref
-                  className='text-sm text-white md:text-[12px]'
+                  className='mb-2 text-sm text-white md:mb-0 md:text-[12px]'
                 >
                   Recolectores
                 </Link>
                 <Link
                   href='/register/truck/list'
                   passHref
-                  className='text-sm text-white md:text-[12px]'
+                  className='text-sm text-white md:mb-0 md:text-[12px]'
                 >
                   Camiones
                 </Link>
               </div>
             ) : null}
-            <Link
-              href='/product/listBuy'
-              passHref
-              className='text-sm text-white md:text-[12px]'
-            >
-              Productos Comprados
-            </Link>
+            <div className='mb-2 md:mb-0'>
+              <Link
+                href='/product/listBuy'
+                passHref
+                className='text-sm text-white md:text-[12px]'
+              >
+                Productos Comprados
+              </Link>
+            </div>
+            <div className='mb-2 md:mb-0'>
+              <Link
+                href='/collect/collector/listCollector'
+                className=' text-sm text-white md:text-[12px]'
+              >
+                Recolecciones Aceptadas
+              </Link>
+            </div>
+            <div className='mb-2 md:mb-0'>
+              <Link
+                href='/collect/collector/list'
+                className='text-sm text-white md:text-[12px]'
+              >
+                Lista Recoleciones
+              </Link>
+            </div>
           </div>
         ) : null}
       </div>

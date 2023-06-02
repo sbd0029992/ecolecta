@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { fetchComments } from '../lib/FacebookApi';
 
@@ -15,38 +15,39 @@ export default function Home() {
   }, []);
 
   return (
-    <div className='background-plantas min-h-auto h-full w-auto pb-5 '>
-      <h1 className='ml-4 text-white xl:ml-20'>Comentarios de Facebook</h1>
+    <div className='background-tierraNew h-full min-h-[70vh] py-2'>
+      <h2 className='mb-2 text-white'>Comentarios de Facebook</h2>
       {commentsData ? (
-        <div className=' kg:w-[90vh]  ml-6 h-auto w-[50vh] justify-center rounded-lg bg-white/50 p-2 sm:ml-20 sm:w-[60vh] md:ml-20 md:w-[100vh]  lg:ml-60  xl:ml-80 xl:w-[100vh]'>
-          <ul>
-            {commentsData.posts.data.map((post, index) => (
-              <li key={index}>
-                {post.comments.data.map((comment) => (
-                  <li key={comment.id}>
-                    {comment.from?.picture && (
-                      <div className=' content mt-2 flex h-auto flex-wrap items-center justify-center border-black '>
-                        <img
-                          className='  mr-2 h-[8vh] w-[8vh] rounded-full'
-                          src={comment.from.picture.data.url}
-                          alt={`Foto de perfil de ${comment.from.name}`}
-                          width={50}
-                          height={50}
-                        />
-
-                        <div className='2xl:w[800px] h-[5vh] w-[270px] rounded-lg bg-white text-center sm:w-[40vh]  lg:w-[600px] xl:h-10 2xl:w-[800px]'>
-                          Comenteario: {comment.message}
-                          <label className=' invisible ml-6 text-[12px] lg:visible xl:visible'>
-                            Usuario: {comment.from?.name}
-                          </label>
-                        </div>
+        <div className='flex w-auto flex-row flex-wrap justify-center gap-3 sm:flex-row'>
+          {commentsData.posts.data.map((post, index) => (
+            <React.Fragment key={index}>
+              {post.comments.data.map((comment) => (
+                <div key={comment.id} className=' '>
+                  {comment.from?.picture && (
+                    <figure class='rounded-xl bg-slate-100 p-8 dark:bg-slate-800 md:flex md:p-0'>
+                      <img
+                        class='mx-auto h-24 w-24 rounded-full md:h-auto md:w-48 md:rounded-none'
+                        src={comment.from.picture.data.url}
+                        alt={`Foto de perfil de ${comment.from.name}`}
+                        width='384'
+                        height='512'
+                      />
+                      <div class='space-y-4 pt-6 text-center md:p-8 md:text-left'>
+                        <blockquote>
+                          <p class='text-lg font-medium'>"{comment.message}"</p>
+                        </blockquote>
+                        <figcaption class='font-medium'>
+                          <div class='text-sky-500 dark:text-sky-400'>
+                            {comment.from?.name}
+                          </div>
+                        </figcaption>
                       </div>
-                    )}
-                  </li>
-                ))}
-              </li>
-            ))}
-          </ul>
+                    </figure>
+                  )}
+                </div>
+              ))}
+            </React.Fragment>
+          ))}
         </div>
       ) : (
         <p>Cargando comentarios...</p>

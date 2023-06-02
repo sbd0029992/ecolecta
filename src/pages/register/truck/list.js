@@ -44,7 +44,7 @@ export default function ListTrucks({ trucks }) {
                 <p className='text-black'>Año: {truck.model}</p>
                 <p className='text-black'>Modelo: {truck.brand}</p>
                 <p className='text-black'>
-                  Estado:{' '}
+                  Estado:
                   <strong
                     className={
                       truck.status === 1 ? 'text-green-600' : 'text-red-500'

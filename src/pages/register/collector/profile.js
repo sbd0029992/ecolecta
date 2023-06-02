@@ -90,7 +90,7 @@ export default function Profile() {
             <div className='flex flex-col items-center gap-5'>
               <label class='relative inline-flex cursor-pointer items-center self-center'>
                 <button
-                  className='w-28 rounded-lg bg-red-500 p-2 text-white'
+                  className='w-28 rounded-full bg-red-500 p-2 text-white'
                   onClick={() =>
                     router.push(`/register/collector/${dataUser.idUser}/edit`)
                   }
@@ -101,7 +101,7 @@ export default function Profile() {
                   onClick={() =>
                     router.push(`/register/user/${dataUser.idUser}/password`)
                   }
-                  className='w-40 rounded-3xl bg-primary p-2 text-white'
+                  className='ml-2 w-60 rounded-full bg-green-500 p-2 text-white'
                 >
                   Cambiar Contraseña
                 </button>

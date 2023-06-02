@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const CarritoCheck = () => {
   const router = useRouter();
@@ -52,6 +53,7 @@ const CarritoCheck = () => {
   async function handleRemove(cartId) {
     try {
       await axios.delete(`/api/cart/points/${cartId}`);
+      toast.success('Se quito el producto');
       getCartItems();
     } catch (error) {
       console.error(error);

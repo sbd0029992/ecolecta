@@ -27,8 +27,6 @@ export default function UserRegister({ env }) {
     type: '',
     photos: query.id ? [''] : [],
   });
-  console.log('🚀 ~ file: verify.js:30 ~ UserRegister ~ newUser:', newUser);
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -388,7 +386,7 @@ export default function UserRegister({ env }) {
             {query.id ? (
               <div>
                 <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                  Photos
+                  FOTOS
                 </label>
                 <input
                   type='file'
@@ -425,7 +423,7 @@ export default function UserRegister({ env }) {
                 {userImages.length > 0 ? (
                   <div>
                     <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                      Existing Photos
+                      FOTOS EXISTENTES
                     </label>
                     <div class='flex flex-wrap'>
                       {userImages.map((image, index) => (

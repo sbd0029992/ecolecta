@@ -3,10 +3,14 @@ import { S3 } from 'aws-sdk';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Switch from 'react-switch';
+import { toast } from 'react-toastify';
+
+import Loading from '../../components/Loading';
 
 export default function NewProduct({ env }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
+  const [loading, setLoading] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [idProduct, setIdProduct] = useState({
@@ -92,58 +96,77 @@ export default function NewProduct({ env }) {
 
   const createProduct = async () => {
     try {
-      await fetch(`${apiUrl}/api/products`, {
+      const response = await fetch(`${apiUrl}/api/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newProduct),
       });
+      if (!response.ok) {
+        toast.error('Ocurrió un error');
+      } else {
+        toast.success('Producto Creado.');
+        push('/product/list');
+      }
     } catch (error) {
+      toast.error('¡Error al crear producto!');
       console.log(error);
     }
   };
 
   const updateProduct = async (product) => {
     try {
-      await fetch(`${apiUrl}/api/products/${query.id}`, {
+      const response = await fetch(`${apiUrl}/api/products/${query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(product),
       });
+      if (!response.ok) {
+        toast.error('Ocurrió un error');
+      } else {
+        toast.success('Producto Actualizado.');
+        push('/product/list');
+      }
     } catch (error) {
+      toast.error('¡Error al actualizar el producto!');
       console.log(error);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setIsSubmitting(true);
-    if (query.id) {
-      const stringId = idProduct.id.toString();
-      const imageUrls = (
-        await Promise.all(
-          selectedImages.map(async (file) => {
-            const imageUrl = await uploadToS3(file, stringId);
-            return imageUrl;
-          })
-        )
-      ).filter((url) => url);
+    try {
+      if (query.id) {
+        const stringId = idProduct.id.toString();
+        const imageUrls = (
+          await Promise.all(
+            selectedImages.map(async (file) => {
+              const imageUrl = await uploadToS3(file, stringId);
+              return imageUrl;
+            })
+          )
+        ).filter((url) => url);
 
-      const updatedProduct = {
-        ...newProduct,
-        images: newProduct.images.concat(imageUrls),
-      };
+        const updatedProduct = {
+          ...newProduct,
+          images: newProduct.images.concat(imageUrls),
+        };
 
-      await updateProduct(updatedProduct);
+        await updateProduct(updatedProduct);
 
-      setNewProduct(updatedProduct);
-      await push('/product/list');
-    } else {
-      await createProduct(newProduct);
-      await push('/product/list');
+        setNewProduct(updatedProduct);
+        await push('/product/list');
+      } else {
+        await createProduct(newProduct);
+        await push('/product/list');
+      }
+    } catch {
+      toast.error('¡Error al guardar el producto!');
     }
   };
 
@@ -211,13 +234,15 @@ export default function NewProduct({ env }) {
 
   return (
     <div className='background-plantas flex justify-center'>
-      <div className=' mt-[5%] mb-[5%] h-full w-[330px] rounded-lg bg-white p-8 pb-[0px]'>
-        <h1>{query.id ? 'Edit Product' : 'New Product'}</h1>
+      <div className=' mt-[5%] mb-[5%] h-full w-[330px] rounded-lg bg-white p-8 pb-[0px] dark:bg-black'>
+        <h1 className='text-black dark:text-white'>
+          {query.id ? 'Edit Product' : 'New Product'}
+        </h1>
         <form onSubmit={handleSubmit}>
           <div class='mb-6 grid gap-3 '>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Product Name
+                Nombre producto
               </label>
               <input
                 type='text'
@@ -231,7 +256,7 @@ export default function NewProduct({ env }) {
             </div>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Description
+                Descripción
               </label>
               <input
                 type='text'
@@ -245,7 +270,7 @@ export default function NewProduct({ env }) {
             </div>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Price Points
+                Precio puntos
               </label>
               <input
                 type='number'
@@ -260,7 +285,7 @@ export default function NewProduct({ env }) {
             </div>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Ammount
+                Cantidad
               </label>
               <input
                 type='number'
@@ -277,7 +302,7 @@ export default function NewProduct({ env }) {
               <div class='flex flex-row justify-between'>
                 <div>
                   <label className='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                    Avaliable
+                    Disponible
                   </label>
                 </div>
 
@@ -303,7 +328,7 @@ export default function NewProduct({ env }) {
             {query.id ? (
               <div>
                 <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                  Images
+                  Imagenes
                 </label>
                 <input
                   type='file'
@@ -339,7 +364,7 @@ export default function NewProduct({ env }) {
                 {productImages.length > 0 ? (
                   <div>
                     <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                      Existing Images
+                      Imagenes existentes
                     </label>
                     <div class='flex flex-wrap'>
                       {productImages.map((image, index) => (
@@ -370,9 +395,18 @@ export default function NewProduct({ env }) {
             <div className='flex justify-center'>
               <button
                 type='submit'
-                class='m-[0px] mt-2 h-20 w-full rounded-lg bg-[#85A547] px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
+                disabled={loading}
+                className={`rounded-full ${
+                  !loading ? 'h-20 w-40 rounded-lg bg-[#36bd53]' : ''
+                }`}
               >
-                {query.id ? 'Edit Product' : 'Create Product'}
+                {loading ? (
+                  <Loading />
+                ) : query.id ? (
+                  'Editar Producto'
+                ) : (
+                  'Crear Producto'
+                )}
               </button>
             </div>
           </div>
@@ -384,49 +418,45 @@ export default function NewProduct({ env }) {
 
 //getserverSideProps
 export async function getServerSideProps(context) {
-  const { req } = context;
-  const { cookies } = req;
-
-  // Verifica si el usuario ha iniciado sesión (autenticación)
-  if (!cookies.session) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/', // Cambia esto por la ruta de inicio de sesión
-      },
-      props: {},
-    };
-  }
-
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  // Obtén los detalles del usuario
-  const resUser = await fetch(`${apiUrl}/api/user`, {
+  const cookie = context.req.headers.cookie;
+
+  const productRes = await fetch(`${apiUrl}/api/products`);
+
+  const products = await productRes.json();
+
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
     headers: {
-      Authorization: `Bearer ${cookies.session}`,
+      cookie: cookie,
     },
   });
 
-  const user = await resUser.json();
+  if (userRes.ok) {
+    const userData = await userRes.json();
 
-  // Verifica si el usuario tiene el rol de admin o collector (autorización)
-  if (!(user.role === 'admin' || user.role === 'collector')) {
+    if (userData.type !== 'admin') {
+      return {
+        redirect: {
+          destination: '/',
+
+          permanent: false,
+        },
+      };
+    }
+
+    return {
+      props: {
+        products,
+      },
+    };
+  } else {
     return {
       redirect: {
+        destination: '/',
+
         permanent: false,
-        destination: '/', // Cambia esto por la ruta de acceso denegado
       },
-      props: {},
     };
   }
-
-  const resEnv = await fetch(`${apiUrl}/api/env`);
-  const env = await resEnv.json();
-
-  return {
-    props: {
-      env,
-      user,
-    },
-  };
 }

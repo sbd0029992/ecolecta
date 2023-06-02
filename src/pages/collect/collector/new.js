@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import withSession from '../../../lib/session';
 
@@ -22,7 +23,6 @@ export default function NewCollect() {
     fault: 0,
     images: query.id ? [''] : [],
   });
-  console.log('🚀 ~ file: new.js:25 ~ NewCollect ~ newCollect:', newCollect);
   const getCollect = async () => {
     try {
       const { data } = await axios.get(`${apiUrl}/api/collects/${query.id}`);
@@ -80,20 +80,34 @@ export default function NewCollect() {
 
   const updateCollect = async (collect) => {
     try {
-      await fetch(`${apiUrl}/api/collects/collector/${query.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(collect),
-      });
-      push('/collect/collector/list');
+      const response = await fetch(
+        `${apiUrl}/api/collects/collector/${query.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(collect),
+        }
+      );
+      if (!response.ok) {
+        toast.error('¡Error al actualizar la recolecta!');
+      } else {
+        if (collect.status === 2) {
+          toast.success('Recolecta Actualizada con éxito');
+        }
+        if (collect.status === 3) {
+          toast.success('Recolecta finalizada con éxito');
+        }
+
+        push('/collect/collector/listCollector');
+      }
     } catch (error) {
-      alert(error);
+      // alert(error);
+      toast.error('¡Error al actualizar la recolecta!');
       console.log(error);
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -105,7 +119,6 @@ export default function NewCollect() {
       setLoading(false);
     }
   };
-
   const today = new Date().toISOString().slice(0, 16);
 
   const maxDate = new Date();
@@ -124,6 +137,16 @@ export default function NewCollect() {
                   ? `${newCollect?.user.firstName} ${newCollect?.user.lastName} ${newCollect?.user.secondLastName}  `
                   : null}
               </h3>
+              {newCollect.user ? (
+                <a
+                  href={`https://api.whatsapp.com/send?phone=591${newCollect?.user.phone}`}
+                  target='_blank'
+                  rel='noreferrer'
+                  className='text-white hover:text-green-500'
+                >
+                  Presione para hablar con el usuario
+                </a>
+              ) : null}
             </div>
             {/* {query.id &&
             newCollect.user &&
@@ -148,7 +171,7 @@ export default function NewCollect() {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <h4 className=' text-white'>Descripcion:</h4>
+              <h4 className=' text-white'>Descripción:</h4>
               <div className='text-center'>
                 <textarea
                   id='description'
@@ -162,7 +185,8 @@ export default function NewCollect() {
             </div>
             <div className='flex flex-row justify-evenly  '>
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   setNewCollect((prevCollect) => ({
                     ...prevCollect,
                     fault: prevCollect.fault - 10,
@@ -172,8 +196,10 @@ export default function NewCollect() {
               >
                 Penalizar
               </button>
+
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   setNewCollect((prevCollect) => ({
                     ...prevCollect,
                     fault: prevCollect.fault + 10,
@@ -230,6 +256,7 @@ export default function NewCollect() {
                       : newCollect.time
                   }
                   onChange={handleChange}
+                  required
                 />
               </div>
             </div>

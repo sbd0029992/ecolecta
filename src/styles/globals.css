@@ -199,3 +199,10 @@ body {
   min-height: 600px;
   max-height: auto;
 }
+.background-tierraNew {
+  background-image: url('/images/plantas.jpeg');
+  width: 100%;
+  height: auto;
+  background-repeat: repeat;
+  max-height: auto;
+}

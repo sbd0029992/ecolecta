@@ -76,19 +76,19 @@ const CarritoCheck = () => {
     <div className='background-image1 h-full min-h-[70vh] '>
       <div className='flex flex-col '>
         <div className='flex justify-end'>
-          <div className='m-5 rounded-2xl bg-gray-300 p-2'>
+          <div className='m-5 rounded-2xl bg-white p-2'>
             <h1 className='text-lg'>MIS PUNTOS: {userPoints}</h1>
           </div>
         </div>
         <div>
-          <div className='flex justify-center  text-white'>
-            <table className='w-3/4 table-auto  lg:w-[800px]'>
+          <div className='flex justify-center  text-black'>
+            <table className='w-3/4 table-auto  rounded-lg bg-white p-2 lg:w-[800px]  '>
               <thead>
                 <tr>
-                  <th className='px-4 py-2 text-center'></th>
-                  <th className='px-4 py-2 text-center'>Producto</th>
-                  <th className='px-4 py-2 text-center'>Cantidad</th>
-                  <th className='px-4 py-2 text-center'>Puntos</th>
+                  <th className='px-4 py-2 text-center'>FOTO </th>
+                  <th className='px-4 py-2 text-center'>PRODUCTO</th>
+                  <th className='px-4 py-2 text-center'>CANTIDAD</th>
+                  <th className='px-4 py-2 text-center'>PUNTOS</th>
                 </tr>
               </thead>
               <tbody>
@@ -98,14 +98,14 @@ const CarritoCheck = () => {
                       <div className='flex flex-col justify-center  gap-2'>
                         <img
                           src={item.product.images}
-                          className='h-20 w-14 sm:h-32 sm:w-20 lg:h-40 lg:w-32'
+                          className='h-20 w-14 rounded-lg sm:h-32 sm:w-20 lg:h-40 lg:w-32'
                           width={100}
                           height={100}
                           alt='Product Iamge'
                         />
                         {item.status === 1 ? (
                           <button
-                            className='rounded-lg bg-red-500 lg:h-9'
+                            className=' h-8 rounded-lg bg-red-500 text-white lg:h-9'
                             onClick={() => handleRemove(item._id)}
                           >
                             Quitar
@@ -145,7 +145,7 @@ const CarritoCheck = () => {
                   Confirmar
                 </button>
               ) : (
-                <h2>
+                <h2 className='w-auto rounded-lg bg-white p-2'>
                   {canConfirm
                     ? 'No tienes suficientes puntos'
                     : 'No hay productos nuevos en tu carrito'}

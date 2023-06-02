@@ -2,9 +2,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 function Item(props) {
   const { register, handleSubmit, setValue } = useForm();
+  const [userDetails, setUserDetails] = useState(null);
   const { nameproduct, images, price_points, _id } = props.data;
   const [dataUser, setdataUser] = useState([]);
   useEffect(() => {
@@ -15,6 +17,27 @@ function Item(props) {
     getUser();
   }, []);
 
+  useEffect(() => {
+    getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataUser]);
+
+  const getUser = async () => {
+    try {
+      if (!dataUser) {
+        console.log('sin susaurio');
+        return;
+      } else {
+        const { data } = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/${dataUser.idUser}`
+        );
+        const user = data.user;
+        setUserDetails(user);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onSubmit = async (data) => {
     // Adapta la URL y los datos al formato requerido por tu backend
     await axios.post('/api/cart/products', {
@@ -22,9 +45,12 @@ function Item(props) {
       product: _id,
       quantity: data.quantity,
     });
+    toast.success('Producto agregado con exitoso!');
     setValue('quantity', 1);
   };
-
+  if (!userDetails) {
+    return null;
+  }
   return (
     <div className=' flex flex-row items-center justify-center text-center xl:ml-[20vh] 2xl:ml-[30vh]'>
       <div className=' flex flex-col items-center gap-3'>
@@ -42,7 +68,7 @@ function Item(props) {
       </div>
       {dataUser.isLoggedIn ? (
         <>
-          {dataUser.status === 'completed' && (
+          {userDetails.status === 'completed' && (
             <div className='flex flex-col items-center gap-3 rounded-lg bg-white/40'>
               <button
                 className='rounded-2xl bg-green-500 p-3 text-2xl'

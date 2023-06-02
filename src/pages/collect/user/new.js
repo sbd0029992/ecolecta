@@ -3,8 +3,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
+import Loading from '../../../components/Loading';
 import withSession from '../../../lib/session';
 
 import { AuthContext } from '/src/context/authContext';
@@ -32,8 +33,7 @@ export default function NewCollect() {
     fault: 0,
     images: query.id ? [''] : [],
   });
-  console.log('🚀 ~ file: new.js:35 ~ NewCollect ~ newCollect:', newCollect);
-
+  console.log(newCollect);
   const displayTime = (apiTime) => {
     const date = new Date(apiTime); // Pasamos directamente el tiempo, no un objeto
     const month = date.getMonth() + 1;
@@ -104,10 +104,11 @@ export default function NewCollect() {
         let errorMessage = errorData.error || 'Ocurrió un error';
         alert(errorMessage);
       } else {
+        toast.success('¡Recolecta creada con éxito!');
         push('/');
       }
     } catch (error) {
-      console.log(error.message);
+      toast.error('Ocurrió un error intente denuevo');
       console.log(error);
     }
   };
@@ -122,13 +123,16 @@ export default function NewCollect() {
         body: JSON.stringify(collect), // Corregido aquí
       });
       if (!response.ok) {
-        const errorData = await response.json();
-        let errorMessage = errorData.error || 'Ocurrió un error';
-        alert(errorMessage);
+        // const errorData = await response.json();
+        //let errorMessage = errorData.error || 'Ocurrió un error';
+        //alert(errorMessage);
+        toast.error('Ocurrió un error');
       } else {
+        toast.success('Recoleccion Actualizada.');
         push('/');
       }
     } catch (error) {
+      toast.error('Ocurrió un error');
       console.log(error);
     }
   };
@@ -201,6 +205,16 @@ export default function NewCollect() {
                   {displayTime(newCollect.time)}
                 </label>
               </div>
+              <div className='flex justify-center'>
+                <a
+                  href={`https://api.whatsapp.com/send?phone=591${newCollect?.collector[0].phone}`}
+                  target='_blank'
+                  rel='noreferrer'
+                  className='text-white hover:text-green-500'
+                >
+                  Presione para hablar con el conductor!
+                </a>
+              </div>
               <div className='flex w-full flex-col items-center justify-center'>
                 <h3>Foto del Recolector</h3>
                 {newCollect.collector[0].photos.map((image) => (
@@ -258,7 +272,7 @@ export default function NewCollect() {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <h4 className=' text-black'>Descripcion:</h4>
+              <h4 className=' text-black'>Descripción:</h4>
               <div className='text-center'>
                 <textarea
                   id='description'
@@ -272,20 +286,22 @@ export default function NewCollect() {
             <div className='text-center'>
               {newCollect.status === 2 ? (
                 <button
-                  className='h-14 w-full rounded-xl bg-green-500 text-3xl font-bold text-black'
+                  className={`h-14 w-full rounded-xl text-3xl font-bold text-black ${
+                    !loading ? 'bg-green-500' : ''
+                  }`}
                   disabled={loading}
                   type='submit'
                 >
-                  {loading ? 'Actualizando...' : 'Actualizar'}
+                  {loading ? <Loading /> : 'Actualizar'}
                 </button>
               ) : (
                 <button
                   type='submit'
                   disabled={loading}
-                  className='rounded-full bg-[#85A547]'
+                  className={`rounded-full ${!loading ? 'bg-[#85A547]' : ''}`}
                 >
                   {loading ? (
-                    'Mandando...'
+                    <Loading />
                   ) : (
                     <Image
                       width={150}
@@ -293,7 +309,7 @@ export default function NewCollect() {
                       className='p-4 text-center'
                       src='/images/check.png'
                       alt='imagen de un check'
-                    ></Image>
+                    />
                   )}
                 </button>
               )}

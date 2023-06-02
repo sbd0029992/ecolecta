@@ -3,9 +3,12 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import Loading from '../../../components/Loading';
+
 export default function UserRegister() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
+  const [loading, setLoading] = useState(false);
   const [isImageRemoved, setIsImageRemoved] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -119,6 +122,7 @@ export default function UserRegister() {
         }
         toast.error(errorMessage);
       } else {
+        toast.success('Usuario creado exitosamente.');
         push('/login');
       }
     } catch (error) {
@@ -152,12 +156,13 @@ export default function UserRegister() {
         }
         toast.error(errorMessage);
       } else {
+        toast.success('Usuario editado exitosamente.');
         push('/');
       }
     } catch (error) {
       alert(error.message);
       console.log(error.message);
-      toast.error('Ocurrión un error al registrar al usuario');
+      toast.error('Ocurrión un error al actualizadr al usuario');
     }
   };
 
@@ -225,6 +230,7 @@ export default function UserRegister() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setIsSubmitting(true);
 
     if (query.id) {
@@ -274,8 +280,10 @@ export default function UserRegister() {
 
   return (
     <div className='background-plantas flex h-[1600px] justify-center'>
-      <div className=' mt-[5%] mb-[5%] h-full w-[330px] bg-white p-8  '>
-        <h1>{query.id ? 'Edit Recolector' : 'Register Recolector'}</h1>
+      <div className=' mt-[5%] mb-[5%] h-full w-[330px] rounded-lg bg-white p-8 dark:bg-black'>
+        <h1 className='text-black dark:text-white'>
+          {query.id ? 'Edit Recolector' : 'Register Recolector'}
+        </h1>
         <form class='formulary' onSubmit={handleSubmit}>
           <div class='mb-6 grid gap-3 '>
             <div>
@@ -397,7 +405,7 @@ export default function UserRegister() {
             {query.id ? (
               <div className='flex justify-between'>
                 <label class='mb-2 mt-2 block self-center text-sm font-medium text-gray-500 dark:text-white'>
-                  Camion:
+                  CAMION:
                 </label>
                 <select
                   class='mt-3 block w-36 rounded-lg border border-gray-300 bg-green-300 p-2.5 font-secondary text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
@@ -421,7 +429,7 @@ export default function UserRegister() {
             {query.id ? (
               <div>
                 <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                  Photos
+                  FOTOS
                 </label>
                 <input
                   type='file'
@@ -457,7 +465,7 @@ export default function UserRegister() {
                 {userImages.length > 0 ? (
                   <div>
                     <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                      Existing Photos
+                      Fotos existentes
                     </label>
                     <div class='flex flex-wrap'>
                       {userImages.map((image, index) => (
@@ -502,7 +510,7 @@ export default function UserRegister() {
             {showPasswordField && (
               <div>
                 <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                  PASSWORD
+                  CONTRASEÑA
                 </label>
                 <input
                   type='password'
@@ -519,9 +527,18 @@ export default function UserRegister() {
             <div className='flex justify-center'>
               <button
                 type='submit'
-                class='m-[0px] mt-2 h-20 w-full rounded-lg bg-[#85A547] px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
+                disabled={loading}
+                className={`rounded-full ${
+                  !loading ? 'h-20 w-40 rounded-lg bg-[#36bd53]' : ''
+                }`}
               >
-                {query.id ? 'Actualizar' : 'Registrar'}
+                {loading ? (
+                  <Loading />
+                ) : query.id ? (
+                  'Editar Producto'
+                ) : (
+                  'Crear Producto'
+                )}
               </button>
             </div>
           </div>
@@ -531,49 +548,45 @@ export default function UserRegister() {
   );
 }
 export async function getServerSideProps(context) {
-  const { req } = context;
-  const { cookies } = req;
-
-  // Verifica si el usuario ha iniciado sesión (autenticación)
-  if (!cookies.session) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/', // Cambia esto por la ruta de inicio de sesión
-      },
-      props: {},
-    };
-  }
-
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  // Obtén los detalles del usuario
-  const resUser = await fetch(`${apiUrl}/api/user`, {
+  const cookie = context.req.headers.cookie;
+
+  const collectRes = await fetch(`${apiUrl}/api/users/collector`);
+
+  const collectors = await collectRes.json();
+
+  const userRes = await fetch(`${apiUrl}/api/auth/user`, {
     headers: {
-      Authorization: `Bearer ${cookies.session}`,
+      cookie: cookie,
     },
   });
 
-  const user = await resUser.json();
+  if (userRes.ok) {
+    const userData = await userRes.json();
 
-  // Verifica si el usuario tiene el rol de admin o collector (autorización)
-  if (!(user.role === 'admin')) {
+    if (userData.type !== 'admin') {
+      return {
+        redirect: {
+          destination: '/',
+
+          permanent: false,
+        },
+      };
+    }
+
+    return {
+      props: {
+        collectors,
+      },
+    };
+  } else {
     return {
       redirect: {
+        destination: '/',
+
         permanent: false,
-        destination: '/', // Cambia esto por la ruta de acceso denegado
       },
-      props: {},
     };
   }
-
-  const resEnv = await fetch(`${apiUrl}/api/env`);
-  const env = await resEnv.json();
-
-  return {
-    props: {
-      env,
-      user,
-    },
-  };
 }

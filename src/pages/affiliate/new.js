@@ -3,10 +3,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Switch from 'react-switch';
+import { toast } from 'react-toastify';
+
+import Loading from '../../components/Loading';
 
 export default function Newaffiliate() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
+  const [loading, setLoading] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [idAffiliate, setIdAffiliate] = useState({
@@ -65,7 +69,9 @@ export default function Newaffiliate() {
         },
         body: JSON.stringify(newAffiliate),
       });
+      toast.success('Afiliado creado con éxito');
     } catch (error) {
+      toast.error('Error al crear el afiliado');
       console.log(error);
     }
   };
@@ -79,8 +85,10 @@ export default function Newaffiliate() {
         },
         body: JSON.stringify(affiliate),
       });
+      toast.success('Afiliado actualizado con éxito');
       push('/affiliate/list');
     } catch (error) {
+      toast.error('Error al actualizar el afiliado');
       console.log(error);
     }
   };
@@ -99,7 +107,7 @@ export default function Newaffiliate() {
       const data = await response.json();
       return data.imageUrl; // Asume que tu API devuelve la URL de la imagen
     } catch (error) {
-      console.error('Error uploading to S3:', error);
+      console.error(error.message);
     }
   }
 
@@ -131,6 +139,7 @@ export default function Newaffiliate() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setIsSubmitting(true);
 
     if (query.id) {
@@ -191,7 +200,7 @@ export default function Newaffiliate() {
           <div class='mb-6 grid gap-3 '>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Affiliate Name
+                Nombre afiliado
               </label>
               <input
                 type='text'
@@ -205,7 +214,7 @@ export default function Newaffiliate() {
             </div>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Description
+                Descripción
               </label>
               <input
                 type='text'
@@ -219,7 +228,7 @@ export default function Newaffiliate() {
             </div>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Url
+                URL
               </label>
               <input
                 type='text'
@@ -234,7 +243,7 @@ export default function Newaffiliate() {
               <div class='flex flex-row justify-between'>
                 <div>
                   <label className='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                    Avaliable
+                    Disponible
                   </label>
                 </div>
 
@@ -263,7 +272,7 @@ export default function Newaffiliate() {
             {query.id ? (
               <div>
                 <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                  Images
+                  Logo
                 </label>
                 <input
                   type='file'
@@ -298,7 +307,7 @@ export default function Newaffiliate() {
                 {affiliateImages.length > 0 ? (
                   <div>
                     <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                      Existing Images
+                      Imagenes existentes
                     </label>
                     <div class='flex flex-wrap'>
                       {affiliateImages.map((image, index) => (
@@ -329,9 +338,18 @@ export default function Newaffiliate() {
             <div className='flex justify-center'>
               <button
                 type='submit'
-                class='m-[0px] mt-2 h-20 w-full rounded-lg bg-[#85A547] px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
+                disabled={loading}
+                className={`rounded-full ${
+                  !loading ? 'h-20 w-40 rounded-lg bg-[#36bd53]' : ''
+                }`}
               >
-                {query.id ? 'Edit Affiliate' : 'Create Affiliate'}
+                {loading ? (
+                  <Loading />
+                ) : query.id ? (
+                  'Editar Producto'
+                ) : (
+                  'Crear Producto'
+                )}
               </button>
             </div>
           </div>

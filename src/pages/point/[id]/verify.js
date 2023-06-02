@@ -1,13 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import { S3 } from 'aws-sdk';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
-export default function NewShop({ env }) {
+import Loading from '../../../components/Loading';
+
+export default function NewShop() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
+  const [loading, setLoading] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [idShop, setIdShop] = useState({
@@ -46,6 +49,7 @@ export default function NewShop({ env }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.id]);
 
+  // eslint-disable-next-line unused-imports/no-unused-vars
   const handleChange = (e) => {
     const { id, value } = e.target;
     if (id === 'images') {
@@ -54,53 +58,6 @@ export default function NewShop({ env }) {
       setNewShop({ ...newShop, [id]: value === '1' ? '1' : '0' });
     } else {
       setNewShop({ ...newShop, [id]: value });
-    }
-  };
-
-  // Configura el cliente de S3
-  let s3;
-  if (env && env.awsAccessKeyId && env.awsSecretAccessKey && env.awsRegion) {
-    s3 = new S3({
-      accessKeyId: env.awsAccessKeyId,
-      secretAccessKey: env.awsSecretAccessKey,
-      region: env.awsRegion,
-    });
-  }
-
-  // Función para subir una imagen a S3 y devolver la URL
-  async function uploadToS3(file, shopId) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    const fileName = `${shopId}/${file.name}`;
-    const params = {
-      Bucket: env.awsBucket,
-      Key: fileName,
-      Body: file,
-      ContentType: file.type,
-      ACL: 'public-read',
-    };
-
-    try {
-      const response = await s3.upload(params).promise();
-      return response.Location;
-    } catch (error) {
-      console.error('Error uploading to S3:', error);
-    }
-  }
-
-  const createShop = async () => {
-    try {
-      await fetch(`${apiUrl}/api/cart/points`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newShop),
-      });
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -113,36 +70,81 @@ export default function NewShop({ env }) {
         },
         body: JSON.stringify(shop),
       });
-      push('/');
+      push('/point/list');
     } catch (error) {
+      toast.error('Algo salio mal');
       console.log(error);
     }
   };
 
+  // Función para subir una imagen a S3 y devolver la URL
+  async function uploadToS3(file, id) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('id', id);
+
+    try {
+      const response = await fetch(`${apiUrl}/api/s3/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      return data.imageUrl; // Asume que tu API devuelve la URL de la imagen
+    } catch (error) {
+      console.error('Error uploading to S3:', error);
+    }
+  }
+
+  async function handleRemoveImageS3(index) {
+    const imageToDelete = newShop.images[index];
+    const fileName = imageToDelete.split('/').pop();
+    const key = `${idShop.id}/${fileName}`;
+
+    try {
+      await fetch(`${apiUrl}/api/s3/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ key }),
+      });
+      console.log('Image deleted from S3');
+
+      const updatedImageUrls = newShop.images.filter(
+        (imageUrl) => imageUrl !== imageToDelete
+      );
+      setNewShop({ ...newShop, images: updatedImageUrls });
+      await updateShop({ ...newShop, images: updatedImageUrls });
+      push('/point/carrito');
+    } catch (error) {
+      console.error('Error deleting image from S3:', error);
+    }
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setIsSubmitting(true);
+
     if (query.id) {
-      const stringId = idShop.id.toString();
-      const imageUrls = (
-        await Promise.all(
-          selectedImages.map(async (file) => {
-            const imageUrl = await uploadToS3(file, stringId);
-            return imageUrl;
-          })
-        )
-      ).filter((url) => url);
+      // Si hay una imagen seleccionada
+      if (selectedImages[0]) {
+        const imageUrl = await uploadToS3(
+          selectedImages[0],
+          idShop.id.toString()
+        );
 
-      const updatedAffiliate = {
-        ...newShop,
-        images: newShop.images.concat(imageUrls),
-      };
+        const update = {
+          ...newShop,
+          images: [...newShop.images, imageUrl],
+          status: '1', // Cambia el estado a uno cuando se sube una nueva imagen
+        };
 
-      await updateShop(updatedAffiliate);
-      setNewShop(updatedAffiliate);
-    } else {
-      await createShop(newShop);
+        await updateShop(update);
+        setNewShop(update);
+      }
     }
+    toast.success('Su orden esta procesandose!');
+    push('/point/carrito');
   };
 
   useEffect(() => {
@@ -169,43 +171,6 @@ export default function NewShop({ env }) {
     setNewShop({ ...newShop, images: updatedImageUrls });
   }
 
-  async function handleRemoveImageS3(index) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    // Elimina la imagen seleccionada del array de imágenes seleccionadas
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
-
-    // Obtiene el nombre del archivo de la imagen eliminada
-    const imageToDelete = newShop.images[index];
-    const fileName = imageToDelete.split('/').pop();
-
-    // Actualiza el estado de newShop con las imágenes actualizadas
-    const updatedImageUrls = newShop.images.filter(
-      (imageUrl) => imageUrl !== imageToDelete
-    );
-    setNewShop({ ...newShop, images: updatedImageUrls });
-
-    // Elimina el archivo de la imagen del bucket de S3
-    const params = {
-      Bucket: env.awsBucket,
-      Key: `${idShop.id}/${fileName}`,
-    };
-    s3.deleteObject(params, async (err, data) => {
-      if (err) {
-        console.error('Error deleting image from S3:', err);
-      } else {
-        console.log('Image deleted from S3:', data);
-
-        // Actualiza los datos en la base de datos con el affiliateo actualizado
-        await updateShop({ ...newShop, images: updatedImageUrls });
-      }
-    });
-  }
-
   return (
     <div className='background-plantas  flex h-full min-h-[70vh] flex-col items-center justify-center gap-5 md:flex-row'>
       <div className=' mt-[5%] mb-[5%] h-full w-[330px] rounded-lg bg-white p-8 pb-[0px]'>
@@ -215,7 +180,7 @@ export default function NewShop({ env }) {
             {query.id ? (
               <div>
                 <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                  Images
+                  Imagenes
                 </label>
                 <input
                   type='file'
@@ -250,7 +215,7 @@ export default function NewShop({ env }) {
                 {shopImages.length > 0 ? (
                   <div>
                     <label class='mb-2 mt-2 block rounded-lg text-sm font-medium text-gray-500 dark:text-white'>
-                      Existing Images
+                      Imagenes existentes
                     </label>
                     <div class='flex flex-wrap'>
                       {shopImages.map((image, index) => (
@@ -281,16 +246,25 @@ export default function NewShop({ env }) {
             <div className='flex justify-center'>
               <button
                 type='submit'
-                class='m-[0px] mt-2 h-20 w-full rounded-lg bg-[#85A547] px-5 py-2.5 text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
+                disabled={loading}
+                className={`rounded-full ${
+                  !loading ? 'h-20 w-40 rounded-lg bg-[#36bd53]' : ''
+                }`}
               >
-                {query.id ? 'Subir Comprobante' : 'Create Affiliate'}
+                {loading ? (
+                  <Loading />
+                ) : query.id ? (
+                  'Subir Comprobante'
+                ) : (
+                  'Verificate'
+                )}
               </button>
             </div>
           </div>
         </form>
       </div>
       <div className='mt-[5%] mb-[5%] h-full w-[300px] rounded-lg bg-white p-8 pb-[0px]'>
-        <h1>Qr banco Comprobante</h1>
+        <h1>Qr banco comprobante</h1>
         <div className='my-5'>
           <img
             src={newShop.point.images}
@@ -303,16 +277,4 @@ export default function NewShop({ env }) {
       </div>
     </div>
   );
-}
-
-//getserverSideProps
-export async function getServerSideProps() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/env`);
-  const env = await res.json();
-  return {
-    props: {
-      env,
-    },
-  };
 }

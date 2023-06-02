@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import { toast } from 'react-toastify';
 
 export default function Accept() {
   const { query, push } = useRouter();
@@ -61,14 +62,16 @@ export default function Accept() {
         },
         body: JSON.stringify(newShop),
       });
+      toast.success('Realizado con exito!');
     } catch (error) {
+      toast.error('Ocurrio un error');
       console.log(error);
     }
   };
 
   const updateShop = async (shop) => {
     try {
-      await fetch(
+      const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/cart/points/${query.id}`,
         {
           method: 'PUT',
@@ -78,8 +81,16 @@ export default function Accept() {
           body: JSON.stringify(shop),
         }
       );
-      push('/');
+      if (!response.ok) {
+        const errorData = await response.json();
+        let errorMessage = errorData.error || 'Ocurrió un error';
+        alert(errorMessage);
+      } else {
+        toast.success('Actualizacion realizado con éxito!');
+        push('/point/list');
+      }
     } catch (error) {
+      toast.error('Ocurrio un error');
       console.log(error);
     }
   };
@@ -109,7 +120,7 @@ export default function Accept() {
           <div class='mb-6 grid gap-3 '>
             <div>
               <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                Existing Images
+                Imagenes existentes
               </label>
               <div class='flex flex-wrap'>
                 {shopImages.map((image, index) => (
@@ -134,7 +145,8 @@ export default function Accept() {
                 type='submit'
                 className='rounded bg-green-600 px-3 py-2 font-semibold text-white hover:bg-green-600'
                 onClick={() => {
-                  setNewShop(() => ({
+                  setNewShop((prevShop) => ({
+                    ...prevShop,
                     status: 2,
                   }));
                 }}
@@ -145,7 +157,8 @@ export default function Accept() {
                 type='submit'
                 className='rounded bg-red-500 px-3 py-2 font-semibold text-white hover:bg-red-600'
                 onClick={() => {
-                  setNewShop(() => ({
+                  setNewShop((prevShop) => ({
+                    ...prevShop,
                     status: 3,
                   }));
                 }}
@@ -186,7 +199,7 @@ export default function Accept() {
           onClick={closeModal}
           style={{ position: 'absolute', top: '10px', right: '10px' }}
         >
-          Close
+          Cerrar
         </button>
       </Modal>
     </div>

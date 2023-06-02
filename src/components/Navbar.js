@@ -2,13 +2,8 @@ import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
-import {
-  FaChartLine,
-  FaCheck,
-  FaPhoneAlt,
-  FaShoppingCart,
-} from 'react-icons/fa';
+import { FaList, FaPhone, FaUserCircle } from 'react-icons/fa';
+import { FaChartLine, FaCheck, FaShoppingCart } from 'react-icons/fa';
 
 import logo from '../../public/images/logo.png';
 
@@ -111,10 +106,10 @@ export default function Navbar() {
                     href='/collect/collector/list'
                     className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
                   >
-                    List Collect
+                    List Recoleciones
                   </Link>
                   <Link href='/collect/collector/list'>
-                    <FaCheck className='h-6 w-6 lg:hidden' />
+                    <FaList className='h-6 w-6 lg:hidden' />
                   </Link>
                 </div>
                 <div>
@@ -122,11 +117,11 @@ export default function Navbar() {
                     href='/collect/collector/listCollector'
                     className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
                   >
-                    Check Collector
+                    Recolecciones Aceptadas
                   </Link>
 
                   <Link href='/collect/collector/listCollector'>
-                    <FaPhoneAlt className='h-6 w-6 lg:hidden' />
+                    <FaCheck className='h-6 w-6 lg:hidden' />
                   </Link>
                 </div>
               </div>
@@ -139,7 +134,7 @@ export default function Navbar() {
                       href='/collect/user/list'
                       className='hidden from-prymary to-[#7af33e] p-[7px] hover:rounded-3xl hover:bg-gradient-to-r lg:block'
                     >
-                      Check Page
+                      Pedido
                     </Link>
                     <Link href='/collect/user/list'>
                       <FaCheck className='h-6 w-6 lg:hidden' />
@@ -159,7 +154,7 @@ export default function Navbar() {
             Contactos
           </Link>
           <Link href='/contact'>
-            <FaChartLine className='h-6 w-6 lg:hidden' />
+            <FaPhone className='h-6 w-6 lg:hidden' />
           </Link>
         </div>
         <div>

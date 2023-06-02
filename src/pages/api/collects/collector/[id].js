@@ -66,17 +66,22 @@ async function handler(req, res) {
           if (user.type === 'user_superior') {
             pointsMultiplier = 50;
           }
-
           // Use the `buckets` value from the request body instead of from the current `collect`
           const pointsToAdd = body.buckets * pointsMultiplier;
+          const faultPoints = body.fault;
 
+          let netPoints;
+          if (faultPoints >= 0) {
+            netPoints = pointsToAdd + faultPoints;
+          } else {
+            netPoints = pointsToAdd - Math.abs(faultPoints);
+          }
           await User.findByIdAndUpdate(
             user._id,
-            { $inc: { points: pointsToAdd, buckets: body.buckets } },
+            { $inc: { points: netPoints, buckets: body.buckets } },
             { session }
           );
         }
-
         await session.commitTransaction();
         session.endSession();
 

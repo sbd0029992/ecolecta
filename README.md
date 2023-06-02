@@ -1,122 +1,92 @@
-# Next.js + Tailwind CSS + TypeScript Starter and Boilerplate
+# Ecolecta - Reciclaje simplificado y recompensado 🌱
 
 <div align="center">
-  <h2>🔋 ts-nextjs-tailwind-starter</h2>
-  <p>Next.js + Tailwind CSS + TypeScript starter packed with useful development features.</p>
-  <p>Made by <a href="https://theodorusclarence.com">Theodorus Clarence</a></p>
+  <h2>🚀 Ecolecta</h2>
+  <p>Aplicación Next.js para recogida y reciclaje de residuos con sistema de recompensas.</p>
+  <p>Creado con ❤️ en Cochabamba, Bolivia</p>
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/theodorusclarence/ts-nextjs-tailwind-starter)](https://github.com/theodorusclarence/ts-nextjs-tailwind-starter/stargazers)
-[![Depfu](https://badges.depfu.com/badges/fc6e730632ab9dacaf7df478a08684a7/overview.svg)](https://depfu.com/github/theodorusclarence/ts-nextjs-tailwind-starter?project_id=30160)
-[![Last Update](https://img.shields.io/badge/deps%20update-every%20sunday-blue.svg)](https://shields.io/)
+<!-- Aquí puedes agregar insignias de tu proyecto -->
 
 </div>
 
-## Features
+## Acerca del Proyecto
 
-This repository is 🔋 battery packed with:
+Ecolecta es un proyecto destinado a la recogida de residuos donde los usuarios pueden registrarse para programar una recogida en su puerta. Además, a medida que reciclas, acumulas puntos que puedes usar para comprar productos dentro de la plataforma. Actualmente, este servicio está disponible solo en Cochabamba, Bolivia, pero tenemos planes de expansión a corto plazo.
+
+## Características Técnicas
 
 - ⚡️ Next.js 13
 - ⚛️ React 18
-- ✨ TypeScript
-- 💨 Tailwind CSS 3 — Configured with CSS Variables to extend the **primary** color
-- 💎 Pre-built Components — Components that will **automatically adapt** with your brand color, [check here for the demo](https://tsnext-tw.thcl.dev/components)
-- 🃏 Jest — Configured for unit testing
-- 📈 Absolute Import and Path Alias — Import components using `@/` prefix
-- 📏 ESLint — Find and fix problems in your code, also will **auto sort** your imports
-- 💖 Prettier — Format your code consistently
-- 🐶 Husky & Lint Staged — Run scripts on your staged files before they are committed
-- 🤖 Conventional Commit Lint — Make sure you & your teammates follow conventional commit
-- ⏰ Release Please — Generate your changelog by activating the `release-please` workflow
-- 👷 Github Actions — Lint your code on PR
-- 🚘 Automatic Branch and Issue Autolink — Branch will be automatically created on issue **assign**, and auto linked on PR
-- 🔥 Snippets — A collection of useful snippets
-- 👀 Default Open Graph — Awesome open graph generated using [og](https://github.com/theodorusclarence/og), fork it and deploy!
-- 🗺 Site Map — Automatically generate sitemap.xml
-- 📦 Expansion Pack — Easily install common libraries, additional components, and configs
+- 💨 Tailwind CSS 3
+- 💎 TypeScript
 
-See the 👉 [feature details and changelog](https://github.com/theodorusclarence/ts-nextjs-tailwind-starter/blob/main/CHANGELOG.md) 👈 for more.
+## Comenzando
 
-You can also check all of the **details and demos** on my blog post:
-
-- [One-stop Starter to Maximize Efficiency on Next.js & Tailwind CSS Projects](https://theodorusclarence.com/blog/one-stop-starter)
-
-## Getting Started
-
-### 1. Clone this template using one of the three ways:
-
-1. Use this repository as template
-
-   **Disclosure:** by using this repository as a template, there will be an attribution on your repository.
-
-   I'll appreciate if you do, so this template can be known by others too 😄
-
-   ![Use as template](https://user-images.githubusercontent.com/55318172/129183039-1a61e68d-dd90-4548-9489-7b3ccbb35810.png)
-
-2. Using `create-next-app`
-
-   ```bash
-   npx create-next-app -e https://github.com/theodorusclarence/ts-nextjs-tailwind-starter project-name
-   ```
-
-3. Using `degit`
-
-   ```bash
-   npx degit theodorusclarence/ts-nextjs-tailwind-starter YOUR_APP_NAME
-   ```
-
-4. Deploy to Vercel
-
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Ftheodorusclarence%2Fts-nextjs-tailwind-starter)
-
-### 2. Install dependencies
-
-It is encouraged to use **yarn** so the husky hooks can work properly.
+### 1. Clona este repositorio
 
 ```bash
-yarn install
+git clone https://github.com/ecolecta9/ecolecta.git
 ```
 
-### 3. Run the development server
+### 2. Instala las dependencias
 
-You can start the server using this command:
+Es recomendable usar **npm** para una correcta instalación de las dependencias.
 
 ```bash
-yarn dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. You can start editing the page by modifying `src/pages/index.tsx`.
+### 3. Configura las Variables de Entorno
 
-### 4. Change defaults
+Crea un archivo `.env` en la raíz del proyecto con las siguientes variables de entorno
 
-There are some things you need to change including title, urls, favicons, etc.
+```bash
+GOOGLE_MAPS_API_KEY = ""
+MONGODB_URL = ""
+NODE_ENV= "development"
+SECRET_COOKIE_PASSWORD = "KTE2iWWSeoAA.PWEL4TyQ1rVcXiOZgPyiSsI1HuwcdCK" o "secret_password_40_string_lenght"
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_ACCESS_KEY=""
+AWS_REGION="sa-east-1"
+AWS_BUCKET_NAME="nombre-bucket-aws-s3"
+AWS_DOMAIN="nombre-bucket-aws-s3.s3.sa-east-1.amazonaws.com"
+NEXT_PUBLIC_API_URL="http://localhost:3000" o "url.domain"
+NEXT_PUBLIC_API_FACEBOOK = ""
+```
 
-Find all comments with !STARTERCONF, then follow the guide.
+Establece tus variables de entorno con los tutoriales facilitados en el punto 4.
 
-Don't forget to change the package name in package.json
+### 4. PDF's con los tutoriales para la creacion de la base de datos y obtener API's
 
-### 5. Commit Message Convention
+https://drive.google.com/drive/folders/1tWkEWMAjJGlp5Yog3Cu1DQtfXp87L6Qo?usp=sharing
 
-This starter is using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), it is mandatory to use it to commit changes.
+### 5. Ejecuta el servidor de desarrollo
 
-## Projects using ts-nextjs-tailwind-starter
+Puedes iniciar el servidor en modo produccion usando este comando:
 
-<!--
-TEMPLATE
-- [sitename](https://sitelink.com) ([Source](https://github.com/githublink))
-- [sitename](https://sitelink.com)
--->
+```bash
+npm run build
 
-- [theodorusclarence.com](https://theodorusclarence.com) ([Source](https://github.com/theodorusclarence/theodorusclarence.com))
-- [Notiolink](https://notiolink.thcl.dev/) ([Source](https://github.com/theodorusclarence/notiolink))
+npm run start
+```
 
-Are you using this starter? Please add your page (and repo) to the end of the list via a [Pull Request](https://github.com/theodorusclarence/ts-nextjs-tailwind-starter/edit/main/README.md). 😃
+o en modo desarrollo
 
-## Expansion Pack 📦
+```bash
+npm run start
 
-This starter is now equipped with an [expansion pack](https://github.com/theodorusclarence/expansion-pack).
+```
 
-You can easily add expansion such as React Hook Form + Components, Storybook, and more just using a single command line.
+Abre [http://localhost:3000](http://localhost:3000) con tu navegador para ver el resultado.
 
-https://user-images.githubusercontent.com/55318172/146631994-e1cac137-1664-4cfe-950b-a96decc1eaa6.mp4
+### 6. Cambia los valores por defecto
 
-Check out the [expansion pack repository](https://github.com/theodorusclarence/expansion-pack) for the commands
+Hay algunos valores que debes cambiar, como el título, URLs, favicons, etc.
+
+Busca todos los comentarios con !STARTERCONF y sigue las instrucciones.
+
+No olvides cambiar el nombre del paquete en package.json
+
+### 7. Convención para los mensajes de commit
+
+Este proyecto utiliza [convencional commits](https://www.conventionalcommits.org/en/v1.0.0/), es obligatorio utilizarlo para hacer commits.

@@ -385,7 +385,7 @@ export default function UserRegister({ env }) {
               <div>
                 <div hidden>
                   <label class='mb-2 mt-2 block text-sm font-medium text-gray-500 dark:text-white'>
-                    Photos
+                    FOTOS
                   </label>
                   <input
                     type='file'

@@ -66,10 +66,10 @@ export default function ListProducts({ points }) {
                 <p className='text-gray-600'>{point.description}</p>
                 <p className='text-gray-600'>Puntos de precio: {point.price}</p>
                 <p className='text-gray-600'>
-                  Estado:{' '}
+                  Estado:
                   <strong
                     className={
-                      point.status === 1 ? 'text-primary' : 'text-red-500'
+                      point.status === 1 ? 'text-gree-600' : 'text-red-500'
                     }
                   >
                     {point.status === 1 ? 'Disponible' : 'No disponible'}
