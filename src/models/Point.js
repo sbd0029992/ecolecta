@@ -12,6 +12,10 @@ const pointSchema = new Schema(
       type: Number,
       required: [true, 'Please add price points'],
     },
+    value: {
+      type: Number,
+      required: [true, 'Please add price points'],
+    },
     status: {
       type: Number,
       required: [true, 'Please add a status'],

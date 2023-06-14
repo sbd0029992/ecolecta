@@ -79,7 +79,13 @@ npm run start
 
 Abre [http://localhost:3000](http://localhost:3000) con tu navegador para ver el resultado.
 
-### 6. Cambia los valores por defecto
+### 6. Manual de usuario
+
+https://docs.google.com/document/d/1MyeUYs9T20wTzfE6KOkT7bwNsexlW0NC/edit?usp=sharing&ouid=114009571013493255907&rtpof=true&sd=true
+
+Abre [http://localhost:3000](http://localhost:3000) con tu navegador para ver el resultado.
+
+### 7. Cambia los valores por defecto
 
 Hay algunos valores que debes cambiar, como el título, URLs, favicons, etc.
 
@@ -87,6 +93,6 @@ Busca todos los comentarios con !STARTERCONF y sigue las instrucciones.
 
 No olvides cambiar el nombre del paquete en package.json
 
-### 7. Convención para los mensajes de commit
+### 8. Convención para los mensajes de commit
 
 Este proyecto utiliza [convencional commits](https://www.conventionalcommits.org/en/v1.0.0/), es obligatorio utilizarlo para hacer commits.
