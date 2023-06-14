@@ -83,8 +83,6 @@ Abre [http://localhost:3000](http://localhost:3000) con tu navegador para ver el
 
 https://docs.google.com/document/d/1MyeUYs9T20wTzfE6KOkT7bwNsexlW0NC/edit?usp=sharing&ouid=114009571013493255907&rtpof=true&sd=true
 
-Abre [http://localhost:3000](http://localhost:3000) con tu navegador para ver el resultado.
-
 ### 7. Cambia los valores por defecto
 
 Hay algunos valores que debes cambiar, como el título, URLs, favicons, etc.
