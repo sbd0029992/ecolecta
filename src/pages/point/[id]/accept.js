@@ -87,7 +87,7 @@ export default function Accept() {
         alert(errorMessage);
       } else {
         toast.success('Actualizacion realizado con éxito!');
-        push('/point/list');
+        push('/point/lisetSend');
       }
     } catch (error) {
       toast.error('Ocurrio un error');

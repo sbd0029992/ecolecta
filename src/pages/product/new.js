@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { S3 } from 'aws-sdk';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Switch from 'react-switch';
@@ -7,7 +6,7 @@ import { toast } from 'react-toastify';
 
 import Loading from '../../components/Loading';
 
-export default function NewProduct({ env }) {
+export default function NewProduct() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
   const [loading, setLoading] = useState(false);
@@ -61,39 +60,6 @@ export default function NewProduct({ env }) {
     }
   };
 
-  // Configura el cliente de S3
-  let s3;
-  if (env && env.awsAccessKeyId && env.awsSecretAccessKey && env.awsRegion) {
-    s3 = new S3({
-      accessKeyId: env.awsAccessKeyId,
-      secretAccessKey: env.awsSecretAccessKey,
-      region: env.awsRegion,
-    });
-  }
-
-  // Función para subir una imagen a S3 y devolver la URL
-  async function uploadToS3(file, productId) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    const fileName = `${productId}/${file.name}`;
-    const params = {
-      Bucket: env.awsBucket,
-      Key: fileName,
-      Body: file,
-      ContentType: file.type,
-      ACL: 'public-read',
-    };
-
-    try {
-      const response = await s3.upload(params).promise();
-      return response.Location;
-    } catch (error) {
-      console.error('Error uploading to S3:', error);
-    }
-  }
-
   const createProduct = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/products`, {
@@ -136,38 +102,77 @@ export default function NewProduct({ env }) {
     }
   };
 
+  // Función para subir una imagen a S3 y devolver la URL
+  async function uploadToS3(file, id) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('id', id);
+
+    try {
+      const response = await fetch(`${apiUrl}/api/s3/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      return data.imageUrl; // Asume que tu API devuelve la URL de la imagen
+    } catch (error) {
+      console.error('Error uploading to S3:', error);
+    }
+  }
+
+  async function handleRemoveImageS3(index) {
+    const imageToDelete = newProduct.images[index];
+    const fileName = imageToDelete.split('/').pop();
+    const key = `${idProduct.id}/${fileName}`;
+
+    try {
+      await fetch(`${apiUrl}/api/s3/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ key }),
+      });
+      console.log('Image deleted from S3');
+
+      const updatedImageUrls = newProduct.images.filter(
+        (imageUrl) => imageUrl !== imageToDelete
+      );
+      setNewProduct({ ...newProduct, images: updatedImageUrls });
+      await updateProduct({ ...newProduct, images: updatedImageUrls });
+      push('/product/list');
+    } catch (error) {
+      console.error('Error deleting image from S3:', error);
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setIsSubmitting(true);
-    try {
-      if (query.id) {
-        const stringId = idProduct.id.toString();
-        const imageUrls = (
-          await Promise.all(
-            selectedImages.map(async (file) => {
-              const imageUrl = await uploadToS3(file, stringId);
-              return imageUrl;
-            })
-          )
-        ).filter((url) => url);
 
-        const updatedProduct = {
+    if (query.id) {
+      // Si hay una imagen seleccionada
+      if (selectedImages[0]) {
+        const imageUrl = await uploadToS3(
+          selectedImages[0],
+          idProduct.id.toString()
+        );
+
+        const updated = {
           ...newProduct,
-          images: newProduct.images.concat(imageUrls),
+          images: [...newProduct.images, imageUrl],
         };
 
-        await updateProduct(updatedProduct);
-
-        setNewProduct(updatedProduct);
-        await push('/product/list');
+        await updateProduct(updated);
+        setNewProduct(updated);
       } else {
-        await createProduct(newProduct);
-        await push('/product/list');
+        await updateProduct(newProduct);
       }
-    } catch {
-      toast.error('¡Error al guardar el producto!');
+    } else {
+      await createProduct();
     }
+    push('/product/list');
   };
 
   useEffect(() => {
@@ -192,44 +197,6 @@ export default function NewProduct({ env }) {
     const updatedImageUrls = [...newProduct.images];
     updatedImageUrls.splice(index, 1);
     setNewProduct({ ...newProduct, images: updatedImageUrls });
-  }
-
-  async function handleRemoveImageS3(index) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    // Elimina la imagen seleccionada del array de imágenes seleccionadas
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
-
-    // Obtiene el nombre del archivo de la imagen eliminada
-    const imageToDelete = newProduct.images[index];
-    const fileName = imageToDelete.split('/').pop();
-
-    // Actualiza el estado de newProduct con las imágenes actualizadas
-    const updatedImageUrls = newProduct.images.filter(
-      (imageUrl) => imageUrl !== imageToDelete
-    );
-    setNewProduct({ ...newProduct, images: updatedImageUrls });
-
-    // Elimina el archivo de la imagen del bucket de S3
-    const params = {
-      Bucket: env.awsBucket,
-      Key: `${idProduct.id}/${fileName}`,
-    };
-    s3.deleteObject(params, async (err, data) => {
-      if (err) {
-        console.error('Error deleting image from S3:', err);
-      } else {
-        console.log('Image deleted from S3:', data);
-
-        // Actualiza los datos en la base de datos con el producto actualizado
-        await updateProduct({ ...newProduct, images: updatedImageUrls });
-        push('/product/list');
-      }
-    });
   }
 
   return (

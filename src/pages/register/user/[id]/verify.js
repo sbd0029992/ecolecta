@@ -1,11 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-import { S3 } from 'aws-sdk';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-export default function UserRegister({ env }) {
+export default function UserRegister() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { query, push } = useRouter();
   const [selectedImages, setSelectedImages] = useState([]);
@@ -79,38 +78,6 @@ export default function UserRegister({ env }) {
     }
   };
 
-  let s3;
-  if (env && env.awsAccessKeyId && env.awsSecretAccessKey && env.awsRegion) {
-    s3 = new S3({
-      accessKeyId: env.awsAccessKeyId,
-      secretAccessKey: env.awsSecretAccessKey,
-      region: env.awsRegion,
-    });
-  }
-
-  // Función para subir una imagen a S3 y devolver la URL
-  async function uploadToS3(file, userId) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    const fileName = `${userId}/${file.name}`;
-    const params = {
-      Bucket: env.awsBucket,
-      Key: fileName,
-      Body: file,
-      ContentType: file.type,
-      ACL: 'public-read',
-    };
-
-    try {
-      const response = await s3.upload(params).promise();
-      return response.Location;
-    } catch (error) {
-      console.error('Error uploading to S3:', error);
-    }
-  }
-
   const createUser = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/users`, {
@@ -174,30 +141,74 @@ export default function UserRegister({ env }) {
     }
   };
 
+  // Función para subir una imagen a S3 y devolver la URL
+  async function uploadToS3(file, id) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('id', id);
+
+    try {
+      const response = await fetch(`${apiUrl}/api/s3/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      return data.imageUrl; // Asume que tu API devuelve la URL de la imagen
+    } catch (error) {
+      console.error('Error uploading to S3:', error);
+    }
+  }
+
+  async function handleRemoveImageS3(index) {
+    const imageToDelete = newUser.images[index];
+    const fileName = imageToDelete.split('/').pop();
+    const key = `${idUser.id}/${fileName}`;
+
+    try {
+      await fetch(`${apiUrl}/api/s3/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ key }),
+      });
+      console.log('Image deleted from S3');
+
+      const updatedImageUrls = newUser.images.filter(
+        (imageUrl) => imageUrl !== imageToDelete
+      );
+      setNewUser({ ...newUser, photos: updatedImageUrls });
+      await updateUser({ ...newUser, photos: updatedImageUrls });
+    } catch (error) {
+      console.error('Error deleting image from S3:', error);
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     if (query.id) {
-      const stringId = idUser.id.toString();
-      const imageUrls = (
-        await Promise.all(
-          selectedImages.map(async (file) => {
-            const imageUrl = await uploadToS3(file, stringId);
-            return imageUrl;
-          })
-        )
-      ).filter((url) => url);
+      // Si hay una imagen seleccionada
+      if (selectedImages[0]) {
+        const imageUrl = await uploadToS3(
+          selectedImages[0],
+          idUser.id.toString()
+        );
 
-      const updatedAffiliate = {
-        ...newUser,
-        photos: newUser.photos.concat(imageUrls),
-      };
+        const updated = {
+          ...newUser,
+          photos: [...newUser.photos, imageUrl],
+        };
 
-      await updateUser(updatedAffiliate);
-      setNewUser(updatedAffiliate);
+        await updateUser(updated);
+        setNewUser(updated);
+      } else {
+        await updateUser(newUser);
+      }
     } else {
-      await createUser(newUser);
+      await createUser();
     }
+    push('/');
   };
 
   const updateUserWithImages = async () => {
@@ -220,43 +231,6 @@ export default function UserRegister({ env }) {
     const updatedImageUrls = [...newUser.photos];
     updatedImageUrls.splice(index, 1);
     setNewUser({ ...newUser, photos: updatedImageUrls });
-  }
-
-  async function handleRemoveImageS3(index) {
-    if (!s3) {
-      console.error('S3 client is not initialized');
-      return;
-    }
-    // Elimina la imagen seleccionada del array de imágenes seleccionadas
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
-
-    // Obtiene el nombre del archivo de la imagen eliminada
-    const imageToDelete = newUser.photos[index];
-    const fileName = imageToDelete.split('/').pop();
-
-    // Actualiza el estado de newUser con las imágenes actualizadas
-    const updatedImageUrls = newUser.photos.filter(
-      (imageUrl) => imageUrl !== imageToDelete
-    );
-    setNewUser({ ...newUser, photos: updatedImageUrls });
-
-    // Elimina el archivo de la imagen del bucket de S3
-    const params = {
-      Bucket: env.awsBucket,
-      Key: `${idUser.id}/${fileName}`,
-    };
-    s3.deleteObject(params, async (err, data) => {
-      if (err) {
-        console.error('Error deleting image from S3:', err);
-      } else {
-        console.log('Image deleted from S3:', data);
-
-        // Actualiza los datos en la base de datos con el affiliateo actualizado
-        await updateUser({ ...newUser, photos: updatedImageUrls });
-      }
-    });
   }
 
   return (

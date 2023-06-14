@@ -83,9 +83,9 @@ function Footer() {
         ) : null}
 
         {dataUser.type === 'admin' ? (
-          <div className=' flex-col md:flex'>
+          <div className='flex flex-col '>
             <h4 className='text-white md:text-sm'>ADMINISTRACION</h4>
-            <div className='mb-2 lg:mb-0'>
+            <div className=''>
               <Link
                 href='/affiliate/list'
                 passHref
@@ -94,7 +94,7 @@ function Footer() {
                 Afiliados
               </Link>
             </div>
-            <div className='mb-2 md:mb-0'>
+            <div>
               <Link
                 href='/product/list'
                 passHref
@@ -103,7 +103,7 @@ function Footer() {
                 Productos
               </Link>
             </div>
-            <div className='mb-2 md:mb-0'>
+            <div>
               <Link
                 href='/point/list'
                 passHref
@@ -112,7 +112,7 @@ function Footer() {
                 Puntos
               </Link>
             </div>
-            <div className='mb-2 md:mb-0'>
+            <div>
               <Link
                 href='/register/user/photoList'
                 passHref
@@ -121,7 +121,7 @@ function Footer() {
                 Comprobante Usuario
               </Link>
             </div>
-            <div className='mb-2 md:mb-0'>
+            <div>
               <Link
                 href='/point/listSend'
                 passHref
@@ -133,27 +133,27 @@ function Footer() {
           </div>
         ) : null}
         {dataUser.type === 'collector' || dataUser.type === 'admin' ? (
-          <div className='flex-col md:flex'>
+          <div className='flex-col gap-0 md:flex'>
             <h4 className='text-white md:text-sm'>RECOLECTOR</h4>
             {dataUser.type === 'admin' ? (
-              <div className='mb-2 flex flex-col md:mb-0'>
+              <div className='flex flex-col'>
                 <Link
                   href='/register/collector/list'
                   passHref
-                  className='mb-2 text-sm text-white md:mb-0 md:text-[12px]'
+                  className=' md: text-sm text-white md:text-[12px]'
                 >
                   Recolectores
                 </Link>
                 <Link
                   href='/register/truck/list'
                   passHref
-                  className='text-sm text-white md:mb-0 md:text-[12px]'
+                  className='md: text-sm text-white md:text-[12px]'
                 >
                   Camiones
                 </Link>
               </div>
             ) : null}
-            <div className='mb-2 md:mb-0'>
+            <div className=''>
               <Link
                 href='/product/listBuy'
                 passHref
@@ -162,7 +162,7 @@ function Footer() {
                 Productos Comprados
               </Link>
             </div>
-            <div className='mb-2 md:mb-0'>
+            <div className=''>
               <Link
                 href='/collect/collector/listCollector'
                 className=' text-sm text-white md:text-[12px]'
@@ -170,7 +170,7 @@ function Footer() {
                 Recolecciones Aceptadas
               </Link>
             </div>
-            <div className='mb-2 md:mb-0'>
+            <div className=''>
               <Link
                 href='/collect/collector/list'
                 className='text-sm text-white md:text-[12px]'

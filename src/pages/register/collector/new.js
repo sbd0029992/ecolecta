@@ -535,9 +535,9 @@ export default function UserRegister() {
                 {loading ? (
                   <Loading />
                 ) : query.id ? (
-                  'Editar Producto'
+                  'Editar Recolector'
                 ) : (
-                  'Crear Producto'
+                  'Crear Recolector'
                 )}
               </button>
             </div>

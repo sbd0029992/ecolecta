@@ -23,8 +23,8 @@ if (!self.define) {
     if (s[t]) return;
     let n = {};
     const r = (e) => a(e, t),
-      d = { module: { uri: t }, exports: n, require: r };
-    s[t] = Promise.all(c.map((e) => d[e] || r(e))).then((e) => (i(...e), n));
+      f = { module: { uri: t }, exports: n, require: r };
+    s[t] = Promise.all(c.map((e) => f[e] || r(e))).then((e) => (i(...e), n));
   };
 }
 define(['./workbox-588899ac'], function (e) {
@@ -35,16 +35,20 @@ define(['./workbox-588899ac'], function (e) {
     e.precacheAndRoute(
       [
         {
-          url: '/_next/static/GXIBaM19Nac34IUa4mwja/_buildManifest.js',
-          revision: 'da1e73ac758f071c6cd220ed6da430e4',
+          url: '/_next/static/PG4A3uhIbijCle9oS43jU/_buildManifest.js',
+          revision: '7b43546d25256f40f7e8312f999f063b',
         },
         {
-          url: '/_next/static/GXIBaM19Nac34IUa4mwja/_ssgManifest.js',
+          url: '/_next/static/PG4A3uhIbijCle9oS43jU/_ssgManifest.js',
           revision: 'b6652df95db52feb4daf4eca35380933',
         },
         {
           url: '/_next/static/chunks/1-0ec2e503de57f4a3.js',
           revision: '0ec2e503de57f4a3',
+        },
+        {
+          url: '/_next/static/chunks/2931-e2f9d88c6d514ef4.js',
+          revision: 'e2f9d88c6d514ef4',
         },
         {
           url: '/_next/static/chunks/3253-7ab84c28f98b5dd8.js',
@@ -59,8 +63,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: '3eebae392f978be3',
         },
         {
-          url: '/_next/static/chunks/4223-e4f2945eee445cd3.js',
-          revision: 'e4f2945eee445cd3',
+          url: '/_next/static/chunks/4223-2b3702da9fa9322f.js',
+          revision: '2b3702da9fa9322f',
         },
         {
           url: '/_next/static/chunks/4763-a89e3edbe433c9bb.js',
@@ -73,10 +77,6 @@ define(['./workbox-588899ac'], function (e) {
         {
           url: '/_next/static/chunks/6472-60889410b52e0a3d.js',
           revision: '60889410b52e0a3d',
-        },
-        {
-          url: '/_next/static/chunks/7201-107fc737e4d75ed1.js',
-          revision: '107fc737e4d75ed1',
         },
         {
           url: '/_next/static/chunks/7536-7fc5471e2ac2b8f6.js',
@@ -107,8 +107,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: '4114d52a64a74941',
         },
         {
-          url: '/_next/static/chunks/pages/_app-2f5e2a77a1224c10.js',
-          revision: '2f5e2a77a1224c10',
+          url: '/_next/static/chunks/pages/_app-6c34656bf1c068f8.js',
+          revision: '6c34656bf1c068f8',
         },
         {
           url: '/_next/static/chunks/pages/_error-02cc11fd74b4e5ff.js',
@@ -179,8 +179,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: '423ed1e1a892bf7c',
         },
         {
-          url: '/_next/static/chunks/pages/dashboard-7ae4e590d9d2bc47.js',
-          revision: '7ae4e590d9d2bc47',
+          url: '/_next/static/chunks/pages/dashboard-69ac749e2b2d3aef.js',
+          revision: '69ac749e2b2d3aef',
         },
         {
           url: '/_next/static/chunks/pages/editProfile-3cd742884c93a868.js',
@@ -199,8 +199,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: '4df6f9fcddcc9b2c',
         },
         {
-          url: '/_next/static/chunks/pages/point/%5Bid%5D/accept-934fd9800907c02b.js',
-          revision: '934fd9800907c02b',
+          url: '/_next/static/chunks/pages/point/%5Bid%5D/accept-75a647e45055624b.js',
+          revision: '75a647e45055624b',
         },
         {
           url: '/_next/static/chunks/pages/point/%5Bid%5D/edit-8efbff75c6d39dd2.js',
@@ -239,8 +239,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: 'ba5907224c86b4b5',
         },
         {
-          url: '/_next/static/chunks/pages/product/%5Bid%5D/edit-a979ed07d68c0c41.js',
-          revision: 'a979ed07d68c0c41',
+          url: '/_next/static/chunks/pages/product/%5Bid%5D/edit-c99ef7c6a28af24e.js',
+          revision: 'c99ef7c6a28af24e',
         },
         {
           url: '/_next/static/chunks/pages/product/carrito-c8255c23f9932a6a.js',
@@ -255,8 +255,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: 'a16cc67f30130564',
         },
         {
-          url: '/_next/static/chunks/pages/product/new-131c2d4bc066fe5a.js',
-          revision: '131c2d4bc066fe5a',
+          url: '/_next/static/chunks/pages/product/new-4202bba0d16494bf.js',
+          revision: '4202bba0d16494bf',
         },
         {
           url: '/_next/static/chunks/pages/product/tienda-dc4629d5644ce927.js',
@@ -335,8 +335,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: '00fa18b7dcb6dc84',
         },
         {
-          url: '/_next/static/chunks/pages/register/user/%5Bid%5D/verify-c5fd3306510e7d24.js',
-          revision: 'c5fd3306510e7d24',
+          url: '/_next/static/chunks/pages/register/user/%5Bid%5D/verify-d3fbce9ba550e8d0.js',
+          revision: 'd3fbce9ba550e8d0',
         },
         {
           url: '/_next/static/chunks/pages/register/user/list-a7b6526139fe4efa.js',
@@ -415,8 +415,8 @@ define(['./workbox-588899ac'], function (e) {
           revision: 'd5bbb0b8d9193a3e',
         },
         {
-          url: '/_next/static/css/a8cb8657dc9f831a.css',
-          revision: 'a8cb8657dc9f831a',
+          url: '/_next/static/css/a092e5517ab259ef.css',
+          revision: 'a092e5517ab259ef',
         },
         {
           url: '/_next/static/media/check.38e0d245.png',
@@ -577,10 +577,7 @@ define(['./workbox-588899ac'], function (e) {
           url: '/images/verify.png',
           revision: 'b595cb0a4b874226317100ad1e538963',
         },
-        { url: '/manifest.json', revision: 'a523e8fef9353c8a87ddc56d901838bf' },
-        { url: '/robots.txt', revision: '12c1b30978435c5968e8475c0693af6d' },
-        { url: '/sitemap-0.xml', revision: 'd2bfae9c285e8b86a077f4dd41cc4710' },
-        { url: '/sitemap.xml', revision: 'cc3697158d8075fd190419683a1b74e5' },
+        { url: '/manifest.json', revision: '368d623bae97d77af21e8aa5aa823a30' },
         {
           url: '/svg/Vercel.svg',
           revision: 'c7d8efd08fe7e7a36a602b096e779a38',
